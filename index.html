@@ -334,7 +334,7 @@ const SEED_LOGO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBA
    SGIMTTO · Sistema de Gestión de Informes de Mantenimiento
    Desarrollado por Ing. Victor Hugo Paguay
    ============================================================ */
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.0';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -531,7 +531,7 @@ function hd(txt, lvl) { return { id: uid(), t: lvl, txt }; }
 function plantillaBase() {
   return {
     textos: {
-      antecedentes: 'El cliente ha solicitado la ejecución del mantenimiento preventivo de 500 horas de operación a los grupos electrógenos correspondientes a la Bahía 1 y 2, configurados para operar en sincronismo con la red pública.',
+      antecedentes: 'El cliente ha solicitado la ejecución del mantenimiento preventivo de 250 horas de operación a los grupos electrógenos correspondientes a la Bahía 1 y 2, configurados para operar en sincronismo con la red pública.',
       objetivo: 'Realizar el reemplazo de los consumibles establecidos por el fabricante del motor, así como la ejecución de controles, inspecciones y verificaciones de los principales sistemas mecánicos y eléctricos, de acuerdo con las recomendaciones del fabricante. Este mantenimiento tiene como objetivo preservar el correcto funcionamiento de los grupos electrógenos.',
       observaciones: 'Durante el mantenimiento se realiza la inspección de componentes mecánicos y eléctricos de los equipos, sin evidenciar anomalías ni novedades que afecten su funcionamiento. Los equipos quedan operativos y en condiciones normales de servicio.',
       recomendaciones: 'Se recomienda dar continuidad al programa de mantenimiento preventivo de los grupos electrógenos, cumpliendo con las frecuencias y actividades establecidas por el fabricante, a fin de mantener la confiabilidad operativa, prevenir fallas y garantizar su disponibilidad en condiciones de servicio.',
@@ -595,8 +595,18 @@ function designBase(nombre) {
 }
 function newCompany(data) {
   return { id: uid(), nombre: data.nombre, ruc: data.ruc || '', sitio: data.sitio || '', contacto: data.contacto || '', email: data.email || '', logo: null,
-    design: { ...designBase(data.nombre), codigoDoc: (data.nombre || 'INF').replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() + '-INF' }, plantilla: plantillaBase(), seq: 0, creado: ahora() };
+    design: { ...designBase(data.nombre), codigoDoc: (data.nombre || 'INF').replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() + '-INF' }, tipos: [{ id: uid(), nombre: TIPO_BASE, plantilla: plantillaBase() }], seq: 0, creado: ahora() };
 }
+/* M08.1 v1.3.0: cada tipo de mantenimiento es un tipo de informe con sus propios puntos y textos */
+const TIPO_BASE = 'Mantenimiento preventivo – 250 h';
+function tipoDe(co, id) { return (co.tipos || []).find(t => t.id === id) || (co.tipos || [])[0]; }
+function migrarTipos(co) {
+  if (co.tipos && co.tipos.length) return false;
+  const p = co.plantilla || plantillaBase();
+  if (p.textos && p.textos.antecedentes) p.textos.antecedentes = p.textos.antecedentes.replace('preventivo de 500 horas de operación', 'preventivo de 250 horas de operación');
+  co.tipos = [{ id: uid(), nombre: TIPO_BASE, plantilla: p }]; delete co.plantilla; return true;
+}
+function plantillaSoloATS(base) { return { textos: { antecedentes: '', objetivo: '', observaciones: '', recomendaciones: '', conclusiones: '' }, ats: clone(base.ats), iniciales: [], trabajos: [], pruebas: [] }; }
 /* M03 v1.2.0: el código del documento (formato) y el número del informe son independientes */
 function numInforme(co, n) { const d = co.design; return `${d.numPrefijo || ''}${d.numAnio ? new Date().getFullYear() + '-' : ''}${String(n).padStart(+d.numDigitos || 3, '0')}`; }
 function migrarDiseno(co) { const d = co.design; let ch = false; if (d.codigoDoc === undefined) { d.codigoDoc = d.prefijo || ''; ch = true; } for (const [k, v] of [['numPrefijo', ''], ['numDigitos', 3], ['numAnio', false]]) if (d[k] === undefined) { d[k] = v; ch = true; } return ch; }
@@ -682,7 +692,7 @@ async function buildPDF(r, co, opts = {}) {
     return { content: String(v), styles: { fontStyle: 'bold' } };
   };
   const drawChk = d => { const raw = d.cell.raw; if (d.section === 'body' && raw && raw.chk) { const cx = d.cell.x + d.cell.width / 2, cy = d.cell.y + d.cell.height / 2; doc.setDrawColor(22, 120, 62); doc.setLineWidth(0.7); doc.lines([[1.4, 1.6], [3, -3.6]], cx - 2.1, cy + 0.1); } };
-  const table = o => { doc.autoTable(Object.assign({ startY: y, margin: { left: M, right: M, top: TOP, bottom: H - BOT }, theme: 'grid',
+  const table = o => { if (o.body && !o.body.length) { para('No aplica para este tipo de mantenimiento.'); return; } doc.autoTable(Object.assign({ startY: y, margin: { left: M, right: M, top: TOP, bottom: H - BOT }, theme: 'grid',
     styles: { font: F, fontSize: FS, cellPadding: CP, lineColor: [190, 196, 202], lineWidth: 0.2, textColor: INK, valign: 'middle' },
     headStyles: { fillColor: P, textColor: 255, fontStyle: 'bold', halign: 'center' }, didDrawCell: drawChk }, o)); y = doc.lastAutoTable.finalY + (EX ? 5 : 7); };
 
@@ -690,7 +700,7 @@ async function buildPDF(r, co, opts = {}) {
     doc.setFont(F, 'bold'); doc.setFontSize(12.5); doc.setTextColor(...P); const tl = doc.splitTextToSize(dz.titulo || 'INFORME TÉCNICO DE MANTENIMIENTO', CW); doc.text(tl, W / 2, y, { align: 'center' }); y += tl.length * 5.4;
     if (dz.subtitulo) { doc.setFont(F, 'normal'); doc.setFontSize(8.8); doc.setTextColor(90); const sl = doc.splitTextToSize(dz.subtitulo, CW); doc.text(sl, W / 2, y, { align: 'center' }); y += sl.length * 4; }
     y += 2; const K = { fontStyle: 'bold', fillColor: TINT, cellWidth: 31 }; const L0 = r.datos.lider || {};
-    table({ body: [['Informe N°', r.numero, 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Técnico líder', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
+    table({ body: [['Informe N°', r.numero, 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Encargado de turno', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
       ['Equipo', [eq.codigo, eq.bahia ? 'Bahía ' + eq.bahia : ''].filter(Boolean).join(' · ') || '—', 'Ubicación', r.datos.ubicacion || dz.ubicacion || '—'],
       ['Marca / Modelo', [eq.marca, eq.modelo].filter(Boolean).join(' ') || '—', 'Motor', [eq.motor, eq.modelo2].filter(Boolean).join(' ') || '—'],
       ['Potencia / Tensión', [eq.potencia, eq.tension].filter(Boolean).join(' · ') || '—', 'Horómetro', r.datos.horometro ? r.datos.horometro + ' h' : '—'],
@@ -831,7 +841,7 @@ function previewModal(doc, title, r) {
 }
 
 /* ---------- Estado de navegación ---------- */
-const S = { uid: null, view: 'login', cid: null, tab: 'informes', rid: null, step: 0, q: '', fEstado: '', loginMode: 'main' };
+const S = { uid: null, view: 'login', cid: null, tab: 'informes', rid: null, step: 0, q: '', fEstado: '', loginMode: 'main', tipoSel: null };
 const me = () => D.users.find(u => u.id === S.uid && u.activo !== false);
 const isAdmin = () => (me() || {}).rol === 'admin';
 const company = id => D.companies.find(c => c.id === (id || S.cid));
@@ -963,7 +973,7 @@ TABVIEWS.informes = {
       <div class="filters"><input class="in" type="search" placeholder="Buscar por N°, OT, equipo o técnico" value="${esc(S.q)}" data-q aria-label="Buscar">
       <select class="in" data-fe aria-label="Estado"><option value="">Todos los estados</option>${['borrador', 'elaborado', 'aprobado'].map(k => `<option value="${k}" ${S.fEstado === k ? 'selected' : ''}>${estadoTxt(k)}</option>`).join('')}</select>
       <button class="btn accent" data-new>${ic('plus')}Nuevo informe</button></div>
-      ${list.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Informe</th><th>OT</th><th>Equipo</th><th class="hide-m">Fecha</th><th class="hide-m">Técnico líder</th><th>Estado</th><th></th></tr></thead><tbody>
+      ${list.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Informe</th><th>OT</th><th>Equipo</th><th class="hide-m">Fecha</th><th class="hide-m">Encargado de turno</th><th>Estado</th><th></th></tr></thead><tbody>
       ${list.map(r => `<tr class="click" data-open="${r.id}"><td class="mono"><b>${esc(r.numero)}</b>${r.codigoDoc ? `<br><span class="small muted">${esc(r.codigoDoc)}</span>` : ''}</td><td class="mono">${esc(r.datos.ot || '—')}</td><td><b class="mono">${esc((r.datos.equipo || {}).codigo || '—')}</b></td><td class="hide-m">${fmtCorta(r.datos.fecha)}</td><td class="hide-m">${esc((r.datos.lider || {}).nombre || '—')}</td><td><span class="chip ${r.estado}">${estadoTxt(r.estado)}</span>${r.estado === 'borrador' && !puedeEditar(r) ? `<br><span class="small muted">${ic('lock', 'lk')} Solo lectura</span>` : ''}</td>
       <td class="act"><button class="icon-btn" data-pdf="${r.id}" title="Descargar PDF" aria-label="Descargar PDF">${ic('down')}</button>${isAdmin() ? `<button class="icon-btn" data-delr="${r.id}" title="Eliminar" aria-label="Eliminar">${ic('trash')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div>`
       : `<div class="empty">${all.length ? 'No hay informes con ese filtro.' : 'Aún no hay informes. Pulse <b>Nuevo informe</b> para crear el primero.'}</div>`}`;
@@ -981,16 +991,16 @@ TABVIEWS.informes = {
 const estadoTxt = k => ({ borrador: 'En progreso', elaborado: 'Pend. aprobación', aprobado: 'Aprobado' }[k] || k);
 function newReport(co) {
   const u = me(); co.seq = (co.seq || 0) + 1; saveKV('companies');
-  const p = co.plantilla;
+  const tp = co.tipos[0]; const p = tp.plantilla;
   const r = { id: uid(), cid: co.id, numero: numInforme(co, co.seq), codigoDoc: co.design.codigoDoc || '', estado: 'borrador', creado: ahora(), actualizado: ahora(), creadoPor: u.id,
-    datos: { ot: '', fecha: hoyISO(), tipoMtto: TIPOS_MTTO[1], equipoId: '', equipo: null, horometro: '', ubicacion: co.design.ubicacion || co.sitio || '', lider: u.cid === co.id ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null, apoyo: '' },
+    datos: { ot: '', fecha: hoyISO(), tipoId: tp.id, tipoMtto: tp.nombre, equipoId: '', equipo: null, horometro: '', ubicacion: co.design.ubicacion || co.sitio || '', lider: u.cid === co.id ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null, apoyo: '' },
     textos: clone(p.textos), plantilla: { ats: clone(p.ats), iniciales: clone(p.iniciales), trabajos: clone(p.trabajos), pruebas: clone(p.pruebas) }, resp: {}, fotos: [], firmas: {} };
   saveReport(r, true); go({ view: 'informe', rid: r.id, step: 0 }); toast('Informe ' + r.numero + ' creado');
 }
 
 /* ================= ASISTENTE DEL INFORME ================= */
 /* M08 v1.2.0: quién puede continuar un informe en progreso.
-   Sí: administrador, supervisor / jefe / encargado de turno (o quien aprueba con PIN), el técnico que lo creó, el técnico líder y el técnico de apoyo registrado.
+   Sí: administrador, supervisor / jefe / encargado de turno (o quien aprueba con PIN), el técnico que lo creó, el encargado de turno que lo elabora y el técnico de apoyo registrado.
    No: los demás técnicos (lo ven en solo lectura). */
 const esSupervisor = u => !!u && (u.rol === 'admin' || u.aprueba || /supervisor|jefe|encargado/i.test(u.cargo || ''));
 function apoyoUid(r) { if (r.datos.apoyoUid) return r.datos.apoyoUid; const n = norm(r.datos.apoyo); const u = n && D.users.find(x => x.cid === r.cid && norm(x.nombre) === n); return u ? u.id : null; }
@@ -1022,7 +1032,7 @@ function updateStepper(r) { const el = $('[data-stepper]'); if (el) { const sl =
 function bindStepper(el) { $$('[data-step]', el).forEach(b => b.onclick = () => go({ step: +b.dataset.step })); }
 function issues(r) {
   const out = []; const d = r.datos;
-  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); else if (!/^\d{3}$/.test(d.ot)) out.push('La orden de trabajo debe tener 3 dígitos.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.lider) out.push('Falta el técnico líder.');
+  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); else if (!/^\d{3}$/.test(d.ot)) out.push('La orden de trabajo debe tener 3 dígitos.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.lider) out.push('Falta el encargado de turno.');
   for (const [k, n] of [['ats', 'Análisis de riesgos'], ['iniciales', 'Controles iniciales'], ['trabajos', 'Trabajos realizados'], ['pruebas', 'Pruebas de funcionamiento']]) { const [a, b] = progress(r, k); if (a < b) out.push(`${n}: ${b - a} punto(s) sin registrar.`); }
   const atsX = r.plantilla.ats.filter(i => r.resp[i.id] === 'X').length; if (atsX) out.push(`ATS: ${atsX} condición(es) marcadas como NO cumplidas (X).`);
   if (!r.fotos.length) out.push('No hay fotografías de respaldo.'); const sd = r.fotos.filter(f => !filled(f.desc)).length; if (sd) out.push(`${sd} fotografía(s) sin descripción.`);
@@ -1053,11 +1063,11 @@ const STEP_HTML = {
     const eqs = D.equipos.filter(e => e.cid === co.id).sort((a, b) => (a.bahia + a.codigo).localeCompare(b.bahia + b.codigo, 'es', { numeric: true }));
     const bah = [...new Set(eqs.map(e => e.bahia || '—'))];
     const users = D.users.filter(u => u.cid === co.id && u.activo !== false); const e = r.datos.equipo; const d = r.datos;
-    const tipos = TIPOS_MTTO.includes(d.tipoMtto) || !d.tipoMtto ? TIPOS_MTTO : [d.tipoMtto, ...TIPOS_MTTO];
+    const tps = co.tipos || []; const enLista = tps.some(t => t.id === d.tipoId);
     return `<section class="card sec"><header><h2>Orden de trabajo y servicio</h2></header><div class="bd form">
       <label class="f"><span class="lb">N° de orden de trabajo <span class="req">*</span></span><input class="in mono" data-b="datos.ot" data-ot value="${esc(d.ot)}" placeholder="Ej. 153" inputmode="numeric" pattern="[0-9]*" autocomplete="off"><span class="hint">Número de 3 dígitos</span></label>
       <label class="f"><span class="lb">Fecha del servicio <span class="req">*</span></span><input class="in" type="date" data-b="datos.fecha" value="${esc(d.fecha)}"></label>
-      <label class="f">Tipo de mantenimiento <span class="hint">(UNE-EN 13306)</span><select class="in" data-b="datos.tipoMtto">${tipos.map(t => `<option ${t === d.tipoMtto ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></label>
+      <label class="f">Tipo de mantenimiento <span class="hint">(UNE-EN 13306)</span><select class="in" data-tipo>${enLista ? '' : `<option value="" selected>${esc(d.tipoMtto || '—')}</option>`}${tps.map(t => `<option value="${t.id}" ${t.id === d.tipoId ? 'selected' : ''}>${esc(t.nombre)}</option>`).join('')}</select><span class="hint">Cada tipo trae sus propios puntos: ATS, controles, trabajos y pruebas.</span></label>
       <label class="f">Ubicación / sitio<input class="in" data-b="datos.ubicacion" value="${esc(d.ubicacion)}"></label></div></section>
       <section class="card sec"><header><h2>Datos del equipo</h2></header><div class="bd form">
       <label class="f"><span class="lb">Equipo <span class="req">*</span></span><select class="in" data-eq><option value="">— Seleccione el equipo —</option>${bah.map(b => `<optgroup label="Bahía ${esc(b)}">${eqs.filter(x => (x.bahia || '—') === b).map(x => `<option value="${x.id}" ${x.id === d.equipoId ? 'selected' : ''}>${esc(x.codigo)} · ${esc(x.motor)} ${esc(x.modelo2)} · ${esc(x.potencia)}</option>`).join('')}</optgroup>`).join('')}</select>
@@ -1066,7 +1076,7 @@ const STEP_HTML = {
       ${e ? `<div class="full eqcard">${[['Código', e.codigo], ['Bahía', e.bahia], ['Marca', e.marca], ['Modelo', e.modelo], ['Motor', e.motor], ['Modelo motor', e.modelo2], ['Potencia', e.potencia], ['Tensión', e.tension]].map(([a, b]) => `<div><span>${a}</span><b>${esc(b || '—')}</b></div>`).join('')}</div>` : ''}
       </div></section>
       <section class="card sec"><header><h2>Personal que ejecuta</h2></header><div class="bd form">
-      <label class="f"><span class="lb">Técnico líder (firma el informe) <span class="req">*</span></span><select class="in" data-lider><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.lider && d.lider.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
+      <label class="f"><span class="lb">Encargado de turno (firma el informe) <span class="req">*</span></span><select class="in" data-lider><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.lider && d.lider.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
       <label class="f">Técnico de apoyo <span class="hint">(se registra, no firma; puede continuar el informe)</span><select class="in" data-apoyo><option value="">— Ninguno —</option>${users.filter(u => !d.lider || u.id !== d.lider.uid).map(u => `<option value="${u.id}" ${apoyoUid(r) === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
       </div></section>`;
   },
@@ -1096,8 +1106,8 @@ const STEP_HTML = {
     return `<section class="card sec"><header><h2>Revisión antes de firmar</h2></header><div class="bd chk-sum">${is.length ? is.map(t => `<div class="bad">${ic('warn')}${esc(t)}</div>`).join('') : `<div class="ok">${ic('check')}El informe está completo.</div>`}</div></section>
       <section class="card sec"><header><h2>Vista previa del PDF</h2><div class="row"><div class="seg txt" data-fmtsel role="group" aria-label="Formato del informe">${FORMATOS.map(x => `<button type="button" data-f="${x.v}" class="v-st ${(r.formato || 'completo') === x.v ? 'on' : ''}" title="${x.d}">${x.t}</button>`).join('')}</div><button type="button" class="btn sm" data-regen>${ic('refresh')}Actualizar</button><button type="button" class="btn sm primary" data-dlpdf>${ic('down')}Exportar PDF</button></div></header><div class="bd"><div class="pdfview" data-pv><div class="ld">Generando vista previa…</div></div></div></section>
       <div class="sigs">
-        <section class="card sigbox"><p class="eyebrow">Elaborado por · técnico líder</p>${r.estado === 'borrador' && puedeEditar(r) ? `<div class="padwrap inl"><canvas data-padel aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(f.elaborado, 'Pendiente de firma')}
-          <div><b>${esc((f.elaborado || r.datos.lider || {}).nombre || 'Sin técnico líder')}</b><br><span class="small muted">${esc((f.elaborado || r.datos.lider || {}).cargo || '')}${f.elaborado ? ' · ' + fmtDT(f.elaborado.fecha) : ''}</span>${r.datos.apoyo ? `<br><span class="small muted">Técnico de apoyo: ${esc(r.datos.apoyo)}</span>` : ''}</div>
+        <section class="card sigbox"><p class="eyebrow">Elaborado por · encargado de turno</p>${r.estado === 'borrador' && puedeEditar(r) ? `<div class="padwrap inl"><canvas data-padel aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(f.elaborado, 'Pendiente de firma')}
+          <div><b>${esc((f.elaborado || r.datos.lider || {}).nombre || 'Sin encargado de turno')}</b><br><span class="small muted">${esc((f.elaborado || r.datos.lider || {}).cargo || '')}${f.elaborado ? ' · ' + fmtDT(f.elaborado.fecha) : ''}</span>${r.datos.apoyo ? `<br><span class="small muted">Técnico de apoyo: ${esc(r.datos.apoyo)}</span>` : ''}</div>
           ${r.estado === 'borrador' && !puedeEditar(r) ? `<p class="small muted">En progreso por ${esc(responsable(r))}. Solo él, su técnico de apoyo o el supervisor pueden firmarlo.</p>` : r.estado === 'borrador' ? `<div class="row"><button type="button" class="btn" data-clrel>${ic('refresh')}Borrar trazo</button><button type="button" class="btn accent" style="flex:1" data-signel>${ic('pen')}Firmar informe</button></div>` : r.estado === 'elaborado' && puedeEditar(r) ? `<button type="button" class="btn sm danger" data-unsign>Quitar firma y volver a editar</button>` : ''}</section>
         <section class="card sigbox"><p class="eyebrow">Aprobado por · supervisor / jefe de proyecto</p>${sig(f.aprobado, r.estado === 'borrador' ? 'Requiere la firma del técnico' : 'Pendiente de aprobación')}
           ${f.aprobado ? `<div><b>${esc(f.aprobado.nombre)}</b><br><span class="small muted">${esc(f.aprobado.cargo)} · ${fmtDT(f.aprobado.fecha)}</span></div>` : '<p class="small muted">El aprobador firma con su PIN personal (supervisor, jefe de proyecto o encargado de turno).</p>'}
@@ -1140,10 +1150,18 @@ VIEWS.informe = {
       $$('button', seg).forEach(x => { const on = x.dataset.v === r.resp[id]; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
       saveReport(r); updateStepper(r);
     });
+    const tsel = root.querySelector('[data-tipo]'); if (tsel) tsel.onchange = async () => {
+      const t = (co.tipos || []).find(x => x.id === tsel.value); if (!t) return;
+      const hay = Object.values(r.resp).some(filled);
+      if (hay && !await confirmBox(`Al cambiar a <b>${esc(t.nombre)}</b> se cargan los puntos y textos de ese tipo y se <b>borran las respuestas</b> ya registradas en los pasos 2 a 8 (las fotos se conservan). ¿Continuar?`, { ok: 'Cambiar tipo', danger: true, title: 'Cambiar tipo de mantenimiento' })) { tsel.value = r.datos.tipoId || ''; return; }
+      const p = t.plantilla; r.datos.tipoId = t.id; r.datos.tipoMtto = t.nombre; r.textos = clone(p.textos);
+      r.plantilla = { ats: clone(p.ats), iniciales: clone(p.iniciales), trabajos: clone(p.trabajos), pruebas: clone(p.pruebas) }; r.resp = {};
+      await saveReport(r, true); render(); toast('Puntos de “' + t.nombre + '” cargados');
+    };
     const eqSel = root.querySelector('[data-eq]'); if (eqSel) eqSel.onchange = () => { const e = D.equipos.find(x => x.id === eqSel.value); r.datos.equipoId = e ? e.id : ''; r.datos.equipo = e ? clone(e) : null; saveReport(r, true); render(); };
     const lid = root.querySelector('[data-lider]'); if (lid) lid.onchange = () => { const u = D.users.find(x => x.id === lid.value); r.datos.lider = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null; if (u && apoyoUid(r) === u.id) { r.datos.apoyo = ''; r.datos.apoyoUid = null; } saveReport(r, true); render(); };
     const apo = root.querySelector('[data-apoyo]'); if (apo) apo.onchange = () => { const u = D.users.find(x => x.id === apo.value); r.datos.apoyoUid = u ? u.id : null; r.datos.apoyo = u ? u.nombre : ''; saveReport(r); };
-    $$('[data-restore]', root).forEach(b => b.onclick = async () => { const kk = b.dataset.restore; if (filled(r.textos[kk]) && !await confirmBox('¿Reemplazar el texto actual por el texto de la plantilla de la empresa?', { ok: 'Reemplazar' })) return; r.textos[kk] = co.plantilla.textos[kk] || ''; saveReport(r, true); render(); });
+    $$('[data-restore]', root).forEach(b => b.onclick = async () => { const kk = b.dataset.restore; if (filled(r.textos[kk]) && !await confirmBox('¿Reemplazar el texto actual por el texto de la plantilla de la empresa?', { ok: 'Reemplazar' })) return; r.textos[kk] = (tipoDe(co, r.datos.tipoId) || {}).plantilla.textos[kk] || ''; saveReport(r, true); render(); });
     $$('[data-bulk]', root).forEach(b => b.onclick = () => { const sec = b.dataset.bulk; let n = 0;
       for (const i of r.plantilla[sec]) { if (i.t !== 'item' || filled(r.resp[i.id])) continue; if (i.tipo === 'check') { r.resp[i.id] = '✓'; n++; } else if (i.tipo === 'estado') { r.resp[i.id] = TRABAJO_HECHO[i.def] ? i.def : 'OK'; n++; } }
       saveReport(r, true); render(); toast(n ? `${n} punto(s) completados` : 'No había puntos pendientes de ese tipo'); });
@@ -1174,7 +1192,7 @@ function bindFirmas(root, r, co) {
   const padEl = root.querySelector('[data-padel]'); const padEl2 = padEl ? sigPad(padEl) : null;
   const cl = root.querySelector('[data-clrel]'); if (cl) cl.onclick = () => padEl2.clear();
   const se = root.querySelector('[data-signel]'); if (se) se.onclick = async () => {
-    if (!r.datos.lider) { toast('Seleccione el técnico líder en “Datos generales”.', 'bad'); return go({ step: 0 }); }
+    if (!r.datos.lider) { toast('Seleccione el encargado de turno en “Datos generales”.', 'bad'); return go({ step: 0 }); }
     const crit = []; if (!filled(r.datos.ot)) crit.push('número de OT'); if (!r.datos.equipoId) crit.push('equipo');
     if (crit.length) { toast('Antes de firmar complete: ' + crit.join(', '), 'bad'); return go({ step: 0 }); }
     const L = r.datos.lider; const u = D.users.find(x => x.id === L.uid);
@@ -1270,8 +1288,8 @@ TABVIEWS.diseno = {
   }
 };
 function sampleReport(co) {
-  const p = co.plantilla; const e = D.equipos.find(x => x.cid === co.id) || { codigo: 'GE00', bahia: '1', marca: 'Marca', modelo: 'Modelo', motor: 'Motor', modelo2: 'Modelo motor', potencia: '1000 kVA', tension: '480/277 V' };
-  const r = { id: 'muestra', cid: co.id, numero: numInforme(co, (co.seq || 0) + 1), codigoDoc: co.design.codigoDoc || '', estado: 'aprobado', datos: { ot: 'OT-MUESTRA', fecha: hoyISO(), tipoMtto: TIPOS_MTTO[1], equipo: e, horometro: '399', ubicacion: co.design.ubicacion, lider: { nombre: 'Nombre del técnico', cargo: 'Técnico de Mantenimiento' }, apoyo: '' },
+  const tp = tipoDe(co, S.tipoSel); const p = tp.plantilla; const e = D.equipos.find(x => x.cid === co.id) || { codigo: 'GE00', bahia: '1', marca: 'Marca', modelo: 'Modelo', motor: 'Motor', modelo2: 'Modelo motor', potencia: '1000 kVA', tension: '480/277 V' };
+  const r = { id: 'muestra', cid: co.id, numero: numInforme(co, (co.seq || 0) + 1), codigoDoc: co.design.codigoDoc || '', estado: 'aprobado', datos: { ot: 'OT-MUESTRA', fecha: hoyISO(), tipoMtto: tp.nombre, equipo: e, horometro: '399', ubicacion: co.design.ubicacion, lider: { nombre: 'Nombre del técnico', cargo: 'Técnico de Mantenimiento' }, apoyo: '' },
     textos: clone(p.textos), plantilla: clone({ ats: p.ats, iniciales: p.iniciales, trabajos: p.trabajos, pruebas: p.pruebas }), resp: {}, fotos: [], firmas: {} };
   const vals = { V: '478', Hz: '59.8', RPM: '1800', kVA: '897', A: '1050' };
   for (const s of ['ats', 'iniciales', 'trabajos', 'pruebas']) for (const i of r.plantilla[s]) if (i.t === 'item') r.resp[i.id] = i.tipo === 'check' ? '✓' : i.tipo === 'estado' ? (i.def || 'C') : i.tipo === 'nivel' ? '100' : (vals[i.unidad] || '0');
@@ -1287,9 +1305,12 @@ const SEC_TPL = [
 ];
 TABVIEWS.plantilla = {
   html(co) {
-    const p = co.plantilla; const nums = numeracion(p);
+    const tp = tipoDe(co, S.tipoSel); S.tipoSel = tp.id; const p = tp.plantilla; const nums = numeracion(p);
     const txt = [['antecedentes', 'Antecedentes'], ['objetivo', 'Objetivo del servicio'], ['observaciones', 'Observaciones finales'], ['recomendaciones', 'Recomendaciones'], ['conclusiones', 'Conclusiones']];
-    return `<p class="note" style="margin-bottom:14px">Los cambios aplican a los <b>informes nuevos</b>. Los informes ya creados conservan los puntos con los que fueron elaborados (trazabilidad, ISO 9001:2015 §7.5.3).</p>
+    return `<section class="card sec"><header><div><h2>Tipo de mantenimiento</h2><p class="small muted">Cada tipo es un formato de informe con sus propias actividades. El técnico lo elige en el paso 1.</p></div></header>
+      <div class="bd row"><select class="in" data-tiposel style="flex:1;min-width:240px" aria-label="Tipo de mantenimiento">${co.tipos.map(t => `<option value="${t.id}" ${t.id === tp.id ? 'selected' : ''}>${esc(t.nombre)}</option>`).join('')}</select>
+      <button class="btn accent" data-newtipo>${ic('plus')}Nuevo tipo</button><button class="btn" data-rentipo>${ic('edit')}Renombrar</button>${co.tipos.length > 1 ? `<button class="btn danger" data-deltipo>${ic('trash')}Eliminar</button>` : ''}</div></section>
+      <p class="note" style="margin-bottom:14px">Editando: <b>${esc(tp.nombre)}</b>. Los cambios aplican a los <b>informes nuevos</b>. Los informes ya creados conservan los puntos con los que fueron elaborados (trazabilidad, ISO 9001:2015 §7.5.3).</p>
       <details class="acc" open><summary>${ic('file')}Textos predeterminados</summary><div class="bd form">${txt.map(([k, t]) => `<label class="f full">${t}<textarea class="in" rows="3" data-tx="${k}">${esc(p.textos[k])}</textarea></label>`).join('')}</div></details>
       ${SEC_TPL.map(s => `<details class="acc" data-sec="${s.k}"><summary>${ic('list')}${s.t} <span class="small muted">(${p[s.k].filter(i => i.t === 'item').length} puntos)</span></summary><div class="bd">
         ${p[s.k].map((i, idx) => { const tipo = i.t === 'item' ? i.tipo : i.t; return `<div class="tpl-row ${i.t}" data-i="${idx}">
@@ -1297,10 +1318,16 @@ TABVIEWS.plantilla = {
           <input class="in txt" data-f="txt" value="${esc(i.txt)}" aria-label="Texto"><span>${i.t === 'item' && s.k === 'pruebas' && i.tipo === 'valor' ? `<input class="in mono" data-f="unidad" value="${esc(i.unidad || '')}" placeholder="Unidad" aria-label="Unidad">` : i.t === 'item' && s.k === 'trabajos' ? `<select class="in mono" data-f="def" title="Estado sugerido" aria-label="Estado sugerido">${['', ...ESTADOS_TRABAJO.map(e => e.v)].map(v => `<option ${i.def === v ? 'selected' : ''} value="${v}">${v || '—'}</option>`).join('')}</select>` : `<span class="small muted mono">${nums[i.id] ? '#' + nums[i.id] : ''}</span>`}</span>
           <div class="tools"><button class="icon-btn" data-mvt="-1" aria-label="Subir">${ic('arrowU')}</button><button class="icon-btn" data-mvt="1" aria-label="Bajar">${ic('arrowD')}</button><button class="icon-btn" data-delt aria-label="Eliminar">${ic('trash')}</button></div></div>`; }).join('')}
         <div class="row" style="margin-top:12px"><button class="btn sm" data-addt="item">${ic('plus')}Agregar punto</button>${s.k === 'trabajos' ? `<button class="btn sm" data-addt="h1">${ic('plus')}Título</button><button class="btn sm" data-addt="h2">${ic('plus')}Subtítulo</button>` : ''}</div></div></details>`).join('')}
-      <div class="row" style="margin-top:6px"><button class="btn danger sm" data-resettpl>${ic('refresh')}Restaurar plantilla base</button></div>`;
+      <div class="row" style="margin-top:6px"><button class="btn danger sm" data-resettpl>${ic('refresh')}Reemplazar por la plantilla base (250 h)</button></div>`;
   },
   bind(root, co) {
-    const p = co.plantilla; let t; const save = () => { clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
+    const tp = tipoDe(co, S.tipoSel); const p = tp.plantilla; let t; const save = () => { clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
+    root.querySelector('[data-tiposel]').onchange = e => { S.tipoSel = e.target.value; render(); };
+    root.querySelector('[data-newtipo]').onclick = () => tipoForm(co);
+    root.querySelector('[data-rentipo]').onclick = async () => { const n = await promptBox('Nuevo nombre del tipo de mantenimiento:', { ok: 'Renombrar', title: 'Renombrar tipo' }); if (!n || !n.trim()) return;
+      if (co.tipos.some(x => x !== tp && norm(x.nombre) === norm(n))) return toast('Ya existe un tipo con ese nombre', 'bad'); tp.nombre = n.trim(); await saveKV('companies'); render(); };
+    const dt = root.querySelector('[data-deltipo]'); if (dt) dt.onclick = async () => { if (!await confirmBox(`¿Eliminar el tipo <b>${esc(tp.nombre)}</b> con todos sus puntos? Los informes ya creados con este tipo no se modifican.`, { ok: 'Eliminar tipo', danger: true })) return;
+      co.tipos = co.tipos.filter(x => x !== tp); S.tipoSel = co.tipos[0].id; await saveKV('companies'); render(); toast('Tipo eliminado'); };
     const openSecs = () => $$('details[data-sec]', root).filter(d => d.open).map(d => d.dataset.sec);
     const rerender = () => { const o = openSecs(); render(); o.forEach(k => { const d = $(`details[data-sec="${k}"]`); if (d) d.open = true; }); };
     $$('[data-tx]', root).forEach(el => el.oninput = () => { p.textos[el.dataset.tx] = el.value; save(); });
@@ -1318,9 +1345,22 @@ TABVIEWS.plantilla = {
         if (b.hasAttribute('data-delt')) { if (!await confirmBox(`¿Eliminar “${esc(p[sec][idx].txt)}” de la plantilla?`, { ok: 'Eliminar', danger: true })) return; p[sec].splice(idx, 1); await saveKV('companies'); rerender(); }
       });
     });
-    root.querySelector('[data-resettpl]').onclick = async () => { if (!await confirmBox('Se reemplazarán todos los puntos y textos de esta empresa por la plantilla base. Los informes ya creados no se modifican. ¿Continuar?', { ok: 'Restaurar', danger: true })) return; co.plantilla = plantillaBase(); await saveKV('companies'); render(); toast('Plantilla restaurada'); };
+    root.querySelector('[data-resettpl]').onclick = async () => { if (!await confirmBox(`Se reemplazarán todos los puntos y textos de <b>${esc(tp.nombre)}</b> por la plantilla base de 250 h.`+' Los informes ya creados no se modifican. ¿Continuar?', { ok: 'Restaurar', danger: true })) return; tp.plantilla = plantillaBase(); await saveKV('companies'); render(); toast('Plantilla restaurada'); };
   }
 };
+
+function tipoForm(co) {
+  modal({ title: 'Nuevo tipo de mantenimiento', body: `<form class="form" style="grid-template-columns:1fr" data-f>
+    <label class="f"><span class="lb">Nombre <span class="req">*</span></span><input class="in" name="n" placeholder="Ej. Mantenimiento preventivo – 500 h" required></label>
+    <label class="f">Punto de partida<select class="in" name="base"><option value="">Solo el ATS (actividades nuevas desde cero)</option>${co.tipos.map(t => `<option value="${t.id}">Copiar todos los puntos de: ${esc(t.nombre)}</option>`).join('')}</select>
+    <span class="hint">Después agregue o ajuste las actividades propias de este tipo.</span></label></form>`,
+    foot: `<button class="btn" data-x2>Cancelar</button><button class="btn primary" data-ok>Crear tipo</button>`,
+    onMount(el, close) { const f = el.querySelector('[data-f]'); el.querySelector('[data-x2]').onclick = close; setTimeout(() => f.n.focus(), 50);
+      el.querySelector('[data-ok]').onclick = async () => { const n = f.n.value.trim(); if (!n) return toast('Escriba el nombre', 'bad'); if (co.tipos.some(x => norm(x.nombre) === norm(n))) return toast('Ya existe un tipo con ese nombre', 'bad');
+        const src = co.tipos.find(x => x.id === f.base.value); const pl = src ? clone(src.plantilla) : plantillaSoloATS(co.tipos[0].plantilla);
+        for (const s of ['ats', 'iniciales', 'trabajos', 'pruebas']) pl[s].forEach(i => i.id = uid());
+        const t = { id: uid(), nombre: n, plantilla: pl }; co.tipos.push(t); S.tipoSel = t.id; await saveKV('companies'); close(); render(); toast('Tipo creado: agregue sus actividades', 'ok'); }; } });
+}
 
 /* ================= EQUIPOS + EXCEL ================= */
 const EQ_COLS = [['codigo', 'Código'], ['bahia', 'Bahía'], ['marca', 'Marca'], ['modelo', 'Modelo'], ['motor', 'Motor'], ['modelo2', 'Modelo2'], ['potencia', 'Potencia'], ['tension', 'Tensión'], ['sitio', 'Sitio']];
@@ -1384,7 +1424,7 @@ TABVIEWS.usuarios = {
   html(co) {
     const us = D.users.filter(u => u.cid === co.id);
     return `<div class="filters"><button class="btn accent" data-newu>${ic('plus')}Nuevo usuario</button></div>
-      <p class="note" style="margin-bottom:14px">El <b>técnico líder</b> firma el informe en el panel táctil. El <b>aprobador</b> (supervisor de mantenimiento, jefe de proyecto o encargado de turno) firma con su <b>PIN</b>. Por ahora el ingreso es sin contraseña (modo pruebas); las contraseñas quedan registradas para activar el acceso con credenciales.</p>
+      <p class="note" style="margin-bottom:14px">El <b>encargado de turno</b> elegido en el informe lo firma en el panel táctil. El <b>aprobador</b> (supervisor de mantenimiento, jefe de proyecto o encargado de turno) firma con su <b>PIN</b>. Por ahora el ingreso es sin contraseña (modo pruebas); las contraseñas quedan registradas para activar el acceso con credenciales.</p>
       ${us.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Cargo</th><th>Aprueba</th><th class="hide-m">Firma</th><th>Estado</th><th></th></tr></thead><tbody>
       ${us.map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b></td><td>${esc(u.nombre)}</td><td>${esc(u.cargo)}</td><td>${u.aprueba ? `<span class="chip aprobado">Con PIN</span>` : '<span class="muted">—</span>'}</td><td class="hide-m">${u.firma ? 'Registrada' : '<span class="muted">—</span>'}</td><td>${u.activo !== false ? 'Activo' : '<span class="muted">Inactivo</span>'}</td>
       <td class="act"><button class="icon-btn" data-edu="${u.id}" aria-label="Editar">${ic('edit')}</button><button class="icon-btn" data-delu="${u.id}" aria-label="Eliminar">${ic('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No hay usuarios en esta empresa.</div>'}`;
@@ -1487,8 +1527,12 @@ async function boot() {
   IDBX = await idbOpen();
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
   await seedIfEmpty();
-  if (D.companies.map(migrarDiseno).some(Boolean)) await saveKV('companies');
-  for (const r of await DB.all('reports')) R.set(r.id, r);
+  if (D.companies.map(c => [migrarDiseno(c), migrarTipos(c)].some(Boolean)).some(Boolean)) await saveKV('companies');
+  for (const r of await DB.all('reports')) {
+    // M08.1 v1.3.0: informes en progreso creados antes de los tipos quedan asociados al formato vigente (250 h); los firmados conservan su registro
+    if (!r.datos.tipoId && r.estado === 'borrador') { const co = D.companies.find(c => c.id === r.cid); const t = co && tipoDe(co); if (t) { r.datos.tipoId = t.id; r.datos.tipoMtto = t.nombre; await DB.put('reports', r); } }
+    R.set(r.id, r);
+  }
   const ses = LS.get('sgimtto_session'); if (ses && ses.uid) Object.assign(S, ses);
   if (D.settings.requireCreds && !(ses && ses.uid)) S.view = 'login';
   await arranque120();
