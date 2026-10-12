@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SGIMTTO — Plataforma de Informes de Mantenimiento</title>
+<title>SGIMTTO v9</title>
 <style>
 :root{
   --bg:#13151a;--bg2:#1e2130;--bg3:#262a3a;--fg:#e8eaf0;--fg2:#9aa0b8;
@@ -19,87 +19,79 @@ input,select,textarea,button{font-family:inherit;font-size:inherit}
 button{cursor:pointer}
 [hidden]{display:none!important}
 
-/* LOGIN */
 #loginWrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(135deg,#0d0f14,#1a1f2e,#0d0f14)}
-.login-logo{font-size:1.8rem;font-weight:800;color:var(--acc2);text-align:center;margin-bottom:4px;line-height:1.2}
-.login-sub{color:var(--fg2);font-size:.82rem;text-align:center;margin-bottom:28px}
+.login-logo{font-size:2rem;font-weight:900;color:var(--acc2);text-align:center;margin-bottom:2px}
+.login-sub{color:var(--fg2);font-size:.8rem;text-align:center;margin-bottom:28px}
 .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:28px 24px;width:100%;max-width:360px;box-shadow:var(--shadow)}
 .login-card h2{font-size:1rem;margin-bottom:18px;text-align:center;color:var(--fg2);font-weight:600}
 .lf{margin-bottom:14px}
 .lf label{display:block;font-size:.75rem;color:var(--fg2);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 .lf input{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg);outline:none;transition:.2s}
 .lf input:focus{border-color:var(--acc2)}
-.btn-login{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:var(--rad2);font-weight:700;font-size:.95rem;margin-top:6px;letter-spacing:.04em}
-.btn-login:hover{background:var(--acc2)}
-#loginErr{color:var(--acc2);font-size:.82rem;text-align:center;margin-top:8px}
-.login-footer{color:var(--fg2);font-size:.72rem;text-align:center;margin-top:24px;line-height:1.6}
-.login-footer strong{color:var(--acc3)}
+.btn-login{width:100%;padding:13px;background:var(--acc);color:#fff;border:none;border-radius:var(--rad2);font-weight:700;font-size:.95rem;margin-top:6px}
+#loginErr{color:var(--acc2);font-size:.82rem;text-align:center;margin-top:8px;min-height:20px}
+.login-footer{color:var(--fg2);font-size:.72rem;text-align:center;margin-top:24px}
 
-/* SHELL */
 #appWrap{display:flex;flex-direction:column;min-height:100vh}
-#appWrap[hidden]{display:none!important}
-
-/* TOP BAR */
-#topBar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--bg2);border-bottom:3px solid var(--acc);position:sticky;top:0;z-index:100;flex-wrap:wrap}
-#topLogo{height:36px;object-fit:contain;max-width:110px}
+#topBar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg2);border-bottom:3px solid var(--acc);position:sticky;top:0;z-index:100;flex-wrap:wrap}
 #topBrand{flex:1;min-width:0}
-#topBrand .name{font-weight:800;font-size:.95rem;color:var(--acc2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#topBrand .sub{font-size:.68rem;color:var(--fg2)}
-#topUser{font-size:.75rem;color:var(--fg2);white-space:nowrap}
-.nav-btn{padding:6px 13px;border:1px solid var(--border);border-radius:var(--rad2);background:var(--bg3);color:var(--fg);font-size:.78rem;font-weight:600;transition:.15s;white-space:nowrap}
-.nav-btn:hover{border-color:var(--acc2);color:var(--acc2)}
-.nav-btn.active{background:var(--acc);border-color:var(--acc);color:#fff}
+#topBrand .name{font-weight:900;font-size:.95rem;color:var(--acc2);white-space:nowrap}
+#topBrand .sub{font-size:.65rem;color:var(--fg2)}
+#topUser{font-size:.72rem;color:var(--fg2);white-space:nowrap}
+.nav-btn{padding:6px 12px;border:1px solid var(--border);border-radius:var(--rad2);background:var(--bg3);color:var(--fg);font-size:.76rem;font-weight:600;white-space:nowrap;transition:.15s}
+.nav-btn:hover,.nav-btn.active{background:var(--acc);border-color:var(--acc);color:#fff}
 #btnSalir{background:transparent;border-color:var(--acc);color:var(--acc)}
 #btnSalir:hover{background:var(--acc);color:#fff}
+#mainContent{flex:1;padding:14px;max-width:960px;width:100%;margin:0 auto}
 
-/* CONTENT */
-#mainContent{flex:1;padding:14px;max-width:900px;width:100%;margin:0 auto}
-
-/* PANELS */
 .panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);margin-bottom:14px;overflow:hidden}
 .panel-head{background:var(--acc);color:#fff;padding:11px 15px;font-weight:700;display:flex;align-items:center;gap:8px;font-size:.9rem}
 .panel-body{padding:14px}
 
-/* GEN GRID */
+.emp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.emp-card{background:var(--bg3);border:2px solid var(--border);border-radius:var(--rad);padding:22px 14px;text-align:center;cursor:pointer;transition:.18s}
+.emp-card:hover{border-color:var(--acc2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.emp-card .eco{font-size:1.5rem;font-weight:900;color:var(--acc2);letter-spacing:.04em}
+.emp-card .ename{font-size:.8rem;color:var(--fg2);margin-top:5px}
+.emp-card .ecount{font-size:.68rem;color:var(--fg2);margin-top:2px}
+
 .gen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 @media(max-width:500px){.gen-grid{grid-template-columns:repeat(2,1fr)}}
 .gen-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:13px 8px;text-align:center;cursor:pointer;transition:.18s}
 .gen-card:hover{border-color:var(--acc2);transform:translateY(-1px)}
 .gen-card .gid{font-weight:800;font-size:1rem;color:var(--acc2)}
-.gen-card .gname{font-size:.68rem;color:var(--fg2);margin-top:2px}
-.gen-card .gbahia{font-size:.65rem;color:var(--fg2)}
-.gen-card.has-report{border-color:var(--green)}
-.gen-card.has-report .gid{color:var(--green)}
+.gen-card .gname{font-size:.66rem;color:var(--fg2);margin-top:2px}
+.gen-card .gbahia{font-size:.63rem;color:var(--fg2)}
+.gen-card.has-draft{border-color:var(--yellow)}
+.gen-card.has-draft .gid{color:var(--yellow)}
 
-/* TIPO BAR */
-.tipo-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);padding:13px 15px;margin-bottom:12px}
-.tipo-bar label{font-size:.72rem;color:var(--fg2);font-weight:700;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px}
-.tipo-bar select{width:100%;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg);outline:none}
-.tipo-bar select:focus{border-color:var(--acc2)}
-.tipo-bar .f1{flex:1;min-width:200px}
+.draft-banner{background:var(--bg3);border:2px solid var(--yellow);border-radius:var(--rad);padding:12px 15px;margin-bottom:14px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.draft-banner:hover{border-color:var(--acc2)}
+.draft-banner .db-icon{font-size:1.3rem}
+.draft-banner .db-text{flex:1;min-width:0}
+.draft-banner .db-title{font-weight:700;font-size:.85rem;color:var(--yellow)}
+.draft-banner .db-sub{font-size:.72rem;color:var(--fg2);margin-top:2px}
+.draft-banner .db-cont{background:var(--yellow);color:#000;border:none;border-radius:var(--rad2);padding:6px 12px;font-weight:700;font-size:.75rem;white-space:nowrap}
 
-/* FORM */
 .form-header{background:var(--acc);color:#fff;padding:11px 15px;border-radius:var(--rad) var(--rad) 0 0;display:flex;align-items:center;gap:10px}
-.form-header h3{font-size:.95rem;font-weight:700;flex:1}
-.btn-back{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 13px;border-radius:var(--rad2);font-weight:600;font-size:.82rem}
+.form-header h3{font-size:.9rem;font-weight:700;flex:1}
+.btn-back{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 12px;border-radius:var(--rad2);font-weight:600;font-size:.78rem}
 .tab-bar{display:flex;overflow-x:auto;background:var(--bg3);border-bottom:1px solid var(--border);scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab{padding:10px 15px;white-space:nowrap;font-size:.78rem;font-weight:600;color:var(--fg2);border-bottom:3px solid transparent;cursor:pointer;transition:.13s;flex-shrink:0}
+.tab{padding:10px 13px;white-space:nowrap;font-size:.74rem;font-weight:600;color:var(--fg2);border-bottom:3px solid transparent;cursor:pointer;transition:.13s;flex-shrink:0}
 .tab.active{color:var(--acc2);border-bottom-color:var(--acc2)}
 .tab-pane{display:none;padding:15px}
 .tab-pane.active{display:block}
-
-/* FIELDS */
 .field{margin-bottom:13px}
-.field label{display:block;font-size:.74rem;color:var(--fg2);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.field label{display:block;font-size:.72rem;color:var(--fg2);margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
 .field input,.field select,.field textarea{width:100%;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg);outline:none;transition:.2s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--acc2);box-shadow:0 0 0 2px rgba(231,76,60,.1)}
-.field textarea{resize:vertical;min-height:65px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--acc2)}
+.field input:disabled,.field select:disabled{opacity:.6;cursor:not-allowed}
+.field textarea{resize:vertical;min-height:70px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
 @media(max-width:480px){.row2,.row3{grid-template-columns:1fr}}
 
-/* BUTTONS */
 .btn{padding:9px 17px;border:none;border-radius:var(--rad2);font-weight:600;font-size:.82rem;transition:.18s;display:inline-flex;align-items:center;gap:5px;cursor:pointer}
 .btn-primary{background:var(--acc);color:#fff}
 .btn-primary:hover{background:var(--acc2)}
@@ -107,1531 +99,1693 @@ button{cursor:pointer}
 .btn-secondary:hover{border-color:var(--acc2);color:var(--acc2)}
 .btn-success{background:var(--green);color:#fff}
 .btn-success:hover{filter:brightness(1.1)}
-.btn-danger{background:#7b241c;color:#fff}
-.btn-danger:hover{background:var(--acc2)}
-.btn-sm{padding:5px 11px;font-size:.74rem}
-.btn-full{width:100%;justify-content:center}
-.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+.btn-warn{background:var(--yellow);color:#000}
+.btn-danger{background:#7f0000;color:#fff}
 
-/* AST */
-.ast-table{width:100%;border-collapse:collapse;font-size:.8rem}
-.ast-table th{background:var(--bg3);padding:8px 9px;text-align:left;border:1px solid var(--border);font-weight:700;font-size:.72rem;color:var(--fg2)}
-.ast-table td{padding:7px 9px;border:1px solid var(--border);vertical-align:middle}
-.ast-check{display:flex;gap:10px;justify-content:center}
-.ast-check label{display:flex;align-items:center;gap:3px;font-size:.76rem;cursor:pointer}
+.sec-sep{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--acc2);padding:10px 0 6px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.nav-row{display:flex;gap:9px;justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid var(--border)}
 
-/* ACT - BOTONES en lugar de lista */
-.act-table{width:100%;border-collapse:collapse;font-size:.8rem}
-.act-table th{background:var(--bg3);padding:8px 9px;border:1px solid var(--border);font-weight:700;font-size:.72rem;color:var(--fg2)}
-.act-table td{padding:7px 9px;border:1px solid var(--border);vertical-align:middle}
-.act-btn-group{display:flex;gap:5px;flex-wrap:wrap}
-.act-btn{padding:5px 10px;border:1px solid var(--border);border-radius:20px;background:var(--bg3);color:var(--fg2);font-size:.72rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
-.act-btn:hover{border-color:var(--acc2);color:var(--acc2)}
-.act-btn.sel-ok{background:#0d2b18;border-color:var(--green);color:var(--green)}
-.act-btn.sel-na{background:#1a1a0a;border-color:var(--yellow);color:var(--yellow)}
-.act-btn.sel-pend{background:#0a1520;border-color:var(--blue);color:var(--blue)}
-.act-btn.sel-nov{background:#1f0d0d;border-color:var(--acc2);color:var(--acc2)}
+.st3-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.st3-row:last-child{border-bottom:none}
+.st3-label{flex:1;font-size:.8rem;line-height:1.35}
+.st3-btns{display:flex;gap:5px;flex-shrink:0}
+.st3-btn{width:36px;height:30px;border:1px solid var(--border);border-radius:4px;background:var(--bg3);color:var(--fg2);font-weight:700;font-size:.78rem;transition:.12s}
+.st3-btn.sel-ok{background:#1a4a2a;border-color:var(--green);color:var(--green)}
+.st3-btn.sel-no{background:#4a1a1a;border-color:var(--acc2);color:var(--acc2)}
+.st3-btn.sel-na{background:#2a2a1a;border-color:var(--yellow);color:var(--yellow)}
 
-/* PARAMS */
-.param-table{width:100%;border-collapse:collapse;font-size:.8rem}
-.param-table th{background:var(--bg3);padding:8px 9px;border:1px solid var(--border);font-weight:700;font-size:.72rem;color:var(--fg2)}
-.param-table td{padding:6px 9px;border:1px solid var(--border);vertical-align:middle}
-.param-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 7px;color:var(--fg);font-size:.8rem}
-.param-unit-editable{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:4px 6px;color:var(--fg2);font-size:.75rem;width:70px}
+.sig-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);overflow:hidden;position:relative}
+.sig-wrap canvas{display:block;width:100%;touch-action:none;cursor:crosshair}
+.sig-actions{display:flex;gap:8px;padding:8px;background:var(--bg2)}
+.sig-actions button{flex:1;padding:7px;font-size:.75rem;font-weight:600}
 
-/* PHOTOS */
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:9px;margin-top:9px}
-.photo-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);overflow:hidden}
-.photo-card img{width:100%;height:105px;object-fit:cover;display:block}
-.photo-card-body{padding:6px}
-.photo-card-body textarea{width:100%;background:transparent;border:none;border-top:1px solid var(--border);color:var(--fg);font-size:.72rem;resize:none;outline:none;padding-top:5px;min-height:44px}
-.photo-del{font-size:.68rem;color:var(--acc2);background:none;border:none;cursor:pointer;width:100%;text-align:center;margin-top:3px}
+.foto-item{position:relative;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);overflow:hidden;margin-bottom:10px}
+.foto-item img{width:100%;max-height:220px;object-fit:cover;display:block}
+.foto-item input{width:100%;padding:7px 10px;background:var(--bg);border:none;border-top:1px solid var(--border);color:var(--fg);font-size:.78rem;outline:none}
+.foto-del{position:absolute;top:5px;right:5px;background:rgba(192,57,43,.85);color:#fff;border:none;border-radius:4px;padding:3px 7px;font-size:.78rem;font-weight:700;cursor:pointer}
+.foto-add-row{display:flex;gap:10px;margin-top:10px}
+.foto-add-btn{flex:1;padding:22px 10px;background:var(--bg3);border:2px dashed var(--border);border-radius:var(--rad);text-align:center;cursor:pointer;color:var(--fg2);font-size:.8rem;transition:.15s}
+.foto-add-btn:hover{border-color:var(--acc2);color:var(--acc2)}
+.foto-add-btn .ficon{font-size:2rem;display:block;margin-bottom:4px}
 
-/* SIGS */
-.sig-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:13px;margin-bottom:13px}
-.sig-panel h4{font-size:.86rem;font-weight:700;margin-bottom:9px;color:var(--acc2)}
-canvas.sig-canvas{width:100%;height:150px;background:#fff;border-radius:var(--rad2);border:2px solid var(--border);display:block;touch-action:none;cursor:crosshair}
-.sig-actions{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;align-items:flex-end}
-.pin-field{flex:1;min-width:130px}
-.pin-field label{font-size:.72rem;color:var(--fg2);display:block;margin-bottom:4px;font-weight:600;text-transform:uppercase}
-.pin-field input{width:100%;padding:8px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg);outline:none}
-.pin-field input:focus{border-color:var(--acc2)}
-.sig-status{font-size:.76rem;margin-top:5px;padding:4px 9px;border-radius:var(--rad2);text-align:center}
-.sig-ok{background:#0d1f12;color:var(--green);border:1px solid var(--green)}
-.sig-err{background:#1f0d0d;color:var(--acc2);border:1px solid var(--acc2)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal{background:var(--bg2);border-radius:14px 14px 0 0;width:100%;max-width:500px;max-height:90vh;display:flex;flex-direction:column}
+.modal-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;font-weight:700;font-size:.95rem}
+.modal-head span{flex:1}
+.modal-close{background:none;border:none;color:var(--fg2);font-size:1.4rem;line-height:1;cursor:pointer}
+.modal-body{overflow-y:auto;padding:18px;flex:1}
+.modal-foot{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
 
-/* REPORTS LIST */
-.report-item{display:flex;align-items:center;gap:9px;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);margin-bottom:7px}
-.report-item-info{flex:1;min-width:0}
-.report-item-info .rtitle{font-weight:600;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.report-item-info .rmeta{font-size:.7rem;color:var(--fg2)}
-.report-actions{display:flex;gap:5px;flex-shrink:0}
+.pin-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.pin-dots{display:flex;gap:10px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:var(--bg3)}
+.pin-dot.filled{background:var(--acc2);border-color:var(--acc2)}
+.pin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:220px}
+.pin-key{padding:16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);font-size:1.2rem;font-weight:700;text-align:center}
+.pin-key:hover{border-color:var(--acc2)}
 
-/* VISOR */
-#visorWrap{position:fixed;inset:0;z-index:200;flex-direction:column;background:#1a1a1a;display:none}
-#visorWrap.open{display:flex!important}
-#visorBar{background:var(--bg2);border-bottom:2px solid var(--acc);display:flex;align-items:center;gap:7px;padding:9px 13px;flex-shrink:0;flex-wrap:wrap}
-#visorBar h4{flex:1;font-size:.85rem;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#visorIframe{flex:1;border:none;width:100%;background:#fff}
+.adm-section{margin-bottom:18px}
+.adm-section h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--fg2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.adm-list{display:flex;flex-direction:column;gap:8px}
+.adm-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:10px 12px;display:flex;align-items:center;gap:10px}
+.adm-item .ai-info{flex:1;min-width:0}
+.adm-item .ai-name{font-size:.84rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.adm-item .ai-sub{font-size:.7rem;color:var(--fg2);margin-top:2px}
+.adm-item .ai-actions{display:flex;gap:6px;flex-shrink:0}
+.adm-item .ai-btn{padding:5px 9px;border:1px solid var(--border);background:var(--bg2);color:var(--fg2);border-radius:4px;font-size:.72rem;cursor:pointer}
+.adm-item .ai-btn:hover{border-color:var(--acc2);color:var(--acc2)}
 
-/* ADMIN */
-.admin-tabs{display:flex;gap:0;overflow-x:auto;background:var(--bg3);border-radius:var(--rad) var(--rad) 0 0;border:1px solid var(--border);border-bottom:none;scrollbar-width:none}
-.admin-tabs::-webkit-scrollbar{display:none}
-.admin-tab{padding:10px 14px;font-size:.76rem;font-weight:700;color:var(--fg2);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:.13s;text-transform:uppercase;letter-spacing:.03em}
-.admin-tab.active{color:var(--acc2);border-bottom-color:var(--acc2);background:var(--bg2)}
-.admin-body{background:var(--bg2);border:1px solid var(--border);border-radius:0 0 var(--rad) var(--rad);padding:15px}
-.admin-list{list-style:none}
-.admin-list li{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);margin-bottom:6px}
-.admin-list li .li-name{flex:1;font-weight:600;font-size:.85rem}
-.admin-list li .li-sub{font-size:.72rem;color:var(--fg2)}
+.info-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.65rem;font-weight:700;text-transform:uppercase}
+.badge-std{background:#1a3a4a;color:#5bc0de}
+.badge-capa{background:#3a2a1a;color:var(--yellow)}
 
-/* EMPRESA SELECTOR en Admin */
-.emp-selector{display:flex;gap:10px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap}
-.emp-selector label{font-size:.72rem;color:var(--fg2);font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px}
-.emp-selector select{padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg);outline:none;flex:1;min-width:180px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);padding:12px 20px;font-size:.85rem;font-weight:600;z-index:999;transition:.3s;white-space:nowrap;box-shadow:var(--shadow)}
+.toast.show{transform:translateX(-50%) translateY(0)}
 
-/* FORM BUILDER */
-.form-field-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:11px 13px;margin-bottom:9px}
-.fc-row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
-.fc-label{flex:2;min-width:140px}
-.fc-unit{flex:1;min-width:80px}
-.fc-del{background:var(--acc);border:none;color:#fff;border-radius:var(--rad2);padding:5px 9px;font-size:.72rem;cursor:pointer;align-self:flex-end;flex-shrink:0}
+.visor-bar{display:flex;gap:8px;flex-wrap:wrap;padding:10px 0;margin-bottom:10px}
+.eq-info-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px;margin-bottom:12px}
+.eq-info-card .eic-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.eq-info-card .eic-item{background:var(--bg2);border-radius:4px;padding:4px 9px;font-size:.72rem}
+.eq-info-card .eic-label{color:var(--fg2);font-size:.65rem;display:block}
+.eq-info-card .eic-val{font-weight:700;color:var(--fg);font-size:.78rem}
 
-/* CHIPS */
-.chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:.72rem;color:var(--fg2);margin:2px}
-.chip .x{cursor:pointer;color:var(--acc2);font-weight:700}
-
-/* MISC */
-.section-title{font-size:.74rem;font-weight:700;color:var(--fg2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--border)}
-hr{border:none;border-top:1px solid var(--border);margin:12px 0}
-.empty{text-align:center;padding:18px;color:var(--fg2);font-size:.82rem;font-style:italic}
-.tag-green{background:#0d1f12;color:var(--green);border:1px solid var(--green);padding:2px 7px;border-radius:20px;font-size:.7rem;font-weight:700}
-.tag-red{background:#1f0d0d;color:var(--acc2);border:1px solid var(--acc2);padding:2px 7px;border-radius:20px;font-size:.7rem;font-weight:700}
-.tag-blue{background:#0a1520;color:var(--blue);border:1px solid var(--blue);padding:2px 7px;border-radius:20px;font-size:.7rem;font-weight:700}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;align-items:center;justify-content:center;padding:14px}
-.modal-overlay.open{display:flex}
-.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);width:100%;max-width:500px;max-height:92vh;overflow-y:auto;padding:18px;box-shadow:var(--shadow)}
-.modal-box h3{font-size:.95rem;font-weight:700;margin-bottom:13px;color:var(--acc2)}
-.modal-close{float:right;background:none;border:none;color:var(--fg2);font-size:1.2rem;cursor:pointer;line-height:1}
-.modal-wide{max-width:640px}
+.cond-table{width:100%;border-collapse:collapse}
+.cond-table th,.cond-table td{padding:8px 10px;border:1px solid var(--border);font-size:.78rem}
+.cond-table th{background:var(--bg3);color:var(--fg2);font-size:.7rem;text-transform:uppercase}
+.cond-table input{width:100%;background:transparent;border:none;color:var(--fg);outline:none;text-align:center}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══════════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="loginWrap">
-  <div class="login-logo">⚙ PLATAFORMA DE INFORMES<br>DE MANTENIMIENTO</div>
-  <div class="login-sub">Sistema de Gestión Técnica</div>
+  <div class="login-logo">⚡ SGIMTTO</div>
+  <div class="login-sub">Sistema de Gestión de Informes de Mantenimiento</div>
   <div class="login-card">
     <h2>Iniciar Sesión</h2>
-    <div class="lf"><label>Usuario</label><input id="liUser" type="text" autocomplete="username" placeholder="Ingrese usuario"></div>
-    <div class="lf"><label>Contraseña</label><input id="liPass" type="password" autocomplete="current-password" placeholder="Ingrese contraseña"></div>
-    <button class="btn-login" onclick="doLogin()">INGRESAR</button>
+    <div class="lf"><label>Usuario</label><input id="lUser" type="text" autocomplete="off" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="lf"><label>Contraseña</label><input id="lPass" type="password"></div>
+    <button class="btn-login" onclick="doLogin()">Ingresar</button>
     <div id="loginErr"></div>
   </div>
-  <div class="login-footer">
-    Desarrollado por <strong>Victor Hugo Paguay</strong><br>
-    Ingeniero de Mantenimiento Industrial
-  </div>
+  <div class="login-footer">v9 · 2025 SGIMTTO</div>
 </div>
 
-<!-- ══ APP ════════════════════════════════════════════ -->
+<!-- APP -->
 <div id="appWrap" hidden>
   <div id="topBar">
-    <img id="topLogo" src="" alt="" hidden>
-    <div id="topBrand">
-      <div class="name" id="topBrandName">Informes de Mantenimiento</div>
-      <div class="sub" id="topBrandSub">Plataforma Técnica</div>
-    </div>
-    <span id="topUser"></span>
-    <button class="nav-btn active" id="btnInicio" onclick="showSection('home')">🏠 Inicio</button>
-    <button class="nav-btn" id="btnAdmin" onclick="showSection('admin')" hidden>⚙ Admin</button>
+    <div id="topBrand"><div class="name">⚡ SGIMTTO</div><div class="sub" id="topSub">Sistema de Informes</div></div>
+    <div id="topUser"></div>
+    <button class="nav-btn" id="btnInicio" onclick="goInicio()">🏠 Inicio</button>
+    <button class="nav-btn" id="btnAdmin" onclick="goAdmin()" hidden>⚙ Admin</button>
     <button class="nav-btn" id="btnSalir" onclick="doLogout()">Salir</button>
   </div>
-
-  <div id="mainContent">
-    <!-- HOME -->
-    <div id="secHome">
-      <div class="tipo-bar">
-        <div class="f1">
-          <label>Tipo de Informe</label>
-          <select id="tipoSel" onchange="onTipoChange()">
-            <option value="">— Seleccione tipo —</option>
-          </select>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="panel-head">📋 Equipos — Seleccione para iniciar informe</div>
-        <div class="panel-body"><div class="gen-grid" id="genGrid"></div></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head">📁 Informes Generados</div>
-        <div class="panel-body" id="reportsList"><div class="empty">No hay informes aún.</div></div>
-      </div>
-    </div>
-
-    <!-- FORM -->
-    <div id="secForm" hidden>
-      <div class="form-header">
-        <button class="btn-back" onclick="backHome()">← Volver</button>
-        <h3 id="formTitle">Informe</h3>
-        <span id="formTipoBadge" style="background:rgba(255,255,255,.2);border-radius:20px;padding:2px 10px;font-size:.72rem"></span>
-      </div>
-      <div class="tab-bar" id="tabBar"></div>
-      <div id="tabPanes"></div>
-    </div>
-
-    <!-- ADMIN -->
-    <div id="secAdmin" hidden>
-      <div class="admin-tabs" id="adminTabs">
-        <div class="admin-tab active" onclick="switchAdminTab(0)">🏢 Empresas</div>
-        <div class="admin-tab" onclick="switchAdminTab(1)">👷 Supervisores</div>
-        <div class="admin-tab" onclick="switchAdminTab(2)">📋 Tipos de Informe</div>
-        <div class="admin-tab" onclick="switchAdminTab(3)">📊 Parámetros</div>
-        <div class="admin-tab" onclick="switchAdminTab(4)">🔧 Equipos</div>
-        <div class="admin-tab" onclick="switchAdminTab(5)">🏷 Etiquetas</div>
-        <div class="admin-tab" onclick="switchAdminTab(6)">👤 Usuarios</div>
-      </div>
-      <div class="admin-body" id="adminBody"></div>
-    </div>
-  </div>
+  <div id="mainContent"></div>
 </div>
 
-<!-- VISOR -->
-<div id="visorWrap">
-  <div id="visorBar">
-    <h4 id="visorTitle">Informe</h4>
-    <button class="btn btn-secondary btn-sm" onclick="closeVisor()">✕ Cerrar</button>
-    <button class="btn btn-secondary btn-sm" onclick="printInforme()">🖨 Imprimir / PDF</button>
-    <button class="btn btn-success btn-sm" onclick="compartirInforme()">📤 Compartir</button>
-    <button class="btn btn-secondary btn-sm" onclick="descargarHtml()">⬇ HTML</button>
-    <button class="btn btn-secondary btn-sm" onclick="descargarWord()">📝 Word</button>
-  </div>
-  <iframe id="visorIframe" style="flex:1;border:none;width:100%;background:#fff"></iframe>
-</div>
+<!-- MODALES -->
+<div class="overlay" id="mPin" hidden><div class="modal" style="border-radius:14px;max-width:320px;margin:auto">
+  <div class="modal-head"><span>🔐 PIN Supervisor</span><button class="modal-close" onclick="closeM('mPin')">✕</button></div>
+  <div class="modal-body"><div class="pin-wrap">
+    <div id="pinDots" class="pin-dots"></div>
+    <div class="pin-grid" id="pinGrid"></div>
+    <div id="pinErr" style="color:var(--acc2);font-size:.8rem;min-height:18px"></div>
+  </div></div>
+</div></div>
 
-<!-- MODALES dinámicos se inyectan aquí -->
-<div id="modalContainer"></div>
+<div class="overlay" id="mEmp" hidden><div class="modal">
+  <div class="modal-head"><span id="mEmpTitle">Nueva Empresa</span><button class="modal-close" onclick="closeM('mEmp')">✕</button></div>
+  <div class="modal-body">
+    <div class="field"><label>Código (3-5 letras)</label><input id="xEmpCod" type="text" maxlength="5" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="field"><label>Nombre</label><input id="xEmpNom" type="text"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-secondary" onclick="closeM('mEmp')">Cancelar</button>
+    <button class="btn btn-primary" onclick="saveEmp()">Guardar</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="mTec" hidden><div class="modal">
+  <div class="modal-head"><span id="mTecTitle">Técnico</span><button class="modal-close" onclick="closeM('mTec')">✕</button></div>
+  <div class="modal-body">
+    <div class="field"><label>Usuario</label><input id="xTecUser" type="text" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="field"><label>Nombre</label><input id="xTecNom" type="text"></div>
+    <div class="field"><label>Cargo</label><input id="xTecCargo" type="text" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="field"><label>Contraseña</label><input id="xTecPass" type="text"></div>
+    <div class="field"><label>PIN Supervisor (dejar vacío si no aplica)</label><input id="xTecPin" type="text" maxlength="6"></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-secondary" onclick="closeM('mTec')">Cancelar</button>
+    <button class="btn btn-primary" onclick="saveTec()">Guardar</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="mGe" hidden><div class="modal">
+  <div class="modal-head"><span id="mGeTitle">Equipo</span><button class="modal-close" onclick="closeM('mGe')">✕</button></div>
+  <div class="modal-body">
+    <div class="row2">
+      <div class="field"><label>Código</label><input id="xGeCod" type="text" oninput="this.value=this.value.toUpperCase()"></div>
+      <div class="field"><label>Bahía / Ubicación</label><input id="xGeBahia" type="text"></div>
+    </div>
+    <div class="field"><label>Nombre / Descripción</label><input id="xGeNom" type="text"></div>
+    <div class="row2">
+      <div class="field"><label>Marca</label><input id="xGeMarca" type="text"></div>
+      <div class="field"><label>Modelo</label><input id="xGeModelo" type="text"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Motor</label><input id="xGeMotor" type="text"></div>
+      <div class="field"><label>Potencia</label><input id="xGePot" type="text"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Tensión</label><input id="xGeTens" type="text"></div>
+      <div class="field"><label>Serie</label><input id="xGeSerie" type="text"></div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-secondary" onclick="closeM('mGe')">Cancelar</button>
+    <button class="btn btn-primary" onclick="saveGe()">Guardar</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="mTipo" hidden><div class="modal">
+  <div class="modal-head"><span id="mTipoTitle">Tipo de Informe</span><button class="modal-close" onclick="closeM('mTipo')">✕</button></div>
+  <div class="modal-body">
+    <div class="field"><label>Nombre</label><input id="xTipoNom" type="text"></div>
+    <div class="field"><label>Plantilla</label>
+      <select id="xTipoTemplate">
+        <option value="estandar">Informe Técnico Estándar</option>
+        <option value="capa">Informe de Capa (Quifatex)</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-secondary" onclick="closeM('mTipo')">Cancelar</button>
+    <button class="btn btn-primary" onclick="saveTipo()">Guardar</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="mVisor" hidden><div class="modal" style="border-radius:14px;max-height:95vh;max-width:700px;margin:auto">
+  <div class="modal-head"><span>Vista Previa del Informe</span><button class="modal-close" onclick="closeM('mVisor')">✕</button></div>
+  <div class="modal-body" style="padding:10px">
+    <div class="visor-bar">
+      <button class="btn btn-success" onclick="printInforme()">🖨 Imprimir / PDF</button>
+      <button class="btn btn-secondary" onclick="closeM('mVisor')">Cerrar</button>
+    </div>
+    <iframe id="visorFrame" style="width:100%;height:70vh;border:none;border-radius:6px;background:#fff"></iframe>
+  </div>
+</div></div>
+
+<div id="toastEl" class="toast"></div>
 
 <script>
-/* ══════════════════════════════════════════════════
-   DB
-══════════════════════════════════════════════════ */
-const DB_KEY = 'pim5DB';
-let DB = {empresas:{},tecnicos:{},tipos:{},parametros:{},equipos:{},usuarios:{},informes:{},etiquetas:{}};
+// ═══════════════════════════════════════════════════════════
+// DB
+// ═══════════════════════════════════════════════════════════
+const DB_KEY='pim8DB';
+let DB={empresas:{},equipos:{},tecnicos:{},tipos:{},historiales:{}};
 
 function loadDB(){
-  try{ const s=localStorage.getItem(DB_KEY); if(s) DB=JSON.parse(s); }catch(e){}
-  seedDB();
+  try{const r=localStorage.getItem(DB_KEY);if(r)DB=JSON.parse(r);}catch(e){}
 }
 function saveDB(){
-  try{ localStorage.setItem(DB_KEY,JSON.stringify(DB)); }catch(e){}
+  try{localStorage.setItem(DB_KEY,JSON.stringify(DB));}catch(e){}
+}
+function ensureFields(){
+  if(!DB.empresas)DB.empresas={};
+  if(!DB.equipos)DB.equipos={};
+  if(!DB.tecnicos)DB.tecnicos={};
+  if(!DB.tipos)DB.tipos={};
+  if(!DB.historiales)DB.historiales={};
 }
 
-/* ── SEED ── */
-function seedDB(){
-  if(!DB.empresas) DB.empresas={};
-  if(!DB.tecnicos) DB.tecnicos={};
-  if(!DB.tipos) DB.tipos={};
-  if(!DB.parametros) DB.parametros={};
-  if(!DB.equipos) DB.equipos={};
-  if(!DB.usuarios) DB.usuarios={};
-  if(!DB.informes) DB.informes={};
-  if(!DB.etiquetas) DB.etiquetas={};
-
-  // Etiquetas de tabs (editables por admin)
-  if(!DB.etiquetas.tabs){
-    DB.etiquetas.tabs = ['Identificación','AST','Actividades','Parámetros','Fotos','Firmas'];
-  }
-
+function seed(){
   // Empresas
-  if(!DB.empresas.enlincom) DB.empresas.enlincom={id:'enlincom',nombre:'ENLINCOM S.A.',color:'#c0392b',logo:''};
-  if(!DB.empresas.qx) DB.empresas.qx={id:'qx',nombre:'QX Servicios',color:'#1a5276',logo:''};
+  DB.empresas['ENL']={id:'ENL',codigo:'ENL',nombre:'ENLICOM S.A.'};
+  DB.empresas['QFX']={id:'QFX',codigo:'QFX',nombre:'QUIFATEX'};
 
-  // Equipos
-  if(!DB.equipos.enlincom){
-    DB.equipos.enlincom=[];
-    for(let i=1;i<=12;i++){
-      DB.equipos.enlincom.push({id:'geq-enl-'+i,codigo:'GEN-'+String(i).padStart(2,'0'),nombre:'Generador Cummins 1200 kVA',bahia:i<=6?'Bahía 1':'Bahía 2',marca:'Cummins',modelo:'C1250D5',serie:'',potencia:'1200'});
-    }
-  }
-  if(!DB.equipos.qx){
-    DB.equipos.qx=[];
-    for(let i=1;i<=4;i++){
-      DB.equipos.qx.push({id:'geq-qx-'+i,codigo:'GEN-'+String(i).padStart(2,'0'),nombre:'Generador Cummins 500 kVA',bahia:'Bahía 1',marca:'Cummins',modelo:'C500D5',serie:'',potencia:'500'});
-    }
-  }
+  // Tipos ENLICOM
+  DB.tipos['t_enl_std']={id:'t_enl_std',nombre:'Informe Técnico Estándar',empresa:'ENL',template:'estandar'};
+  DB.tipos['t_enl_250']={id:'t_enl_250',nombre:'Mantenimiento 250 Horas',empresa:'ENL',template:'estandar'};
 
-  // Supervisores
-  if(!DB.tecnicos.tec001) DB.tecnicos.tec001={id:'tec001',nombre:'Juan Pérez',cargo:'Técnico Electricista',empresa:'enlincom',pin:'1234'};
-  if(!DB.tecnicos.tec002) DB.tecnicos.tec002={id:'tec002',nombre:'Carlos Rodríguez',cargo:'Técnico Mecánico',empresa:'enlincom',pin:'5678'};
-  if(!DB.tecnicos.tec003) DB.tecnicos.tec003={id:'tec003',nombre:'Pedro Gómez',cargo:'Técnico Eléctrico',empresa:'qx',pin:'4321'};
+  // Tipos QUIFATEX
+  DB.tipos['t_qfx_capa']={id:'t_qfx_capa',nombre:'Informe de Capa',empresa:'QFX',template:'capa'};
+  DB.tipos['t_qfx_std']={id:'t_qfx_std',nombre:'Informe Técnico Estándar',empresa:'QFX',template:'estandar'};
+
+  // Generadores ENLICOM reales
+  const GES=[
+    {codigo:'GE03',bahia:'Bahía 1'},{codigo:'GE06',bahia:'Bahía 1'},
+    {codigo:'GE07',bahia:'Bahía 1'},{codigo:'GE09',bahia:'Bahía 1'},
+    {codigo:'GE10',bahia:'Bahía 1'},{codigo:'GE14',bahia:'Bahía 1'},
+    {codigo:'GE02',bahia:'Bahía 2'},{codigo:'GE04',bahia:'Bahía 2'},
+    {codigo:'GE05',bahia:'Bahía 2'},{codigo:'GE08',bahia:'Bahía 2'},
+    {codigo:'GE12',bahia:'Bahía 2'},{codigo:'GE15',bahia:'Bahía 2'}
+  ];
+  GES.forEach(g=>{
+    const id='ge-enl-'+g.codigo.toLowerCase();
+    DB.equipos[id]={
+      id,empresa:'ENL',codigo:g.codigo,
+      nombre:'Diesel Generator Set',marca:'Diesel Generator Set',
+      modelo:'LSC1410S3',motor:'KTA50-G3',
+      potencia:'1025 kVA',tension:'480/230 V',
+      serie:'',bahia:g.bahia
+    };
+  });
 
   // Usuarios
-  if(!DB.usuarios.admin) DB.usuarios.admin={id:'admin',username:'admin',pass:'admin123',rol:'admin',empresa:'enlincom',nombre:'Administrador'};
-  if(!DB.usuarios.t1) DB.usuarios.t1={id:'t1',username:'t1',pass:'123',rol:'tecnico',empresa:'enlincom',nombre:'Técnico ENLINCOM 1'};
-  if(!DB.usuarios.t2) DB.usuarios.t2={id:'t2',username:'t2',pass:'123',rol:'tecnico',empresa:'qx',nombre:'Técnico QX 1'};
-
-  // Tipo
-  if(!DB.tipos.tipo_aceite){
-    DB.tipos.tipo_aceite={id:'tipo_aceite',nombre:'Cambio de Aceite 500H',fields:[
-      {id:'f1',label:'Marca del aceite',type:'text'},
-      {id:'f2',label:'Viscosidad',type:'select',options:'SAE 15W-40,SAE 10W-30,SAE 40'},
-      {id:'f3',label:'Litros utilizados',type:'number'},
-      {id:'f4',label:'Foto antes del cambio',type:'photo'},
-      {id:'f5',label:'Foto después del cambio',type:'photo'},
-      {id:'f6',label:'Observaciones',type:'textarea'}
-    ],acts:[
-      'Verificar nivel de aceite antes del servicio',
-      'Calentar el motor por 5 minutos antes del drenaje',
-      'Drenar aceite del motor completamente',
-      'Reemplazar filtro de aceite',
-      'Reemplazar filtro de combustible primario',
-      'Reemplazar filtro de combustible secundario',
-      'Reemplazar filtro de aire',
-      'Verificar mangueras y abrazaderas del sistema de enfriamiento',
-      'Verificar nivel de refrigerante',
-      'Verificar nivel de electrolito de batería',
-      'Verificar tensión de correa alternador',
-      'Cargar aceite nuevo al motor',
-      'Arrancar motor y verificar presión de aceite',
-      'Verificar ausencia de fugas en el sistema',
-      'Limpiar área de trabajo',
-      'Registrar horas de servicio en bitácora'
-    ]};
-  }
-
-  if(!DB.parametros.tipo_aceite){
-    DB.parametros.tipo_aceite=[
-      {id:'p1',label:'Voltaje L1-L2',type:'number',unit:'V'},
-      {id:'p2',label:'Voltaje L2-L3',type:'number',unit:'V'},
-      {id:'p3',label:'Voltaje L3-L1',type:'number',unit:'V'},
-      {id:'p4',label:'Corriente L1',type:'number',unit:'A'},
-      {id:'p5',label:'Corriente L2',type:'number',unit:'A'},
-      {id:'p6',label:'Corriente L3',type:'number',unit:'A'},
-      {id:'p7',label:'Frecuencia',type:'number',unit:'Hz'},
-      {id:'p8',label:'Presión de aceite',type:'number',unit:'PSI'},
-      {id:'p9',label:'Temperatura refrigerante',type:'number',unit:'°C'},
-      {id:'p10',label:'Horas del motor',type:'number',unit:'h'},
-      {id:'p11',label:'Nivel de combustible',type:'number',unit:'%'},
-      {id:'p12',label:'Voltaje de batería',type:'number',unit:'V'}
-    ];
-  }
+  DB.tecnicos['mcalvache']={id:'mcalvache',empresa:'ENL',usuario:'MCALVACHE',nombre:'M. Calvache',contrasena:'1234',pin:'1234',cargo:'JEFE DE PROYECTO'};
+  DB.tecnicos['vpaguay']={id:'vpaguay',empresa:'ENL',usuario:'VPAGUAY',nombre:'V. Paguay',contrasena:'228101',pin:'228101',cargo:'SUPERVISOR DE PROYECTO'};
+  DB.tecnicos['tec01']={id:'tec01',empresa:'ENL',usuario:'TEC01',nombre:'Técnico 01',contrasena:'1234',pin:'',cargo:'TECNICO DE MANTENIMIENTO'};
+  DB.tecnicos['tlider']={id:'tlider',empresa:'ENL',usuario:'TLIDER',nombre:'Técnico Líder',contrasena:'1234',pin:'1234',cargo:'JEFE DE PROYECTO'};
+  DB.tecnicos['admin']={id:'admin',empresa:'_SGIMTTO',usuario:'ADMIN',nombre:'Administrador SGIMTTO',contrasena:'admin2025',pin:'',cargo:'ADMIN'};
 
   saveDB();
 }
 
-/* ══════════════════════════════════════════════════
-   SESSION
-══════════════════════════════════════════════════ */
-let SESSION={user:null};
+// ═══════════════════════════════════════════════════════════
+// SESSION
+// ═══════════════════════════════════════════════════════════
+let SES={user:null,empActiva:null,isAdmin:false};
 
 function doLogin(){
-  const u=document.getElementById('liUser').value.trim();
-  const p=document.getElementById('liPass').value.trim();
-  const err=document.getElementById('loginErr');
-  const usr=DB.usuarios[u];
-  if(!usr||usr.pass!==p){err.textContent='❌ Usuario o contraseña incorrectos.';return;}
-  err.textContent='';
-  SESSION.user=usr;
+  const u=document.getElementById('lUser').value.trim().toUpperCase();
+  const p=document.getElementById('lPass').value.trim();
+  const tec=Object.values(DB.tecnicos).find(t=>t.usuario===u&&t.contrasena===p);
+  if(!tec){document.getElementById('loginErr').textContent='Usuario o contraseña incorrectos';return;}
+  SES.user=tec;
+  SES.isAdmin=(tec.empresa==='_SGIMTTO');
+  SES.empActiva=SES.isAdmin?null:tec.empresa;
+  document.getElementById('loginErr').textContent='';
   document.getElementById('loginWrap').hidden=true;
   document.getElementById('appWrap').hidden=false;
-  initApp();
+  document.getElementById('topUser').textContent=tec.nombre+' · '+tec.cargo;
+  document.getElementById('btnAdmin').hidden=!SES.isAdmin;
+  if(SES.isAdmin)goAdmin();
+  else goInicio();
 }
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!document.getElementById('loginWrap').hidden)doLogin();});
 
 function doLogout(){
-  SESSION.user=null;
-  document.getElementById('appWrap').hidden=true;
+  SES={user:null,empActiva:null,isAdmin:false};
   document.getElementById('loginWrap').hidden=false;
-  document.getElementById('liUser').value='';
-  document.getElementById('liPass').value='';
+  document.getElementById('appWrap').hidden=true;
+  document.getElementById('lUser').value='';
+  document.getElementById('lPass').value='';
 }
 
-function initApp(){
-  const usr=SESSION.user;
-  const emp=DB.empresas[usr.empresa]||{};
-  const logo=document.getElementById('topLogo');
-  if(emp.logo){logo.src=emp.logo;logo.hidden=false;}else{logo.hidden=true;}
-  document.getElementById('topBrandName').textContent=emp.nombre||'Informes de Mantenimiento';
-  document.getElementById('topUser').textContent=usr.nombre+' ('+usr.username+')';
-  document.getElementById('topBar').style.borderBottomColor=emp.color||'#c0392b';
-  document.getElementById('btnAdmin').hidden=(usr.rol!=='admin');
-  showSection('home');
+// ═══════════════════════════════════════════════════════════
+// DRAFT UTILS
+// ═══════════════════════════════════════════════════════════
+const DKEY=(eqId,tipoId)=>'pim8_'+eqId+'__'+tipoId;
+
+function parseDraftKey(k){
+  if(!k.startsWith('pim8_'))return null;
+  const rest=k.slice(5); // remove 'pim8_'
+  const sep=rest.indexOf('__');
+  if(sep<0)return null;
+  const eqId=rest.slice(0,sep);
+  const tipoId=rest.slice(sep+2);
+  return{eqId,tipoId};
 }
 
-/* ══════════════════════════════════════════════════
-   NAV
-══════════════════════════════════════════════════ */
-function showSection(s){
-  ['secHome','secForm','secAdmin'].forEach(id=>document.getElementById(id).hidden=true);
-  document.getElementById('sec'+s.charAt(0).toUpperCase()+s.slice(1)).hidden=false;
-  document.getElementById('btnInicio').classList.toggle('active',s==='home');
-  const ab=document.getElementById('btnAdmin');
-  if(ab) ab.classList.toggle('active',s==='admin');
-  if(s==='home') renderHome();
-  if(s==='admin') renderAdminTab(0);
+function getDrafts(){
+  const drafts=[];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k||!k.startsWith('pim8_'))continue;
+      const p=parseDraftKey(k);
+      if(!p)continue;
+      const eq=DB.equipos[p.eqId];
+      const tipo=DB.tipos[p.tipoId];
+      if(eq&&tipo&&eq.empresa===SES.empActiva){
+        try{
+          const d=JSON.parse(localStorage.getItem(k));
+          drafts.push({k,eqId:p.eqId,tipoId:p.tipoId,eq,tipo,d});
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+  return drafts;
 }
 
-/* ══════════════════════════════════════════════════
-   HOME
-══════════════════════════════════════════════════ */
-function renderHome(){
-  renderTipoSelect();
-  renderEquiposGrid();
-  renderReportsList();
+// ═══════════════════════════════════════════════════════════
+// NAVEGACIÓN PRINCIPAL
+// ═══════════════════════════════════════════════════════════
+function goInicio(){
+  setActive('btnInicio');
+  const mc=document.getElementById('mainContent');
+  const drafts=getDrafts();
+
+  // Equipos de esta empresa
+  const eqs=Object.values(DB.equipos).filter(e=>e.empresa===SES.empActiva);
+  const tipos=Object.values(DB.tipos).filter(t=>t.empresa===SES.empActiva);
+  const emp=DB.empresas[SES.empActiva]||{};
+
+  // Draft keys set for highlight
+  const draftEqIds=new Set(drafts.map(d=>d.eqId));
+
+  // Banner de borradores
+  let draftHTML='';
+  if(drafts.length>0){
+    draftHTML=drafts.map(d=>`
+      <div class="draft-banner" onclick="openDraft('${d.eqId}','${d.tipoId}')">
+        <div class="db-icon">📝</div>
+        <div class="db-text">
+          <div class="db-title">Borrador abierto — ${d.eq.codigo}</div>
+          <div class="db-sub">${d.tipo.nombre} · Toca para continuar</div>
+        </div>
+        <button class="db-cont" onclick="event.stopPropagation();openDraft('${d.eqId}','${d.tipoId}')">Continuar →</button>
+      </div>`).join('');
+  }
+
+  // Tipos selector
+  let tiposHTML='';
+  if(tipos.length>0){
+    tiposHTML=`<div class="field" style="margin-bottom:0"><label>Tipo de Informe</label>
+      <select id="tipoSel">
+        ${tipos.map(t=>`<option value="${t.id}">${t.nombre}</option>`).join('')}
+      </select></div>`;
+  }
+
+  mc.innerHTML=`
+    <div class="panel">
+      <div class="panel-head">🏭 ${emp.nombre||SES.empActiva}</div>
+      <div class="panel-body">
+        ${draftHTML}
+        ${tiposHTML}
+        <div style="margin-top:12px;margin-bottom:8px;font-size:.75rem;color:var(--fg2);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Equipos (${eqs.length})</div>
+        <div class="gen-grid">
+          ${eqs.length===0?'<div style="color:var(--fg2);font-size:.8rem">Sin equipos registrados</div>':''}
+          ${eqs.map(e=>`
+            <div class="gen-card ${draftEqIds.has(e.id)?'has-draft':''}" onclick="openEquipo('${e.id}')">
+              <div class="gid">${e.codigo}</div>
+              <div class="gname">${e.nombre}</div>
+              <div class="gbahia">${e.bahia||''}</div>
+              ${draftEqIds.has(e.id)?'<div style="font-size:.6rem;color:var(--yellow);margin-top:3px">📝 Borrador</div>':''}
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
 }
-function renderTipoSelect(){
-  const sel=document.getElementById('tipoSel');
-  const cur=sel.value;
-  sel.innerHTML='<option value="">— Seleccione tipo —</option>';
-  Object.values(DB.tipos).forEach(t=>{
-    sel.innerHTML+=`<option value="${t.id}"${t.id===cur?' selected':''}>${t.nombre}</option>`;
+
+function openDraft(eqId,tipoId){
+  const eq=DB.equipos[eqId];
+  const tipo=DB.tipos[tipoId];
+  if(!eq||!tipo)return;
+  openEquipoConTipo(eq,tipo);
+}
+
+function goAdmin(){
+  setActive('btnAdmin');
+  renderAdmView();
+}
+
+function setActive(id){
+  ['btnInicio','btnAdmin'].forEach(b=>{
+    const el=document.getElementById(b);
+    if(el)el.classList.toggle('active',b===id);
   });
 }
-function renderEquiposGrid(){
-  const grid=document.getElementById('genGrid');
-  const usr=SESSION.user;
-  const lista=DB.equipos[usr.empresa]||[];
-  if(!lista.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">Sin equipos. Admin → Equipos para agregar.</div>';return;}
-  grid.innerHTML=lista.map(eq=>{
-    const hasR=Object.values(DB.informes).some(r=>r.eqId===eq.id);
-    return `<div class="gen-card${hasR?' has-report':''}" onclick="openEquipo('${eq.id}')">
-      <div class="gid">${eq.codigo}</div>
-      <div class="gname">${eq.nombre}</div>
-      <div class="gbahia">${eq.bahia||''}</div>
-      ${hasR?'<div style="margin-top:3px"><span class="tag-green" style="font-size:.6rem">✓ Con informe</span></div>':''}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN VIEW
+// ═══════════════════════════════════════════════════════════
+function renderAdmView(){
+  const mc=document.getElementById('mainContent');
+  const empresas=Object.values(DB.empresas).filter(e=>e.id!=='_SGIMTTO');
+
+  mc.innerHTML=`
+    <div class="panel">
+      <div class="panel-head">⚙ Administración SGIMTTO</div>
+      <div class="panel-body">
+        <div class="adm-section">
+          <h4>Empresas</h4>
+          <div class="adm-list">
+            ${empresas.map(e=>{
+              const cnt=Object.values(DB.equipos).filter(x=>x.empresa===e.id).length;
+              return`<div class="adm-item">
+                <div class="ai-info">
+                  <div class="ai-name">${e.nombre}</div>
+                  <div class="ai-sub">Código: ${e.codigo} · ${cnt} equipos</div>
+                </div>
+                <div class="ai-actions">
+                  <button class="ai-btn" onclick="admSelEmp('${e.id}')">Gestionar</button>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+          <div style="margin-top:10px">
+            <button class="btn btn-secondary" onclick="openMEmp()">+ Nueva empresa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="admEmpPanel"></div>`;
+}
+
+let _admEmp=null;
+function admSelEmp(empId){
+  _admEmp=empId;
+  SES.empActiva=empId;
+  renderAdmEmpPanel(empId);
+}
+
+function renderAdmEmpPanel(empId){
+  const emp=DB.empresas[empId];
+  if(!emp)return;
+  const eqs=Object.values(DB.equipos).filter(e=>e.empresa===empId);
+  const tecs=Object.values(DB.tecnicos).filter(t=>t.empresa===empId);
+  const tipos=Object.values(DB.tipos).filter(t=>t.empresa===empId);
+
+  const badgeMap={estandar:'<span class="info-badge badge-std">Estándar</span>',capa:'<span class="info-badge badge-capa">Capa</span>'};
+
+  document.getElementById('admEmpPanel').innerHTML=`
+    <div class="panel">
+      <div class="panel-head">🏭 ${emp.nombre}</div>
+      <div class="panel-body">
+
+        <div class="adm-section">
+          <h4>Tipos de Informe</h4>
+          <div class="adm-list">
+            ${tipos.map(t=>`<div class="adm-item">
+              <div class="ai-info">
+                <div class="ai-name">${t.nombre} ${badgeMap[t.template||'estandar']||''}</div>
+                <div class="ai-sub">ID: ${t.id}</div>
+              </div>
+              <div class="ai-actions">
+                <button class="ai-btn" onclick="openMTipo('${t.id}')">Editar</button>
+                <button class="ai-btn" onclick="delTipo('${t.id}')">✕</button>
+              </div>
+            </div>`).join('')}
+          </div>
+          <div style="margin-top:10px">
+            <button class="btn btn-secondary" onclick="openMTipo()">+ Nuevo tipo</button>
+          </div>
+        </div>
+
+        <div class="adm-section">
+          <h4>Equipos</h4>
+          <div class="adm-list">
+            ${eqs.map(e=>`<div class="adm-item">
+              <div class="ai-info">
+                <div class="ai-name">${e.codigo} — ${e.nombre}</div>
+                <div class="ai-sub">${e.bahia||''} · ${e.modelo||''} · ${e.potencia||''}</div>
+              </div>
+              <div class="ai-actions">
+                <button class="ai-btn" onclick="openMGe('${e.id}')">Editar</button>
+                <button class="ai-btn" onclick="delGe('${e.id}')">✕</button>
+              </div>
+            </div>`).join('')}
+          </div>
+          <div style="margin-top:10px">
+            <button class="btn btn-secondary" onclick="openMGe()">+ Nuevo equipo</button>
+          </div>
+        </div>
+
+        <div class="adm-section">
+          <h4>Técnicos</h4>
+          <div class="adm-list">
+            ${tecs.map(t=>`<div class="adm-item">
+              <div class="ai-info">
+                <div class="ai-name">${t.nombre}</div>
+                <div class="ai-sub">${t.usuario} · ${t.cargo}${t.pin?' · PIN ✓':''}</div>
+              </div>
+              <div class="ai-actions">
+                <button class="ai-btn" onclick="openMTec('${t.id}')">Editar</button>
+                <button class="ai-btn" onclick="delTec('${t.id}')">✕</button>
+              </div>
+            </div>`).join('')}
+          </div>
+          <div style="margin-top:10px">
+            <button class="btn btn-secondary" onclick="openMTec()">+ Nuevo técnico</button>
+          </div>
+        </div>
+
+      </div>
     </div>`;
-  }).join('');
 }
-function renderReportsList(){
-  const cont=document.getElementById('reportsList');
-  const usr=SESSION.user;
-  const lista=Object.values(DB.informes).filter(r=>r.empresa===usr.empresa).sort((a,b)=>b.ts-a.ts);
-  if(!lista.length){cont.innerHTML='<div class="empty">No hay informes aún.</div>';return;}
-  cont.innerHTML=lista.map(r=>`
-    <div class="report-item">
-      <div class="report-item-info">
-        <div class="rtitle">${r.titulo||'Informe'}</div>
-        <div class="rmeta">${r.tipo||''} · ${r.fecha||''} · ${r.tecLider||''}</div>
-      </div>
-      <div class="report-actions">
-        <button class="btn btn-secondary btn-sm" onclick="verInforme('${r.id}')">👁 Ver</button>
-        <button class="btn btn-danger btn-sm" onclick="eliminarInforme('${r.id}')">🗑</button>
-      </div>
-    </div>`).join('');
+
+// ═══════════════════════════════════════════════════════════
+// MODALES ADMIN
+// ═══════════════════════════════════════════════════════════
+function openMEmp(){
+  document.getElementById('mEmpTitle').textContent='Nueva Empresa';
+  document.getElementById('xEmpCod').value='';
+  document.getElementById('xEmpNom').value='';
+  openM('mEmp');
 }
-let currentTipoId='';
-function onTipoChange(){currentTipoId=document.getElementById('tipoSel').value;}
+function saveEmp(){
+  const cod=document.getElementById('xEmpCod').value.trim().toUpperCase();
+  const nom=document.getElementById('xEmpNom').value.trim();
+  if(!cod||!nom){showToast('Complete código y nombre.');return;}
+  DB.empresas[cod]={id:cod,codigo:cod,nombre:nom};
+  // Auto-crear tipo estándar por defecto
+  const defId='t_'+cod.toLowerCase()+'_std';
+  if(!DB.tipos[defId]){
+    DB.tipos[defId]={id:defId,nombre:'Informe Técnico Estándar',empresa:cod,template:'estandar'};
+  }
+  saveDB();closeM('mEmp');showToast('✓ Empresa guardada.');renderAdmView();
+}
 
-/* ══════════════════════════════════════════════════
-   FORM
-══════════════════════════════════════════════════ */
-let currentEqId='';
-let ayudantes=[];
-let fotos=[];
-let paramValues={};
-let actValues={};
-let astValues={};
-let sigData={tec:null,sup:null};
-let sigPinVerified={tec:false,sup:false};
-let tabLabels=[];
+let _editTipoId=null;
+function openMTipo(id){
+  _editTipoId=id||null;
+  const t=id?DB.tipos[id]:{};
+  document.getElementById('mTipoTitle').textContent=id?'Editar Tipo':'Nuevo Tipo de Informe';
+  document.getElementById('xTipoNom').value=t.nombre||'';
+  document.getElementById('xTipoTemplate').value=t.template||'estandar';
+  openM('mTipo');
+}
+function saveTipo(){
+  const nom=document.getElementById('xTipoNom').value.trim();
+  const tmpl=document.getElementById('xTipoTemplate').value||'estandar';
+  if(!nom){showToast('Ingrese nombre.');return;}
+  const id=_editTipoId||('t'+Date.now());
+  const emp=_admEmp||SES.empActiva;
+  DB.tipos[id]={id,nombre:nom,empresa:emp,template:tmpl};
+  saveDB();closeM('mTipo');showToast('✓ Tipo guardado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
+function delTipo(id){
+  if(!confirm('¿Eliminar este tipo?'))return;
+  delete DB.tipos[id];saveDB();showToast('Eliminado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
 
-const AST_ITEMS=[
-  'Permiso de trabajo emitido y firmado',
-  'Equipo de protección personal (EPP) completo',
-  'Herramientas inspeccionadas y en buen estado',
-  'Área de trabajo delimitada y señalizada',
-  'Riesgo eléctrico evaluado (LOTO aplicado)',
-  'Riesgo de incendio evaluado',
-  'Procedimiento de trabajo revisado'
-];
+let _editGeId=null;
+function openMGe(id){
+  _editGeId=id||null;
+  const g=id?DB.equipos[id]:{};
+  document.getElementById('mGeTitle').textContent=id?'Editar Equipo':'Nuevo Equipo';
+  document.getElementById('xGeCod').value=g.codigo||'';
+  document.getElementById('xGeBahia').value=g.bahia||'';
+  document.getElementById('xGeNom').value=g.nombre||'';
+  document.getElementById('xGeMarca').value=g.marca||'';
+  document.getElementById('xGeModelo').value=g.modelo||'';
+  document.getElementById('xGeMotor').value=g.motor||'';
+  document.getElementById('xGePot').value=g.potencia||'';
+  document.getElementById('xGeTens').value=g.tension||'';
+  document.getElementById('xGeSerie').value=g.serie||'';
+  openM('mGe');
+}
+function saveGe(){
+  const cod=document.getElementById('xGeCod').value.trim().toUpperCase();
+  if(!cod){showToast('Ingrese código.');return;}
+  const emp=_admEmp||SES.empActiva;
+  const id=_editGeId||('ge-'+emp.toLowerCase()+'-'+cod.toLowerCase()+'-'+Date.now());
+  DB.equipos[id]={
+    id,empresa:emp,codigo:cod,
+    nombre:document.getElementById('xGeNom').value.trim(),
+    marca:document.getElementById('xGeMarca').value.trim(),
+    modelo:document.getElementById('xGeModelo').value.trim(),
+    motor:document.getElementById('xGeMotor').value.trim(),
+    potencia:document.getElementById('xGePot').value.trim(),
+    tension:document.getElementById('xGeTens').value.trim(),
+    serie:document.getElementById('xGeSerie').value.trim(),
+    bahia:document.getElementById('xGeBahia').value.trim()
+  };
+  saveDB();closeM('mGe');showToast('✓ Equipo guardado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
+function delGe(id){
+  if(!confirm('¿Eliminar equipo?'))return;
+  delete DB.equipos[id];saveDB();showToast('Eliminado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
 
+let _editTecId=null;
+function openMTec(id){
+  _editTecId=id||null;
+  const t=id?DB.tecnicos[id]:{};
+  document.getElementById('mTecTitle').textContent=id?'Editar Técnico':'Nuevo Técnico';
+  document.getElementById('xTecUser').value=t.usuario||'';
+  document.getElementById('xTecNom').value=t.nombre||'';
+  document.getElementById('xTecCargo').value=t.cargo||'';
+  document.getElementById('xTecPass').value=t.contrasena||'';
+  document.getElementById('xTecPin').value=t.pin||'';
+  openM('mTec');
+}
+function saveTec(){
+  const usr=document.getElementById('xTecUser').value.trim().toUpperCase();
+  const nom=document.getElementById('xTecNom').value.trim();
+  const pass=document.getElementById('xTecPass').value.trim();
+  if(!usr||!nom||!pass){showToast('Complete usuario, nombre y contraseña.');return;}
+  const emp=_admEmp||SES.empActiva;
+  const id=_editTecId||('tec-'+Date.now());
+  DB.tecnicos[id]={
+    id,empresa:emp,usuario:usr,nombre:nom,
+    cargo:document.getElementById('xTecCargo').value.trim().toUpperCase(),
+    contrasena:pass,
+    pin:document.getElementById('xTecPin').value.trim()
+  };
+  saveDB();closeM('mTec');showToast('✓ Técnico guardado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
+function delTec(id){
+  if(!confirm('¿Eliminar técnico?'))return;
+  delete DB.tecnicos[id];saveDB();showToast('Eliminado.');
+  if(_admEmp)renderAdmEmpPanel(_admEmp);
+}
+
+// ═══════════════════════════════════════════════════════════
+// APERTURA EQUIPO → SELECCIÓN TIPO
+// ═══════════════════════════════════════════════════════════
 function openEquipo(eqId){
-  currentTipoId=document.getElementById('tipoSel').value;
-  if(!currentTipoId){alert('Seleccione primero el Tipo de Informe.');return;}
-  currentEqId=eqId;
-  const eq=getEquipo(eqId);
-  if(!eq) return;
-  const tipo=DB.tipos[currentTipoId];
-  document.getElementById('formTitle').textContent='Informe '+eq.codigo;
-  document.getElementById('formTipoBadge').textContent=tipo?tipo.nombre:'';
+  const eq=DB.equipos[eqId];
+  if(!eq)return;
+  const tipos=Object.values(DB.tipos).filter(t=>t.empresa===SES.empActiva);
+  if(tipos.length===0){showToast('Sin tipos de informe configurados.');return;}
 
-  ayudantes=[];fotos=[];paramValues={};actValues={};astValues={};
-  sigData={tec:null,sup:null};sigPinVerified={tec:false,sup:false};
+  // Revisar si hay borrador para este equipo
+  const drafts=getDrafts().filter(d=>d.eqId===eqId);
 
-  const now=new Date();
-  tabLabels=DB.etiquetas.tabs||['Identificación','AST','Actividades','Parámetros','Fotos','Firmas'];
-
-  buildFormTabs(eq,tipo);
-
-  document.getElementById('secHome').hidden=true;
-  document.getElementById('secForm').hidden=false;
-  setTimeout(()=>{initSigCanvas('tec');initSigCanvas('sup');},100);
-}
-
-function getEquipo(id){
-  const usr=SESSION.user;
-  return (DB.equipos[usr.empresa]||[]).find(e=>e.id===id);
-}
-function backHome(){
-  document.getElementById('secForm').hidden=true;
-  document.getElementById('secHome').hidden=false;
-  document.getElementById('btnInicio').classList.add('active');
-  renderHome();
-}
-function switchTab(n){
-  document.querySelectorAll('#tabBar .tab').forEach((t,i)=>t.classList.toggle('active',i===n));
-  document.querySelectorAll('#tabPanes .tab-pane').forEach((p,i)=>p.classList.toggle('active',i===n));
-}
-
-function buildFormTabs(eq,tipo){
-  const labels=DB.etiquetas.tabs||['Identificación','AST','Actividades','Parámetros','Fotos','Firmas'];
-  const usr=SESSION.user;
-  const empl=DB.empresas[usr.empresa]||{};
-
-  // Tab bar
-  document.getElementById('tabBar').innerHTML=labels.map((l,i)=>`<div class="tab${i===0?' active':''}" onclick="switchTab(${i})">${i+1}. ${l}</div>`).join('');
-
-  // Panes
-  const tecOptions=Object.values(DB.tecnicos).filter(t=>t.empresa===usr.empresa)
-    .map(t=>`<option value="${t.id}">${t.nombre} — ${t.cargo||''}</option>`).join('');
-
-  const now=new Date();
-  const fechaHoy=now.toISOString().slice(0,10);
-  const horaActual=now.toTimeString().slice(0,5);
-
-  // Acts
-  const acts=(tipo&&tipo.acts)||[];
-  const actRows=acts.length ? acts.map((a,i)=>`
-    <tr>
-      <td style="text-align:center;font-size:.72rem;color:var(--fg2)">${i+1}</td>
-      <td>${a}</td>
-      <td>
-        <div class="act-btn-group">
-          <button class="act-btn" id="ab_${i}_ok" onclick="setAct(${i},'ok')">✓ OK</button>
-          <button class="act-btn" id="ab_${i}_na" onclick="setAct(${i},'na')">N/A</button>
-          <button class="act-btn" id="ab_${i}_pend" onclick="setAct(${i},'pend')">Pend.</button>
-          <button class="act-btn" id="ab_${i}_nov" onclick="setAct(${i},'nov')">Novedad</button>
-        </div>
-      </td>
-      <td><input type="text" class="param-input" placeholder="Obs..." onchange="actValues['obs${i}']=this.value"></td>
-    </tr>`).join('') : '<tr><td colspan="4" class="empty">Sin actividades configuradas.</td></tr>';
-
-  // Params
-  const params=DB.parametros[currentTipoId]||[];
-  const paramRows=params.length ? params.map((p,i)=>`
-    <tr>
-      <td style="text-align:center;font-size:.72rem;color:var(--fg2)">${i+1}</td>
-      <td>${p.label}</td>
-      <td><input type="number" class="param-input" id="pv_${p.id}" placeholder="—" onchange="paramValues['${p.id}']=this.value"></td>
-      <td><input class="param-unit-editable" id="pu_${p.id}" value="${p.unit||''}" onchange="paramValues['unit_${p.id}']=this.value"></td>
-    </tr>`).join('') : '<tr><td colspan="4" class="empty">Sin parámetros configurados.</td></tr>';
-
-  document.getElementById('tabPanes').innerHTML=`
-  <!-- 0: IDENTIFICACIÓN -->
-  <div class="tab-pane active">
-    <div class="row2">
-      <div class="field"><label>Fecha</label><input type="date" id="fFecha" value="${fechaHoy}"></div>
-      <div class="field"><label>Hora inicio</label><input type="time" id="fHoraInicio" value="${horaActual}"></div>
-    </div>
-    <div class="row2">
-      <div class="field"><label>Hora fin</label><input type="time" id="fHoraFin"></div>
-      <div class="field"><label>Horas trabajadas</label><input type="number" id="fHorasTrab" placeholder="Ej. 4.5" step="0.5"></div>
-    </div>
-    <div class="field"><label>Técnico Líder</label>
-      <select id="fTecLider"><option value="">— Seleccione —</option>${tecOptions}</select>
-    </div>
-    <div class="field"><label>Técnicos Ayudantes</label>
-      <select id="fTecAySelect" onchange="addAyudante(this.value)">
-        <option value="">+ Agregar ayudante</option>${tecOptions}
-      </select>
-      <div id="fAyChips" style="margin-top:7px;display:flex;flex-wrap:wrap;gap:4px"></div>
-    </div>
-    <div class="field"><label>Observaciones generales</label>
-      <textarea id="fObsGeneral" rows="3" placeholder="Observaciones del servicio..."></textarea>
-    </div>
-  </div>
-
-  <!-- 1: AST -->
-  <div class="tab-pane">
-    <p style="font-size:.8rem;color:var(--fg2);margin-bottom:11px">Análisis de Seguridad en el Trabajo (AST). Complete según corresponda.</p>
-    <table class="ast-table">
-      <thead><tr><th>#</th><th>Elemento de Seguridad</th><th style="width:70px;text-align:center">Aplica ✓</th><th style="width:80px;text-align:center">No Aplica ✗</th><th>Observación</th></tr></thead>
-      <tbody>${AST_ITEMS.map((a,i)=>`
-        <tr>
-          <td>${i+1}</td><td>${a}</td>
-          <td class="ast-check"><label><input type="radio" name="ast${i}" value="si" onchange="astValues[${i}]='si'"> ✓</label></td>
-          <td class="ast-check"><label><input type="radio" name="ast${i}" value="no" onchange="astValues[${i}]='no'"> ✗</label></td>
-          <td><input type="text" class="param-input" placeholder="Obs..." onchange="astValues['obs${i}']=this.value"></td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
-  <!-- 2: ACTIVIDADES -->
-  <div class="tab-pane">
-    <p style="font-size:.8rem;color:var(--fg2);margin-bottom:10px">Tipo: <strong>${tipo?tipo.nombre:''}</strong> — seleccione el estado de cada actividad.</p>
-    <table class="act-table">
-      <thead><tr><th style="width:35px">#</th><th>Actividad</th><th style="width:230px">Estado</th><th>Observación</th></tr></thead>
-      <tbody>${actRows}</tbody>
-    </table>
-  </div>
-
-  <!-- 3: PARÁMETROS -->
-  <div class="tab-pane">
-    ${params.length?'':'<p style="font-size:.8rem;color:var(--fg2);margin-bottom:10px">Sin parámetros configurados para este tipo. Configúrelos en Admin → Parámetros.</p>'}
-    <table class="param-table">
-      <thead><tr><th style="width:35px">#</th><th>Parámetro</th><th style="width:120px">Valor medido</th><th style="width:90px">Unidad</th></tr></thead>
-      <tbody>${paramRows}</tbody>
-    </table>
-  </div>
-
-  <!-- 4: FOTOS -->
-  <div class="tab-pane">
-    <div style="display:flex;gap:9px;margin-bottom:10px;flex-wrap:wrap">
-      <label class="btn btn-secondary" style="cursor:pointer">
-        📷 Cámara <input type="file" accept="image/*" capture="environment" hidden onchange="addFotos(this.files)">
-      </label>
-      <label class="btn btn-secondary" style="cursor:pointer">
-        🖼 Galería <input type="file" accept="image/*" multiple hidden onchange="addFotos(this.files)">
-      </label>
-    </div>
-    <div class="photo-grid" id="photoGrid"></div>
-    <div id="photoEmpty" class="empty">No hay fotos agregadas.</div>
-  </div>
-
-  <!-- 5: FIRMAS -->
-  <div class="tab-pane">
-    <div class="sig-panel">
-      <h4>Firma Técnico Líder</h4>
-      <canvas class="sig-canvas" id="sigCanvasTec" width="600" height="150"></canvas>
-      <div class="sig-actions">
-        <div class="pin-field">
-          <label>PIN del técnico (ligado al usuario que ingresó)</label>
-          <input type="password" id="sigPinTec" placeholder="PIN registrado" maxlength="6">
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="saveSig('tec')">✓ Registrar</button>
-        <button class="btn btn-secondary btn-sm" onclick="clearSig('tec')">Borrar</button>
+  const mc=document.getElementById('mainContent');
+  mc.innerHTML=`
+    <div class="panel">
+      <div class="form-header">
+        <button class="btn-back" onclick="goInicio()">← Volver</button>
+        <h3>${eq.codigo} — ${eq.nombre}</h3>
       </div>
-      <div id="sigStatusTec" hidden class="sig-status"></div>
-    </div>
-    <div class="sig-panel">
-      <h4>Firma Supervisor / Jefe</h4>
-      <canvas class="sig-canvas" id="sigCanvasSup" width="600" height="150"></canvas>
-      <div class="sig-actions">
-        <div class="pin-field">
-          <label>PIN del supervisor (validado contra lista de supervisores)</label>
-          <input type="password" id="sigPinSup" placeholder="PIN del supervisor" maxlength="6">
+      <div class="panel-body">
+        <div class="eq-info-card">
+          <div style="font-weight:700;font-size:.85rem;color:var(--acc2)">${eq.codigo}</div>
+          <div class="eic-row">
+            ${eq.modelo?`<div class="eic-item"><span class="eic-label">Modelo</span><span class="eic-val">${eq.modelo}</span></div>`:''}
+            ${eq.motor?`<div class="eic-item"><span class="eic-label">Motor</span><span class="eic-val">${eq.motor}</span></div>`:''}
+            ${eq.potencia?`<div class="eic-item"><span class="eic-label">Potencia</span><span class="eic-val">${eq.potencia}</span></div>`:''}
+            ${eq.tension?`<div class="eic-item"><span class="eic-label">Tensión</span><span class="eic-val">${eq.tension}</span></div>`:''}
+            ${eq.bahia?`<div class="eic-item"><span class="eic-label">Bahía</span><span class="eic-val">${eq.bahia}</span></div>`:''}
+          </div>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="saveSig('sup')">✓ Registrar</button>
-        <button class="btn btn-secondary btn-sm" onclick="clearSig('sup')">Borrar</button>
+        ${drafts.length>0?drafts.map(d=>`
+          <div class="draft-banner" onclick="openDraft('${eqId}','${d.tipoId}')">
+            <div class="db-icon">📝</div>
+            <div class="db-text">
+              <div class="db-title">Borrador — ${d.tipo.nombre}</div>
+              <div class="db-sub">Toca para continuar llenando</div>
+            </div>
+            <button class="db-cont">Continuar →</button>
+          </div>`).join(''):''}
+        <div class="sec-sep" style="margin-top:14px">Nuevo informe</div>
+        <div class="adm-list">
+          ${tipos.map(t=>`
+            <div class="adm-item" style="cursor:pointer" onclick="openEquipoConTipo(DB.equipos['${eqId}'],DB.tipos['${t.id}'])">
+              <div class="ai-info">
+                <div class="ai-name">${t.nombre}</div>
+                <div class="ai-sub">${t.template==='capa'?'Informe de Capa':'Informe Estándar'}</div>
+              </div>
+              <div>→</div>
+            </div>`).join('')}
+        </div>
       </div>
-      <div id="sigStatusSup" hidden class="sig-status"></div>
-    </div>
-    <button class="btn btn-success btn-full" onclick="doGenerar()">📄 GENERAR INFORME</button>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// FORM STATE
+// ═══════════════════════════════════════════════════════════
+let _eqId='',_tipoId='',_curTab=0,_tipoTemplate='estandar';
+let FS={};
+let _asTimer=null;
+
+function fsReset(){
+  FS={
+    nOT:'',fecha:hoy(),horaIni:'',horaFin:'',horometro:'',
+    nCapa:'',
+    antecedentes:'',alcance:'',objetivos:'',desarrollo:'',
+    obs:'',rec:'',concl:'',detalle:'',
+    chkVals:{},atsVals:{},atsObs:{},condVals:{},prbVals:{},
+    fotoData:[],fotoAntes:[],fotoDespues:[],
+    sigTec:null,sigSup:null,sigTecOk:false,sigSupOk:false,
+    tecSelId:'',supSelId:''
+  };
+}
+
+function hoy(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function autoSave(){
+  if(!_eqId||!_tipoId)return;
+  collectFS();
+  try{localStorage.setItem(DKEY(_eqId,_tipoId),JSON.stringify(FS));}catch(e){}
+}
+
+function trigAS(){
+  clearTimeout(_asTimer);
+  _asTimer=setTimeout(autoSave,2500);
+}
+
+setInterval(autoSave,30000);
+
+// ═══════════════════════════════════════════════════════════
+// ABRIR FORM
+// ═══════════════════════════════════════════════════════════
+function openEquipoConTipo(eq,tipo){
+  _eqId=eq.id;_tipoId=tipo.id;_tipoTemplate=tipo.template||'estandar';
+  fsReset();
+  // Cargar borrador si existe
+  try{
+    const saved=localStorage.getItem(DKEY(_eqId,_tipoId));
+    if(saved){const d=JSON.parse(saved);Object.assign(FS,d);}
+  }catch(e){}
+  _curTab=0;
+  buildForm(eq,tipo);
+}
+
+function buildForm(eq,tipo){
+  const mc=document.getElementById('mainContent');
+  const tmpl=tipo.template||'estandar';
+  const tabs=tmpl==='capa'
+    ?['1.Identificación','2.Detalle','3.Fotos Antes','4.Fotos Después','5.Notas']
+    :['1.Identificación','2.Condiciones','3.ATS','4.Revisión','5.Fotos','6.Firmas'];
+
+  mc.innerHTML=`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad)">
+      <div class="form-header">
+        <button class="btn-back" onclick="openEquipo('${eq.id}')">← Volver</button>
+        <h3>${eq.codigo} · ${tipo.nombre}</h3>
+        <button class="btn-back" onclick="confirmClear()" style="background:rgba(255,200,0,.25);margin-left:auto">🗑 Limpiar</button>
+      </div>
+      <div class="tab-bar" id="tabBar">
+        ${tabs.map((t,i)=>`<div class="tab${i===0?' active':''}" onclick="goTab(${i})">${t}</div>`).join('')}
+      </div>
+      <div id="tabContent"></div>
+    </div>`;
+
+  renderTab(0,eq,tipo);
+}
+
+function goTab(idx){
+  collectFS();
+  _curTab=idx;
+  const eq=DB.equipos[_eqId];
+  const tipo=DB.tipos[_tipoId];
+  renderTab(idx,eq,tipo);
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  trigAS();
+}
+
+function renderTab(idx,eq,tipo){
+  const tmpl=tipo.template||'estandar';
+  const el=document.getElementById('tabContent');
+  if(tmpl==='capa'){
+    const fns=[pCapa0,pCapa1,pCapa2,pCapa3,pCapa4];
+    el.innerHTML=fns[idx]?fns[idx](eq,tipo):'';
+  }else{
+    const fns=[p0,p1,p2,p3,p4,p5];
+    el.innerHTML=fns[idx]?fns[idx](eq,tipo):'';
+  }
+  restoreFS(idx,tmpl);
+}
+
+function confirmClear(){
+  if(!confirm('¿Limpiar el formulario? Se borrarán todos los datos ingresados.'))return;
+  try{localStorage.removeItem(DKEY(_eqId,_tipoId));}catch(e){}
+  const eq=DB.equipos[_eqId];const tipo=DB.tipos[_tipoId];
+  fsReset();buildForm(eq,tipo);showToast('Formulario limpiado.');
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABS ESTÁNDAR
+// ═══════════════════════════════════════════════════════════
+function navBtn(prev,next,lastLabel){
+  const total=_tipoTemplate==='capa'?5:6;
+  const isLast=(next>=total);
+  return`<div class="nav-row">
+    ${prev>=0?`<button class="btn btn-secondary" onclick="goTab(${prev})">← Anterior</button>`:'<span></span>'}
+    ${isLast
+      ?`<button class="btn btn-success" onclick="generarInforme()">📄 Generar Informe</button>`
+      :`<button class="btn btn-primary" onclick="goTab(${next})">Siguiente →</button>`}
   </div>`;
 }
 
-function setAct(i,val){
-  actValues[i]=val;
-  ['ok','na','pend','nov'].forEach(v=>{
-    const b=document.getElementById('ab_'+i+'_'+v);
-    if(b){
-      b.className='act-btn'+(v===val?' sel-'+v:'');
+function p0(eq,tipo){
+  const tecs=Object.values(DB.tecnicos).filter(t=>t.empresa===SES.empActiva);
+  const sups=tecs.filter(t=>t.pin);
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Datos del Informe</div>
+    <div class="row3">
+      <div class="field"><label>N° O.T.</label><input id="fNOT" value="${FS.nOT||''}" oninput="trigAS()"></div>
+      <div class="field"><label>Fecha</label><input id="fFecha" type="date" value="${FS.fecha||hoy()}" oninput="trigAS()"></div>
+      <div class="field"><label>Horómetro</label><input id="fHorometro" value="${FS.horometro||''}" oninput="trigAS()"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Hora Inicio</label><input id="fHoraIni" type="time" value="${FS.horaIni||''}" oninput="trigAS()"></div>
+      <div class="field"><label>Hora Fin</label><input id="fHoraFin" type="time" value="${FS.horaFin||''}" oninput="trigAS()"></div>
+    </div>
+    <div class="field"><label>Técnico</label>
+      <select id="fTecSel" onchange="trigAS()">
+        ${tecs.map(t=>`<option value="${t.id}" ${FS.tecSelId===t.id?'selected':''}>${t.nombre} — ${t.cargo}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field"><label>Supervisor / Encargado Turno</label>
+      <select id="fSupSel" onchange="trigAS()">
+        <option value="">— Sin supervisor —</option>
+        ${sups.map(t=>`<option value="${t.id}" ${FS.supSelId===t.id?'selected':''}>${t.nombre} — ${t.cargo}</option>`).join('')}
+      </select>
+    </div>
+    <div class="sec-sep">Datos del Equipo</div>
+    <div class="row2">
+      <div class="field"><label>Código</label><input value="${eq.codigo||''}" disabled></div>
+      <div class="field"><label>Bahía</label><input value="${eq.bahia||''}" disabled></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Modelo</label><input value="${eq.modelo||''}" disabled></div>
+      <div class="field"><label>Motor</label><input value="${eq.motor||''}" disabled></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Potencia</label><input value="${eq.potencia||''}" disabled></div>
+      <div class="field"><label>Tensión</label><input value="${eq.tension||''}" disabled></div>
+    </div>
+    <div class="sec-sep">Antecedentes</div>
+    <div class="field"><textarea id="fAntec" rows="3" placeholder="Descripción de antecedentes..." oninput="trigAS()">${FS.antecedentes||''}</textarea></div>
+    <div class="field"><label>Alcance</label><textarea id="fAlcance" rows="2" oninput="trigAS()">${FS.alcance||''}</textarea></div>
+    <div class="field"><label>Objetivos</label><textarea id="fObjetivos" rows="2" oninput="trigAS()">${FS.objetivos||''}</textarea></div>
+    ${navBtn(-1,1)}
+  </div>`;
+}
+
+// Condiciones iniciales
+const COND_PARAMS=[
+  'Voltaje L1-L2 (V)','Voltaje L2-L3 (V)','Voltaje L1-L3 (V)',
+  'Voltaje L1-N (V)','Voltaje L2-N (V)','Voltaje L3-N (V)',
+  'Corriente L1 (A)','Corriente L2 (A)','Corriente L3 (A)',
+  'Frecuencia (Hz)','Factor de Potencia','Potencia Activa (kW)',
+  'Nivel Aceite (%)','Nivel Refrigerante (%)','Nivel Combustible (%)',
+  'Temperatura Motor (°C)','Presión Aceite (PSI)','RPM Motor'
+];
+
+function p1(){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Condiciones Iniciales del Equipo</div>
+    <table class="cond-table">
+      <thead><tr><th>Parámetro</th><th>Valor</th><th>Unidad</th><th>Estado</th></tr></thead>
+      <tbody>
+        ${COND_PARAMS.map((p,i)=>{
+          const v=FS.condVals['cv'+i]||{};
+          return`<tr>
+            <td>${p}</td>
+            <td><input id="cv${i}_val" value="${v.val||''}" oninput="trigAS()" style="width:80px;text-align:center"></td>
+            <td><input id="cv${i}_uni" value="${v.uni||p.match(/\(([^)]+)\)/)?.[1]||''}" oninput="trigAS()" style="width:60px;text-align:center"></td>
+            <td>
+              <div style="display:flex;gap:4px">
+                ${['N','A','C'].map(s=>`<button class="st3-btn${v.est===s?' sel-ok':''}" onclick="setCond(${i},'${s}')">${s}</button>`).join('')}
+              </div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    <div style="margin-top:8px;font-size:.7rem;color:var(--fg2)">N=Normal · A=Alerta · C=Crítico</div>
+    ${navBtn(0,2)}
+  </div>`;
+}
+
+function setCond(i,est){
+  const v=FS.condVals['cv'+i]||{};
+  v.est=v.est===est?'':est;
+  FS.condVals['cv'+i]=v;
+  const btns=document.querySelectorAll(`#cv${i}_val`).length?document.querySelectorAll('.cond-table tbody tr')[i].querySelectorAll('.st3-btn'):[];
+  btns.forEach((b,j)=>{const s=['N','A','C'][j];b.className='st3-btn'+(v.est===s?' sel-ok':'');});
+  trigAS();
+}
+
+// ATS
+const ATS_ITEMS=[
+  'Se realizó la solicitud de trabajo al cliente / operador',
+  'Se verificó el estado del equipo antes de intervenir',
+  'Se delimitó el área de trabajo',
+  'Se identificaron riesgos eléctricos',
+  'Se identificaron riesgos mecánicos',
+  'Se verificó EPP completo del personal',
+  'Se realizó bloqueo y etiquetado (LOTO)',
+  'Se verificó ausencia de tensión',
+  'Se comunicó el plan de trabajo al equipo',
+  'Se identificaron rutas de evacuación',
+  'El área de trabajo está libre de materiales inflamables',
+  'Se tiene extintor disponible en el área',
+  'Se verificó herramientas en buen estado',
+  'Se cuenta con permisos requeridos para el trabajo'
+];
+
+function p2(){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Análisis de Trabajo Seguro (ATS)</div>
+    ${ATS_ITEMS.map((item,i)=>{
+      const v=FS.atsVals['a'+i];
+      return`<div class="st3-row">
+        <div class="st3-label">${i+1}. ${item}</div>
+        <div class="st3-btns">
+          <button class="st3-btn${v==='ok'?' sel-ok':''}" onclick="setATS(${i},'ok')">✓</button>
+          <button class="st3-btn${v==='no'?' sel-no':''}" onclick="setATS(${i},'no')">✗</button>
+          <button class="st3-btn${v==='na'?' sel-na':''}" onclick="setATS(${i},'na')">N/A</button>
+        </div>
+      </div>`;
+    }).join('')}
+    <div class="field" style="margin-top:14px"><label>Observaciones ATS</label>
+      <textarea id="fAtsObs" rows="3" oninput="trigAS()">${FS.atsObs||''}</textarea>
+    </div>
+    ${navBtn(1,3)}
+  </div>`;
+}
+
+function setATS(i,val){
+  FS.atsVals['a'+i]=FS.atsVals['a'+i]===val?'':val;
+  const row=document.querySelectorAll('.st3-row')[i];
+  if(!row)return;
+  const btns=row.querySelectorAll('.st3-btn');
+  const map=['ok','no','na'];
+  const cls=['sel-ok','sel-no','sel-na'];
+  btns.forEach((b,j)=>{b.className='st3-btn'+(FS.atsVals['a'+i]===map[j]?' '+cls[j]:'');});
+  trigAS();
+}
+
+// CHK — Revisión
+const CHK_ITEMS=[
+  {g:'Sistema de Lubricación',items:['Nivel de aceite motor','Calidad del aceite','Fugas de aceite','Presión de aceite (indicador)']},
+  {g:'Sistema de Refrigeración',items:['Nivel de refrigerante','Calidad del refrigerante','Fugas en mangueras','Estado del radiador','Funcionamiento ventilador']},
+  {g:'Sistema de Combustible',items:['Nivel de combustible','Fugas en líneas','Estado de filtros','Funcionamiento bomba']},
+  {g:'Sistema Eléctrico',items:['Estado baterías','Tensión de baterías (V)','Conexiones eléctricas','Estado del alternador de carga','Luces de alarma panel']},
+  {g:'Sistema de Escape',items:['Fugas en colector','Estado silenciador','Fijaciones tuberías']},
+  {g:'General',items:['Limpieza general equipo','Ruidos anormales','Vibraciones anormales','Estado de mangueras','Fijaciones y soportes']}
+];
+
+function p3(){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Lista de Verificación</div>
+    ${CHK_ITEMS.map((g,gi)=>`
+      <div style="margin-bottom:14px">
+        <div style="font-size:.75rem;font-weight:700;color:var(--blue);margin-bottom:6px;text-transform:uppercase">${g.g}</div>
+        ${g.items.map((item,ii)=>{
+          const key='c'+gi+'_'+ii;
+          const v=FS.chkVals[key];
+          return`<div class="st3-row">
+            <div class="st3-label">${item}</div>
+            <div class="st3-btns">
+              <button class="st3-btn${v==='ok'?' sel-ok':''}" onclick="setCHK('${key}','ok')">✓</button>
+              <button class="st3-btn${v==='no'?' sel-no':''}" onclick="setCHK('${key}','no')">✗</button>
+              <button class="st3-btn${v==='na'?' sel-na':''}" onclick="setCHK('${key}','na')">N/A</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`).join('')}
+    <div class="field"><label>Desarrollo del Trabajo</label>
+      <textarea id="fDesarrollo" rows="4" oninput="trigAS()">${FS.desarrollo||''}</textarea>
+    </div>
+    <div class="field"><label>Observaciones</label>
+      <textarea id="fObs" rows="3" oninput="trigAS()">${FS.obs||''}</textarea>
+    </div>
+    ${navBtn(2,4)}
+  </div>`;
+}
+
+function setCHK(key,val){
+  FS.chkVals[key]=FS.chkVals[key]===val?'':val;
+  document.querySelectorAll('.st3-row').forEach(row=>{
+    const btns=row.querySelectorAll('.st3-btn');
+    if(!btns.length)return;
+    // find key from onclick
+    const onclick=btns[0].getAttribute('onclick')||'';
+    const m=onclick.match(/'([^']+)'/);
+    if(!m||m[1]!==key)return;
+    const map=['ok','no','na'];const cls=['sel-ok','sel-no','sel-na'];
+    btns.forEach((b,j)=>{b.className='st3-btn'+(FS.chkVals[key]===map[j]?' '+cls[j]:'');});
+  });
+  trigAS();
+}
+
+// FOTOS
+let _fotoTarget='fotoData';
+
+function p4(){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Respaldo Fotográfico</div>
+    <div id="fotoContainer"></div>
+    <div class="foto-add-row">
+      <div class="foto-add-btn" onclick="addFoto('fotoData','camara')">
+        <span class="ficon">📷</span>Tomar foto
+      </div>
+      <div class="foto-add-btn" onclick="addFoto('fotoData','galeria')">
+        <span class="ficon">🖼</span>Galería
+      </div>
+    </div>
+    <input type="file" id="fotoFileInput" accept="image/*" capture="environment" style="display:none" onchange="onFotoFile(this,'fotoData')">
+    <input type="file" id="fotoGalInput" accept="image/*" style="display:none" onchange="onFotoFile(this,'fotoData')">
+    <div class="field" style="margin-top:14px"><label>Conclusiones</label>
+      <textarea id="fConcl" rows="3" oninput="trigAS()">${FS.concl||''}</textarea>
+    </div>
+    <div class="field"><label>Recomendaciones</label>
+      <textarea id="fRec" rows="3" oninput="trigAS()">${FS.rec||''}</textarea>
+    </div>
+    ${navBtn(3,5)}
+  </div>`;
+}
+
+function renderFotos(arrKey){
+  const arr=FS[arrKey]||[];
+  const c=document.getElementById('fotoContainer'+(arrKey!=='fotoData'?arrKey.replace('foto',''):''));
+  if(!c)return;
+  if(arr.length===0){c.innerHTML='<div style="color:var(--fg2);font-size:.8rem;padding:10px 0">Sin fotos aún</div>';return;}
+  c.innerHTML=arr.map((f,i)=>`
+    <div class="foto-item">
+      <img src="${f.b64}" alt="foto ${i+1}">
+      <button class="foto-del" onclick="delFoto('${arrKey}',${i})">✕</button>
+      <input placeholder="Descripción de la foto..." value="${f.cap||''}" oninput="FS['${arrKey}'][${i}].cap=this.value;trigAS()">
+    </div>`).join('');
+}
+
+function addFoto(arrKey,modo){
+  const inputId=modo==='camara'?'fotoFileInput':'fotoGalInput';
+  _fotoTarget=arrKey;
+  document.getElementById(inputId).click();
+}
+
+function onFotoFile(input,arrKey){
+  const files=Array.from(input.files||[]);
+  files.forEach(file=>{
+    const fr=new FileReader();
+    fr.onload=e=>{
+      if(!FS[arrKey])FS[arrKey]=[];
+      FS[arrKey].push({b64:e.target.result,cap:''});
+      renderFotos(arrKey);
+      trigAS();
+    };
+    fr.readAsDataURL(file);
+  });
+  input.value='';
+}
+
+function delFoto(arrKey,idx){
+  if(!FS[arrKey])return;
+  FS[arrKey].splice(idx,1);
+  renderFotos(arrKey);
+  trigAS();
+}
+
+// FIRMAS
+let _sigCtx={tec:null,sup:null};
+let _sigDrawing={tec:false,sup:false};
+
+function p5(){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Firmas Digitales</div>
+    <div class="row2">
+      <div>
+        <div class="field"><label>Firma Técnico</label>
+          <div class="sig-wrap">
+            <canvas id="canTec" width="400" height="200"></canvas>
+            <div class="sig-actions">
+              <button class="btn btn-secondary" onclick="clearSig('tec')">Limpiar</button>
+              <button class="btn btn-primary" onclick="saveSig('tec')">✓ Guardar</button>
+            </div>
+          </div>
+          <div id="sigTecStatus" style="font-size:.72rem;color:var(--fg2);margin-top:4px">${FS.sigTecOk?'✓ Firma guardada':'Sin firma'}</div>
+        </div>
+      </div>
+      <div>
+        <div class="field"><label>Firma Supervisor / Encargado</label>
+          <div class="sig-wrap">
+            <canvas id="canSup" width="400" height="200"></canvas>
+            <div class="sig-actions">
+              <button class="btn btn-secondary" onclick="clearSig('sup')">Limpiar</button>
+              <button class="btn btn-warn" onclick="requestSupPin()">🔐 Confirmar con PIN</button>
+            </div>
+          </div>
+          <div id="sigSupStatus" style="font-size:.72rem;color:var(--fg2);margin-top:4px">${FS.sigSupOk?'✓ Firma confirmada con PIN':'Sin firma'}</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTab(4)">← Anterior</button>
+      <button class="btn btn-success" onclick="generarInforme()">📄 Generar Informe</button>
+    </div>
+  </div>`;
+}
+
+function initSig(id){
+  const can=document.getElementById('can'+id.charAt(0).toUpperCase()+id.slice(1));
+  if(!can)return;
+  const ctx=can.getContext('2d');
+  ctx.strokeStyle='#e8eaf0';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';
+  _sigCtx[id]=ctx;
+  // Restore
+  const img=FS['sig'+id.charAt(0).toUpperCase()+id.slice(1)];
+  if(img){const i=new Image();i.onload=()=>ctx.drawImage(i,0,0);i.src=img;}
+  // Events
+  function pos(e){
+    const r=can.getBoundingClientRect();
+    const src=e.touches?e.touches[0]:e;
+    return{x:(src.clientX-r.left)*(can.width/r.width),y:(src.clientY-r.top)*(can.height/r.height)};
+  }
+  can.addEventListener('mousedown',e=>{_sigDrawing[id]=true;ctx.beginPath();const p=pos(e);ctx.moveTo(p.x,p.y);});
+  can.addEventListener('mousemove',e=>{if(!_sigDrawing[id])return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();});
+  can.addEventListener('mouseup',()=>{_sigDrawing[id]=false;});
+  can.addEventListener('touchstart',e=>{e.preventDefault();_sigDrawing[id]=true;ctx.beginPath();const p=pos(e);ctx.moveTo(p.x,p.y);},{passive:false});
+  can.addEventListener('touchmove',e=>{e.preventDefault();if(!_sigDrawing[id])return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();},{passive:false});
+  can.addEventListener('touchend',()=>{_sigDrawing[id]=false;});
+}
+
+function clearSig(id){
+  const ctx=_sigCtx[id];
+  if(!ctx)return;
+  const can=ctx.canvas;
+  ctx.clearRect(0,0,can.width,can.height);
+  const key='sig'+id.charAt(0).toUpperCase()+id.slice(1);
+  FS[key]=null;
+  FS[key+'Ok']=false;
+  const stat=document.getElementById('sig'+id.charAt(0).toUpperCase()+id.slice(1)+'Status');
+  if(stat)stat.textContent='Sin firma';
+  trigAS();
+}
+
+function saveSig(id){
+  const ctx=_sigCtx[id];if(!ctx)return;
+  const can=ctx.canvas;
+  const key='sig'+id.charAt(0).toUpperCase()+id.slice(1);
+  FS[key]=can.toDataURL('image/png');
+  FS[key+'Ok']=true;
+  const stat=document.getElementById('sig'+id.charAt(0).toUpperCase()+id.slice(1)+'Status');
+  if(stat)stat.textContent='✓ Firma guardada';
+  showToast('✓ Firma guardada');
+  trigAS();
+}
+
+// PIN para supervisor
+let _pinBuf='',_pinCb=null;
+function requestSupPin(){
+  // Primero guardar la firma del canvas
+  const ctx=_sigCtx['sup'];
+  if(ctx){FS.sigSup=ctx.canvas.toDataURL('image/png');}
+  // Verificar que haya un supervisor seleccionado
+  collectFS();
+  const sup=DB.tecnicos[FS.supSelId];
+  if(!sup||!sup.pin){showToast('Seleccione un supervisor con PIN primero.');return;}
+  openPIN(pin=>{
+    if(pin===sup.pin){
+      FS.sigSupOk=true;
+      const stat=document.getElementById('sigSupStatus');
+      if(stat)stat.textContent='✓ Firma confirmada con PIN';
+      showToast('✓ PIN correcto. Firma confirmada.');
+      trigAS();
+    }else{
+      showToast('❌ PIN incorrecto');
     }
   });
 }
 
-function addAyudante(id){
-  if(!id||ayudantes.includes(id)) return;
-  ayudantes.push(id);
-  renderAyChips();
-  document.getElementById('fTecAySelect').value='';
-}
-function removeAyudante(id){ayudantes=ayudantes.filter(a=>a!==id);renderAyChips();}
-function renderAyChips(){
-  const cont=document.getElementById('fAyChips');
-  if(!cont) return;
-  cont.innerHTML=ayudantes.map(id=>{
-    const t=DB.tecnicos[id];if(!t) return '';
-    return `<span class="chip">${t.nombre} <span class="x" onclick="removeAyudante('${id}')">✕</span></span>`;
-  }).join('');
+function openPIN(cb){
+  _pinBuf='';_pinCb=cb;
+  renderPinDots();
+  renderPinGrid();
+  document.getElementById('pinErr').textContent='';
+  openM('mPin');
 }
 
-function addFotos(files){
-  Array.from(files).forEach(file=>{
-    const r=new FileReader();
-    r.onload=e=>{fotos.push({dataUrl:e.target.result,caption:''});renderFotos();};
-    r.readAsDataURL(file);
-  });
-}
-function renderFotos(){
-  const grid=document.getElementById('photoGrid');
-  const empty=document.getElementById('photoEmpty');
-  if(!grid) return;
-  if(!fotos.length){if(grid)grid.innerHTML='';if(empty)empty.hidden=false;return;}
-  if(empty) empty.hidden=true;
-  grid.innerHTML=fotos.map((f,i)=>`
-    <div class="photo-card">
-      <img src="${f.dataUrl}" alt="foto ${i+1}">
-      <div class="photo-card-body">
-        <textarea placeholder="Observación..." onchange="fotos[${i}].caption=this.value">${f.caption||''}</textarea>
-        <button class="photo-del" onclick="fotos.splice(${i},1);renderFotos()">🗑 Eliminar</button>
-      </div>
-    </div>`).join('');
+function renderPinDots(){
+  const d=document.getElementById('pinDots');
+  if(!d)return;
+  d.innerHTML=Array(4).fill(0).map((_,i)=>`<div class="pin-dot${i<_pinBuf.length?' filled':''}"></div>`).join('');
 }
 
-/* FIRMAS */
-function initSigCanvas(role){
-  const R=role==='tec'?'Tec':'Sup';
-  const canvas=document.getElementById('sigCanvas'+R);
-  if(!canvas) return;
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-  sigData[role]=null;sigPinVerified[role]=false;
-  let drawing=false,lx=0,ly=0;
-  function pos(e){
-    const r=canvas.getBoundingClientRect();
-    const sx=canvas.width/r.width,sy=canvas.height/r.height;
-    const s=e.touches?e.touches[0]:e;
-    return{x:(s.clientX-r.left)*sx,y:(s.clientY-r.top)*sy};
+function renderPinGrid(){
+  const g=document.getElementById('pinGrid');
+  if(!g)return;
+  const keys=['1','2','3','4','5','6','7','8','9','','0','⌫'];
+  g.innerHTML=keys.map(k=>k===''?'<div></div>':`<button class="pin-key" onclick="pinKey('${k}')">${k}</button>`).join('');
+}
+
+function pinKey(k){
+  if(k==='⌫'){_pinBuf=_pinBuf.slice(0,-1);}
+  else{if(_pinBuf.length>=6)return;_pinBuf+=k;}
+  renderPinDots();
+  if(_pinBuf.length>=4){
+    setTimeout(()=>{
+      closeM('mPin');
+      if(_pinCb)_pinCb(_pinBuf);
+      _pinBuf='';_pinCb=null;
+    },200);
   }
-  function dn(e){e.preventDefault();drawing=true;const p=pos(e);lx=p.x;ly=p.y;}
-  function mv(e){e.preventDefault();if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.strokeStyle='#222';ctx.lineWidth=2;ctx.lineCap='round';ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;}
-  function up(){drawing=false;}
-  canvas.addEventListener('mousedown',dn);
-  canvas.addEventListener('mousemove',mv);
-  canvas.addEventListener('mouseup',up);
-  canvas.addEventListener('touchstart',dn,{passive:false});
-  canvas.addEventListener('touchmove',mv,{passive:false});
-  canvas.addEventListener('touchend',up);
-}
-function clearSig(role){
-  const R=role==='tec'?'Tec':'Sup';
-  const canvas=document.getElementById('sigCanvas'+R);
-  if(!canvas) return;
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-  sigData[role]=null;sigPinVerified[role]=false;
-  const st=document.getElementById('sigStatus'+R);
-  if(st) st.hidden=true;
-}
-function saveSig(role){
-  const R=role==='tec'?'Tec':'Sup';
-  const pin=document.getElementById('sigPin'+R).value.trim();
-  const statusEl=document.getElementById('sigStatus'+R);
-  let pinOk=false;
-
-  if(role==='tec'){
-    // PIN ligado al usuario que ingresó
-    const usrId=SESSION.user.id;
-    const usr=DB.usuarios[usrId];
-    // Buscar técnico ligado al mismo username o por tecId
-    const tecId=document.getElementById('fTecLider').value;
-    if(!tecId){showSigSt(R,'⚠ Seleccione el Técnico Líder primero.','err');return;}
-    if(!pin){showSigSt(R,'⚠ Ingrese el PIN.','err');return;}
-    const tec=DB.tecnicos[tecId];
-    pinOk=tec&&tec.pin===pin;
-    if(!pinOk){showSigSt(R,'❌ PIN incorrecto. Solo el técnico puede registrar su firma.','err');return;}
-  } else {
-    // Supervisor: validado contra lista de supervisores de la empresa
-    if(!pin||pin.length<4){showSigSt(R,'⚠ PIN debe tener mínimo 4 dígitos.','err');return;}
-    const emp=SESSION.user.empresa;
-    const supList=Object.values(DB.tecnicos).filter(t=>t.empresa===emp);
-    const match=supList.find(t=>t.pin===pin);
-    if(!match){showSigSt(R,'❌ PIN no reconocido. Use el PIN de un supervisor registrado.','err');return;}
-    pinOk=true;
-  }
-
-  const canvas=document.getElementById('sigCanvas'+R);
-  sigData[role]=canvas.toDataURL('image/png');
-  sigPinVerified[role]=true;
-  showSigSt(R,'✓ Firma registrada correctamente.','ok');
-}
-function showSigSt(R,msg,type){
-  const el=document.getElementById('sigStatus'+R);
-  if(!el) return;
-  el.textContent=msg;el.className='sig-status '+(type==='ok'?'sig-ok':'sig-err');el.hidden=false;
 }
 
-/* ══════════════════════════════════════════════════
-   GENERAR INFORME
-══════════════════════════════════════════════════ */
-function doGenerar(){
-  const eq=getEquipo(currentEqId);
-  const tipo=DB.tipos[currentTipoId];
-  const tecId=document.getElementById('fTecLider')?.value;
-  if(!tecId){alert('Seleccione el Técnico Líder.');switchTab(0);return;}
-  const tec=DB.tecnicos[tecId];
-
-  const cfg={
-    eq,tipo,
-    fecha:document.getElementById('fFecha')?.value||'',
-    horaInicio:document.getElementById('fHoraInicio')?.value||'',
-    horaFin:document.getElementById('fHoraFin')?.value||'',
-    horasTrab:document.getElementById('fHorasTrab')?.value||'',
-    tecLider:tec?tec.nombre:'',
-    tecCargo:tec?tec.cargo:'',
-    ayudantes:ayudantes.map(id=>DB.tecnicos[id]?.nombre||id),
-    obsGeneral:document.getElementById('fObsGeneral')?.value||'',
-    astValues:{...astValues},
-    actValues:{...actValues},
-    paramValues:{...paramValues},
-    fotos:fotos.map(f=>({dataUrl:f.dataUrl,caption:f.caption})),
-    sigTec:sigData.tec,sigSup:sigData.sup,
-    empresa:DB.empresas[SESSION.user.empresa]||{},
-    params:DB.parametros[currentTipoId]||[],
-    tabLabels:DB.etiquetas.tabs||['Identificación','AST','Actividades','Parámetros','Fotos','Firmas']
-  };
-
-  const html=buildHtml(cfg);
-  const id='inf_'+Date.now();
-  DB.informes[id]={
-    id,eqId:currentEqId,empresa:SESSION.user.empresa,
-    titulo:eq.codigo+' — '+(tipo?.nombre||''),
-    tipo:tipo?.nombre||'',fecha:cfg.fecha,
-    tecLider:cfg.tecLider,ts:Date.now(),
-    htmlInforme:html
-  };
-  saveDB();
-  renderHome();
-  setTimeout(()=>openVisor(id),80);
-}
-
-/* ══════════════════════════════════════════════════
-   BUILD HTML INFORME
-══════════════════════════════════════════════════ */
-function buildHtml(c){
-  const emp=c.empresa;
-  const ac=emp.color||'#c0392b';
-  const acts=(c.tipo&&c.tipo.acts)||[];
-  const params=c.params||[];
-  const tabs=c.tabLabels||['Identificación','AST','Actividades','Parámetros','Fotos','Firmas'];
-
-  const thS=`background:${ac};color:#fff;padding:8px 10px;font-size:12px;text-align:left;border:1px solid rgba(255,255,255,.2);font-family:Georgia,serif`;
-  const tdS=`padding:7px 10px;font-size:12px;border:1px solid #ddd;font-family:Georgia,serif`;
-  const tdG=`padding:7px 10px;font-size:12px;border:1px solid #ddd;background:#f8f8f8;font-weight:600;font-family:Georgia,serif`;
-
-  const astRows=AST_ITEMS.map((a,i)=>`
-    <tr>
-      <td style="${tdS};text-align:center">${i+1}</td>
-      <td style="${tdS}">${a}</td>
-      <td style="${tdS};text-align:center;color:#27ae60;font-size:16px">${c.astValues[i]==='si'?'✓':''}</td>
-      <td style="${tdS};text-align:center;color:#e74c3c;font-size:16px">${c.astValues[i]==='no'?'✗':''}</td>
-    </tr>`).join('');
-
-  const stMap={'ok':'✓ OK','na':'N/A','pend':'Pendiente','nov':'Novedad'};
-  const stColor={'ok':'#27ae60','na':'#888','pend':'#2980b9','nov':'#e74c3c'};
-  const actRows=acts.map((a,i)=>`
-    <tr>
-      <td style="${tdS};text-align:center">${i+1}</td>
-      <td style="${tdS}">${a}</td>
-      <td style="${tdS};text-align:center;font-weight:700;color:${stColor[c.actValues[i]]||'#888'}">${stMap[c.actValues[i]]||'—'}</td>
-      <td style="${tdS}">${c.actValues['obs'+i]||''}</td>
-    </tr>`).join('');
-
-  const paramRows=params.map((p,i)=>`
-    <tr>
-      <td style="${tdS};text-align:center">${i+1}</td>
-      <td style="${tdS}">${p.label}</td>
-      <td style="${tdS};text-align:center;font-weight:700">${c.paramValues[p.id]||'—'}</td>
-      <td style="${tdS};text-align:center">${c.paramValues['unit_'+p.id]||p.unit||''}</td>
-    </tr>`).join('');
-
-  const fotoHtml=c.fotos.length?`
-    <h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:18px 0 10px">5. ${tabs[4]||'FOTOS'}</h3>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:18px">
-      ${c.fotos.map((f,i)=>`
-        <div style="border:1px solid #ddd;border-radius:6px;overflow:hidden;break-inside:avoid">
-          <img src="${f.dataUrl||''}" style="width:100%;height:170px;object-fit:cover;display:block">
-          <div style="padding:7px;font-size:11px;background:#f9f9f9;font-family:Georgia,serif">
-            <strong>Foto ${i+1}:</strong> ${f.caption||'Sin descripción'}
-          </div>
-        </div>`).join('')}
-    </div>`:'';
-
-  const sigNames=Object.values(DB.tecnicos).filter(t=>t.empresa===emp.id);
-
-  return `<!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8">
-<title>Informe ${c.eq?.codigo||''} — ${c.tipo?.nombre||''}</title>
-<style>
-body{font-family:Georgia,serif;color:#222;margin:0;padding:0;background:#fff}
-@page{margin:18mm 14mm 14mm}
-.page{max-width:820px;margin:0 auto;padding:18px}
-table{width:100%;border-collapse:collapse}
-</style></head><body>
-<div class="page">
-
-<!-- PORTADA COMPACTA -->
-<table style="border:1px solid #ccc;border-collapse:collapse;margin-bottom:18px">
-  <tr>
-    <td style="padding:12px;width:90px;border:1px solid #ccc;vertical-align:middle">
-      ${emp.logo?`<img src="${emp.logo}" style="max-height:65px;max-width:80px;object-fit:contain">`:
-      `<div style="width:65px;height:65px;background:${ac};border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:11px;text-align:center;font-family:Georgia,serif">LOGO</div>`}
-    </td>
-    <td style="padding:12px;border:1px solid #ccc;vertical-align:middle">
-      <div style="font-weight:800;font-size:15px;color:${ac};font-family:Georgia,serif">${emp.nombre||'Empresa'}</div>
-      <div style="font-size:11px;color:#666;margin-top:2px;font-family:Georgia,serif;letter-spacing:.05em">INFORME DE MANTENIMIENTO</div>
-      <div style="font-weight:700;font-size:13px;margin-top:5px;font-family:Georgia,serif">${c.tipo?.nombre||''}</div>
-    </td>
-    <td style="padding:12px;width:140px;border:1px solid #ccc;vertical-align:middle">
-      <div style="font-size:11px;font-family:Georgia,serif"><b>Fecha:</b> ${c.fecha||'—'}</div>
-      <div style="font-size:11px;font-family:Georgia,serif"><b>Inicio:</b> ${c.horaInicio||'—'}</div>
-      <div style="font-size:11px;font-family:Georgia,serif"><b>Fin:</b> ${c.horaFin||'—'}</div>
-      <div style="font-size:11px;font-family:Georgia,serif"><b>Horas:</b> ${c.horasTrab||'—'}</div>
-    </td>
-  </tr>
-</table>
-
-<!-- 1. IDENTIFICACIÓN DEL EQUIPO -->
-<h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:0 0 10px">1. ${tabs[0]||'IDENTIFICACIÓN'} DEL EQUIPO Y SERVICIO</h3>
-<table style="border-collapse:collapse;margin-bottom:16px">
-  <tr>
-    <td style="${tdG};width:25%">Código</td>
-    <td style="${tdS};width:25%">${c.eq?.codigo||''}</td>
-    <td style="${tdG};width:25%">Equipo</td>
-    <td style="${tdS};width:25%">${c.eq?.nombre||''}</td>
-  </tr>
-  <tr>
-    <td style="${tdG}">Marca</td><td style="${tdS}">${c.eq?.marca||'—'}</td>
-    <td style="${tdG}">Modelo</td><td style="${tdS}">${c.eq?.modelo||'—'}</td>
-  </tr>
-  <tr>
-    <td style="${tdG}">Número de Serie</td><td style="${tdS}">${c.eq?.serie||'—'}</td>
-    <td style="${tdG}">Potencia</td><td style="${tdS}">${c.eq?.potencia||'—'} kVA</td>
-  </tr>
-  <tr>
-    <td style="${tdG}">Ubicación / Bahía</td><td style="${tdS}">${c.eq?.bahia||'—'}</td>
-    <td style="${tdG}">Horas trabajadas</td><td style="${tdS}">${c.horasTrab||'—'} h</td>
-  </tr>
-  <tr>
-    <td style="${tdG}">Técnico Líder</td>
-    <td style="${tdS}">${c.tecLider||'—'} — ${c.tecCargo||''}</td>
-    <td style="${tdG}">Ayudantes</td>
-    <td style="${tdS}">${c.ayudantes.join(', ')||'—'}</td>
-  </tr>
-</table>
-
-<!-- 2. AST -->
-<h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:0 0 10px">2. ${tabs[1]||'AST'} — Análisis de Seguridad en el Trabajo</h3>
-<table style="border-collapse:collapse;margin-bottom:16px">
-  <thead>
-    <tr>
-      <th style="${thS};width:35px">#</th>
-      <th style="${thS}">Elemento</th>
-      <th style="${thS};width:65px;text-align:center">Aplica ✓</th>
-      <th style="${thS};width:75px;text-align:center">No Aplica ✗</th>
-    </tr>
-  </thead>
-  <tbody>${astRows}</tbody>
-</table>
-
-<!-- 3. ACTIVIDADES -->
-${acts.length?`
-<h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:0 0 10px">3. ${tabs[2]||'ACTIVIDADES'} REALIZADAS</h3>
-<table style="border-collapse:collapse;margin-bottom:16px">
-  <thead>
-    <tr>
-      <th style="${thS};width:35px">#</th>
-      <th style="${thS}">Actividad</th>
-      <th style="${thS};width:90px;text-align:center">Estado</th>
-      <th style="${thS}">Observación</th>
-    </tr>
-  </thead>
-  <tbody>${actRows}</tbody>
-</table>`:''}
-
-<!-- 4. PARÁMETROS -->
-${params.length?`
-<h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:0 0 10px">4. ${tabs[3]||'PARÁMETROS'} MEDIDOS</h3>
-<table style="border-collapse:collapse;margin-bottom:16px">
-  <thead>
-    <tr>
-      <th style="${thS};width:35px">#</th>
-      <th style="${thS}">Parámetro</th>
-      <th style="${thS};width:100px;text-align:center">Valor</th>
-      <th style="${thS};width:75px;text-align:center">Unidad</th>
-    </tr>
-  </thead>
-  <tbody>${paramRows}</tbody>
-</table>`:''}
-
-<!-- 5. FOTOS -->
-${fotoHtml}
-
-<!-- 6. OBSERVACIONES -->
-${c.obsGeneral?`
-<h3 style="color:${ac};font-family:Georgia,serif;font-size:14px;border-bottom:2px solid ${ac};padding-bottom:4px;margin:0 0 10px">6. OBSERVACIONES Y RECOMENDACIONES</h3>
-<div style="padding:11px;background:#f9f9f9;border:1px solid #ddd;border-radius:5px;font-size:12px;margin-bottom:18px;font-family:Georgia,serif">${c.obsGeneral}</div>`:''}
-
-<!-- FIRMAS -->
-<table style="width:100%;margin-top:28px;border-top:2px solid ${ac}">
-  <tr>
-    <td style="width:50%;text-align:center;padding:18px 10px 10px">
-      ${c.sigTec?`<img src="${c.sigTec}" style="height:75px;max-width:190px;object-fit:contain">`:
-      '<div style="height:75px;border-bottom:1.5px solid #333;width:180px;margin:0 auto"></div>'}
-      <div style="font-size:12px;margin-top:6px;font-family:Georgia,serif"><strong>${c.tecLider||'_________________'}</strong></div>
-      <div style="font-size:11px;color:#666;font-family:Georgia,serif">${c.tecCargo||'Técnico Líder'}</div>
-    </td>
-    <td style="width:50%;text-align:center;padding:18px 10px 10px">
-      ${c.sigSup?`<img src="${c.sigSup}" style="height:75px;max-width:190px;object-fit:contain">`:
-      '<div style="height:75px;border-bottom:1.5px solid #333;width:180px;margin:0 auto"></div>'}
-      <div style="font-size:12px;margin-top:6px;font-family:Georgia,serif"><strong>Supervisor / Jefe</strong></div>
-      <div style="font-size:11px;color:#666;font-family:Georgia,serif">Autorización</div>
-    </td>
-  </tr>
-</table>
-
-<div style="text-align:center;margin-top:16px;font-size:9px;color:#bbb;border-top:1px solid #eee;padding-top:7px;font-family:Georgia,serif">
-  SGIMTTO — Plataforma de Informes de Mantenimiento · Desarrollado por Victor Hugo Paguay, Ing. Mantenimiento Industrial
-</div>
-</div></body></html>`;
-}
-
-/* ══════════════════════════════════════════════════
-   VISOR
-══════════════════════════════════════════════════ */
-let currentVisorId='';
-let _visorBlobUrl='';
-function openVisor(id){
-  currentVisorId=id;
-  const inf=DB.informes[id];
-  if(!inf){alert('Informe no encontrado.');return;}
-  document.getElementById('visorTitle').textContent=inf.titulo||'Informe';
-  // Revocar URL anterior
-  if(_visorBlobUrl){try{URL.revokeObjectURL(_visorBlobUrl);}catch(e){}}
-  // Crear blob URL nuevo — NO revocar hasta que se cierre el visor
-  const blob=new Blob([inf.htmlInforme],{type:'text/html'});
-  _visorBlobUrl=URL.createObjectURL(blob);
-  const iframe=document.getElementById('visorIframe');
-  iframe.src='';  // reset primero
-  setTimeout(()=>{iframe.src=_visorBlobUrl;},30);
-  const wrap=document.getElementById('visorWrap');
-  wrap.style.display='flex';
-  wrap.classList.add('open');
-}
-function verInforme(id){
-  currentVisorId=id;
-  openVisor(id);
-}
-function closeVisor(){
-  const wrap=document.getElementById('visorWrap');
-  wrap.classList.remove('open');
-  wrap.style.display='none';
-  // Limpiar iframe y revocar blob
-  const iframe=document.getElementById('visorIframe');
-  iframe.src='about:blank';
-  if(_visorBlobUrl){try{URL.revokeObjectURL(_visorBlobUrl);}catch(e){}_visorBlobUrl='';}
-}
-function printInforme(){
-  const inf=DB.informes[currentVisorId];
-  if(!inf){alert('No hay informe abierto.');return;}
-  // Intentar con window.open
-  const w=window.open('','_blank','width=900,height=700');
-  if(!w||w.closed||typeof w.closed==='undefined'){
-    // Fallback: usar el iframe actual directamente
-    const iframe=document.getElementById('visorIframe');
-    try{iframe.contentWindow.focus();iframe.contentWindow.print();}catch(e){alert('Active ventanas emergentes para imprimir.');}
-    return;
-  }
-  w.document.open();
-  w.document.write(inf.htmlInforme);
-  w.document.close();
-  w.focus();
-  setTimeout(()=>{try{w.print();}catch(e){}},800);
-}
-function compartirInforme(){
-  const inf=DB.informes[currentVisorId];
-  if(!inf) return;
-  const blob=new Blob([inf.htmlInforme],{type:'text/html'});
-  const name=(inf.titulo||'informe').replace(/[^a-zA-Z0-9]/g,'_')+'.html';
-  const file=new File([blob],name,{type:'text/html'});
-  if(navigator.canShare&&navigator.canShare({files:[file]})){
-    navigator.share({files:[file],title:inf.titulo}).catch(()=>{_fallback(blob,name);});
-  } else {_fallback(blob,name);}
-}
-function _fallback(blob,name){
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=name;a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),2000);
-}
-function descargarHtml(){
-  const inf=DB.informes[currentVisorId];
-  if(!inf) return;
-  _fallback(new Blob([inf.htmlInforme],{type:'text/html'}),(inf.titulo||'informe').replace(/[^a-zA-Z0-9]/g,'_')+'.html');
-}
-function descargarWord(){
-  const inf=DB.informes[currentVisorId];
-  if(!inf) return;
-  const content=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body>${inf.htmlInforme}</body></html>`;
-  _fallback(new Blob(['﻿'+content],{type:'application/msword'}),(inf.titulo||'informe').replace(/[^a-zA-Z0-9]/g,'_')+'.doc');
-}
-function eliminarInforme(id){
-  if(!confirm('¿Eliminar informe?')) return;
-  delete DB.informes[id];saveDB();renderReportsList();renderEquiposGrid();
-}
-
-/* ══════════════════════════════════════════════════
-   ADMIN
-══════════════════════════════════════════════════ */
-let currentAdminEmpresa='';
-
-function renderAdminTab(n){
-  document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active',i===n));
-  const body=document.getElementById('adminBody');
-  const tabs=[renderAdmEmpresas,renderAdmSupervisores,renderAdmTipos,renderAdmParams,renderAdmEquipos,renderAdmEtiquetas,renderAdmUsers];
-  if(tabs[n]) body.innerHTML=tabs[n]();
-  postAdminRender(n);
-}
-function switchAdminTab(n){renderAdminTab(n);}
-
-function empSelectorHtml(id,val,onch){
-  return `<div class="emp-selector">
-    <div><label>Empresa</label>
-    <select id="${id}" onchange="${onch}">
-      <option value="">— Seleccione empresa —</option>
-      ${Object.values(DB.empresas).map(e=>`<option value="${e.id}"${e.id===val?' selected':''}>${e.nombre}</option>`).join('')}
-    </select></div></div>`;
-}
-
-/* 0: Empresas */
-function renderAdmEmpresas(){
-  return `<div class="section-title">Empresas Registradas</div>
-  <ul class="admin-list" id="listaEmpresas">
-    ${Object.values(DB.empresas).map(e=>`
-      <li>
-        ${e.logo?`<img src="${e.logo}" style="height:28px;width:28px;object-fit:contain;border-radius:3px">`:
-        `<div style="width:28px;height:28px;background:${e.color||'#888'};border-radius:3px;flex-shrink:0"></div>`}
-        <div><div class="li-name">${e.nombre}</div><div class="li-sub">${e.id}</div></div>
-        <button class="btn btn-secondary btn-sm" onclick="openModalEmpresa('${e.id}')">Editar</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteEmpresa('${e.id}')">🗑</button>
-      </li>`).join('')||'<li class="empty">Sin empresas.</li>'}
-  </ul>
-  <button class="btn btn-primary btn-sm" onclick="openModalEmpresa(null)">+ Nueva Empresa</button>`;
-}
-
-/* 1: Supervisores */
-function renderAdmSupervisores(){
-  return `${empSelectorHtml('svsEmpSel',currentAdminEmpresa,"currentAdminEmpresa=this.value;renderAdminTab(1)")}
-  <ul class="admin-list" id="listaSvs">
-    ${currentAdminEmpresa ? Object.values(DB.tecnicos).filter(t=>t.empresa===currentAdminEmpresa).map(t=>`
-      <li>
-        <div><div class="li-name">${t.nombre}</div><div class="li-sub">${t.cargo||'—'}</div></div>
-        <button class="btn btn-secondary btn-sm" onclick="openModalTec('${t.id}')">Editar</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteTec('${t.id}')">🗑</button>
-      </li>`).join('')||'<li class="empty">Sin supervisores en esta empresa.</li>'
-    : '<li class="empty">Seleccione una empresa.</li>'}
-  </ul>
-  ${currentAdminEmpresa?`<button class="btn btn-primary btn-sm" onclick="openModalTec(null)">+ Nuevo Supervisor</button>`:''}`;
-}
-
-/* 2: Tipos */
-function renderAdmTipos(){
-  return `<div class="section-title">Tipos de Informe</div>
-  <ul class="admin-list">
-    ${Object.values(DB.tipos).map(t=>`
-      <li>
-        <div><div class="li-name">${t.nombre}</div><div class="li-sub">${(t.fields||[]).length} campos · ${(t.acts||[]).length} actividades</div></div>
-        <button class="btn btn-secondary btn-sm" onclick="openModalTipo('${t.id}')">Editar</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteTipo('${t.id}')">🗑</button>
-      </li>`).join('')||'<li class="empty">Sin tipos.</li>'}
-  </ul>
-  <button class="btn btn-primary btn-sm" onclick="openModalTipo(null)">+ Nuevo Tipo</button>`;
-}
-
-/* 3: Parámetros */
-function renderAdmParams(){
-  let tipoOpts=Object.values(DB.tipos).map(t=>`<option value="${t.id}">${t.nombre}</option>`).join('');
-  return `<div class="section-title">Parámetros por Tipo de Informe</div>
-  ${empSelectorHtml('prmTipoEmpSel',currentAdminEmpresa,"currentAdminEmpresa=this.value")}
-  <div class="field" style="margin-top:8px">
-    <label>Tipo de Informe</label>
-    <select id="prmTipoSel" onchange="renderParamList(this.value)">
-      <option value="">— Seleccione tipo —</option>${tipoOpts}
-    </select>
-  </div>
-  <div id="prmList"></div>
-  <div id="prmBtns" hidden style="margin-top:10px">
-    <button class="btn btn-secondary btn-sm" onclick="addParam('number')">+ Número/Medición</button>
-    <button class="btn btn-secondary btn-sm" onclick="addParam('text')">+ Texto</button>
-    <button class="btn btn-secondary btn-sm" onclick="addParam('select')">+ Selección</button>
-    <button class="btn btn-secondary btn-sm" onclick="addParam('photo')">+ Solicitar Foto</button>
+// ═══════════════════════════════════════════════════════════
+// TABS CAPA
+// ═══════════════════════════════════════════════════════════
+function pCapa0(eq,tipo){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Identificación</div>
+    <div class="row3">
+      <div class="field"><label>N° Capa</label><input id="fNcapa" value="${FS.nCapa||''}" oninput="trigAS()"></div>
+      <div class="field"><label>Fecha</label><input id="fFecha" type="date" value="${FS.fecha||hoy()}" oninput="trigAS()"></div>
+      <div class="field"><label>N° O.T.</label><input id="fNOT" value="${FS.nOT||''}" oninput="trigAS()"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Hora Inicio</label><input id="fHoraIni" type="time" value="${FS.horaIni||''}" oninput="trigAS()"></div>
+      <div class="field"><label>Hora Fin</label><input id="fHoraFin" type="time" value="${FS.horaFin||''}" oninput="trigAS()"></div>
+    </div>
+    <div class="sec-sep">Datos del Equipo</div>
+    <div class="row2">
+      <div class="field"><label>Código</label><input value="${eq.codigo||''}" disabled></div>
+      <div class="field"><label>Bahía</label><input value="${eq.bahia||''}" disabled></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Modelo</label><input value="${eq.modelo||''}" disabled></div>
+      <div class="field"><label>Motor</label><input value="${eq.motor||''}" disabled></div>
+    </div>
+    ${navBtn(-1,1)}
   </div>`;
 }
 
-function renderParamList(tipoId){
-  if(!tipoId){document.getElementById('prmList').innerHTML='';document.getElementById('prmBtns').hidden=true;return;}
-  document.getElementById('prmBtns').hidden=false;
-  if(!DB.parametros[tipoId]) DB.parametros[tipoId]=[];
-  const params=DB.parametros[tipoId];
-  document.getElementById('prmList').innerHTML=params.map((p,i)=>`
-    <div class="form-field-card">
-      <div class="fc-row">
-        <div class="fc-label field" style="margin:0">
-          <label>Nombre del Parámetro</label>
-          <input type="text" value="${p.label||''}" placeholder="Ej. Voltaje L1-L2" onchange="DB.parametros['${tipoId}'][${i}].label=this.value;saveDB()">
-        </div>
-        <div class="fc-unit field" style="margin:0">
-          <label>Unidad</label>
-          <input type="text" value="${p.unit||''}" placeholder="V, A, Hz..." onchange="DB.parametros['${tipoId}'][${i}].unit=this.value;saveDB()">
-        </div>
-        <button class="fc-del" onclick="DB.parametros['${tipoId}'].splice(${i},1);saveDB();renderParamList('${tipoId}')">✕</button>
+function pCapa1(eq,tipo){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Detalle del Trabajo</div>
+    <div class="field"><textarea id="fDetalle" rows="6" placeholder="Describa el trabajo realizado en detalle..." oninput="trigAS()">${FS.detalle||''}</textarea></div>
+    <div class="field"><label>Observaciones</label>
+      <textarea id="fObs" rows="3" oninput="trigAS()">${FS.obs||''}</textarea>
+    </div>
+    ${navBtn(0,2)}
+  </div>`;
+}
+
+function pCapa2(eq,tipo){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Fotos Antes del Trabajo</div>
+    <div id="fotoContainerAntes"></div>
+    <div class="foto-add-row">
+      <div class="foto-add-btn" onclick="addFoto('fotoAntes','camara')">
+        <span class="ficon">📷</span>Tomar foto
       </div>
-    </div>`).join('')||'<div class="empty">Sin parámetros. Agrega con los botones.</div>';
-}
-
-function addParam(type){
-  const sel=document.getElementById('prmTipoSel');
-  if(!sel||!sel.value) return;
-  const tipoId=sel.value;
-  if(!DB.parametros[tipoId]) DB.parametros[tipoId]=[];
-  DB.parametros[tipoId].push({id:'p'+Date.now(),label:'',type,unit:''});
-  saveDB();renderParamList(tipoId);
-}
-
-/* 4: Equipos */
-function renderAdmEquipos(){
-  const lista=currentAdminEmpresa?(DB.equipos[currentAdminEmpresa]||[]):[];
-  return `${empSelectorHtml('eqEmpSel',currentAdminEmpresa,"currentAdminEmpresa=this.value;renderAdminTab(4)")}
-  ${currentAdminEmpresa?`
-  <div class="btn-row" style="margin-bottom:11px">
-    <button class="btn btn-secondary btn-sm" onclick="descargarPlantillaEquipos()">⬇ Plantilla CSV</button>
-    <label class="btn btn-secondary btn-sm" style="cursor:pointer">⬆ Importar CSV <input type="file" accept=".csv" hidden onchange="importarEquipos(this)"></label>
-    <button class="btn btn-primary btn-sm" onclick="openModalEquipo(null)">+ Agregar Equipo</button>
-  </div>
-  <div>${lista.length?lista.map((eq,i)=>`
-    <div class="report-item" style="margin-bottom:6px">
-      <div class="report-item-info">
-        <div class="rtitle">${eq.codigo} — ${eq.nombre}</div>
-        <div class="rmeta">${eq.bahia||''} · ${eq.marca||''} ${eq.modelo||''} · ${eq.potencia||''}kVA</div>
+      <div class="foto-add-btn" onclick="addFoto('fotoAntes','galeria')">
+        <span class="ficon">🖼</span>Galería
       </div>
-      <button class="btn btn-danger btn-sm" onclick="deleteEquipo(${i})">🗑</button>
-    </div>`).join(''):'<div class="empty">Sin equipos. Importa o agrega uno a uno.</div>'}</div>`
-  :''}`;
-}
-
-/* 5: Etiquetas */
-function renderAdmEtiquetas(){
-  const tabs=DB.etiquetas.tabs||['Identificación','AST','Actividades','Parámetros','Fotos','Firmas'];
-  const nombres=['Tab 1 (Datos generales)','Tab 2 (Seguridad)','Tab 3 (Actividades)','Tab 4 (Mediciones)','Tab 5 (Fotos)','Tab 6 (Firmas)'];
-  return `<div class="section-title">Editar Etiquetas de Pestañas del Formulario</div>
-  <p style="font-size:.8rem;color:var(--fg2);margin-bottom:12px">Personalice el nombre de cada pestaña que aparece al crear un informe.</p>
-  ${tabs.map((t,i)=>`
-    <div class="field">
-      <label>${nombres[i]}</label>
-      <input type="text" id="etq${i}" value="${t}" placeholder="${t}">
-    </div>`).join('')}
-  <button class="btn btn-primary" onclick="saveEtiquetas()">💾 Guardar Etiquetas</button>`;
-}
-function saveEtiquetas(){
-  const arr=[];
-  for(let i=0;i<6;i++){
-    const el=document.getElementById('etq'+i);
-    arr.push(el?el.value.trim()||DB.etiquetas.tabs[i]:'');
-  }
-  DB.etiquetas.tabs=arr;saveDB();alert('Etiquetas guardadas.');
-}
-
-/* 6: Usuarios */
-function renderAdmUsers(){
-  return `${empSelectorHtml('usrEmpSel',currentAdminEmpresa,"currentAdminEmpresa=this.value;renderAdminTab(6)")}
-  <ul class="admin-list">
-    ${(currentAdminEmpresa
-      ? Object.values(DB.usuarios).filter(u=>u.empresa===currentAdminEmpresa)
-      : Object.values(DB.usuarios))
-      .map(u=>{const emp=DB.empresas[u.empresa];return `
-      <li>
-        <div>
-          <div class="li-name">${u.nombre||u.username} <span class="tag-${u.rol==='admin'?'red':'green'}">${u.rol}</span></div>
-          <div class="li-sub">@${u.username} · ${emp?.nombre||'Sin empresa'}</div>
-        </div>
-        <button class="btn btn-secondary btn-sm" onclick="openModalUser('${u.id}')">Editar</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}')">🗑</button>
-      </li>`}).join('')||'<li class="empty">Sin usuarios.</li>'}
-  </ul>
-  <button class="btn btn-primary btn-sm" onclick="openModalUser(null)">+ Nuevo Usuario</button>`;
-}
-
-function postAdminRender(n){}
-
-/* ══════════════════════════════════════════════════
-   MODALES ADMIN
-══════════════════════════════════════════════════ */
-function showModal(html){
-  document.getElementById('modalContainer').innerHTML=`
-    <div class="modal-overlay open" id="dynamicModal" onclick="if(event.target.id==='dynamicModal')closeModal()">
-      <div class="modal-box">${html}</div>
-    </div>`;
-}
-function showModalWide(html){
-  document.getElementById('modalContainer').innerHTML=`
-    <div class="modal-overlay open" id="dynamicModal" onclick="if(event.target.id==='dynamicModal')closeModal()">
-      <div class="modal-box modal-wide">${html}</div>
-    </div>`;
-}
-function closeModal(){document.getElementById('modalContainer').innerHTML='';}
-
-/* EMPRESA */
-function openModalEmpresa(id){
-  const e=id?DB.empresas[id]:{};
-  showModal(`
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3>${id?'Editar':'Nueva'} Empresa</h3>
-    <div class="field"><label>Nombre</label><input type="text" id="mEmpNombre" value="${e.nombre||''}" placeholder="Ej. ENLINCOM S.A."></div>
-    <div class="field"><label>Color corporativo</label><input type="color" id="mEmpColor" value="${e.color||'#c0392b'}"></div>
-    <div class="field"><label>Logo (imagen)</label>
-      <input type="file" accept="image/*" onchange="previewLogo(this,'mEmpLogoImg','mEmpLogoData')">
-      <img id="mEmpLogoImg" src="${e.logo||''}" style="max-height:50px;margin-top:7px;${e.logo?'':'display:none'}">
-      <input type="hidden" id="mEmpLogoData" value="${e.logo||''}">
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveEmpresa('${id||''}')">Guardar</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-    </div>`);
-}
-function previewLogo(input,imgId,dataId){
-  const f=input.files[0];if(!f) return;
-  const r=new FileReader();
-  r.onload=e=>{
-    const img=document.getElementById(imgId);
-    const dat=document.getElementById(dataId);
-    if(img){img.src=e.target.result;img.style.display='block';}
-    if(dat) dat.value=e.target.result;
-  };
-  r.readAsDataURL(f);
-}
-function saveEmpresa(id){
-  const nombre=(document.getElementById('mEmpNombre').value||'').trim();
-  const color=document.getElementById('mEmpColor').value;
-  const logo=document.getElementById('mEmpLogoData').value||'';
-  if(!nombre){alert('Ingrese nombre.');return;}
-  const eid=id||'emp_'+Date.now();
-  DB.empresas[eid]={id:eid,nombre,color,logo};
-  saveDB();closeModal();renderAdminTab(0);
-}
-function deleteEmpresa(id){
-  if(!confirm('¿Eliminar empresa?')) return;
-  delete DB.empresas[id];saveDB();renderAdminTab(0);
+    <input type="file" id="fotoFileInput" accept="image/*" capture="environment" style="display:none" onchange="onFotoFile(this,'fotoAntes')">
+    <input type="file" id="fotoGalInput" accept="image/*" style="display:none" onchange="onFotoFile(this,'fotoAntes')">
+    ${navBtn(1,3)}
+  </div>`;
 }
 
-/* SUPERVISOR */
-function openModalTec(id){
-  const t=id?DB.tecnicos[id]:{};
-  const empOpts=Object.values(DB.empresas).map(e=>`<option value="${e.id}"${e.id===(t.empresa||currentAdminEmpresa)?' selected':''}>${e.nombre}</option>`).join('');
-  showModal(`
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3>${id?'Editar':'Nuevo'} Supervisor</h3>
-    <div class="field"><label>Nombre completo</label><input type="text" id="mTecNombre" value="${t.nombre||''}" placeholder="Ej. Juan Pérez"></div>
-    <div class="field"><label>Cargo</label><input type="text" id="mTecCargo" value="${t.cargo||''}" placeholder="Ej. Técnico Electricista"></div>
-    <div class="field"><label>Empresa</label><select id="mTecEmp"><option value="">— —</option>${empOpts}</select></div>
-    <div class="field"><label>PIN de firma (4–6 dígitos)</label><input type="password" id="mTecPin" value="${t.pin||''}" maxlength="6" placeholder="PIN secreto"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveTec('${id||''}')">Guardar</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-    </div>`);
-}
-function saveTec(id){
-  const nombre=(document.getElementById('mTecNombre').value||'').trim();
-  const cargo=(document.getElementById('mTecCargo').value||'').trim();
-  const empresa=document.getElementById('mTecEmp').value;
-  const pin=document.getElementById('mTecPin').value.trim();
-  if(!nombre||!empresa){alert('Complete nombre y empresa.');return;}
-  const tid=id||'tec_'+Date.now();
-  DB.tecnicos[tid]={id:tid,nombre,cargo,empresa,pin};
-  saveDB();closeModal();renderAdminTab(1);
-}
-function deleteTec(id){if(!confirm('¿Eliminar supervisor?'))return;delete DB.tecnicos[id];saveDB();renderAdminTab(1);}
-
-/* TIPO */
-let _tipoFields=[];
-let _tipoActs=[];
-function openModalTipo(id){
-  const t=id?DB.tipos[id]:null;
-  _tipoFields=t?JSON.parse(JSON.stringify(t.fields||[])):[];
-  _tipoActs=t?[...(t.acts||[])]:[];
-  showModalWide(`
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3>${id?'Editar':'Nuevo'} Tipo de Informe</h3>
-    <div class="field"><label>Nombre del tipo</label><input type="text" id="mTipoNombre" value="${t?t.nombre:''}" placeholder="Ej. Cambio de Aceite 500H"></div>
-    <hr>
-    <div class="section-title">Campos del formulario — defina las preguntas</div>
-    <p style="font-size:.75rem;color:var(--fg2);margin-bottom:9px">Cada campo es una pregunta que el técnico responde al llenar el informe.</p>
-    <div id="mTipoFields"></div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 14px">
-      <button class="btn btn-secondary btn-sm" onclick="addTF('text')">+ Texto</button>
-      <button class="btn btn-secondary btn-sm" onclick="addTF('textarea')">+ Párrafo</button>
-      <button class="btn btn-secondary btn-sm" onclick="addTF('number')">+ Número</button>
-      <button class="btn btn-secondary btn-sm" onclick="addTF('select')">+ Opciones</button>
-      <button class="btn btn-secondary btn-sm" onclick="addTF('check')">+ Casilla</button>
-      <button class="btn btn-secondary btn-sm" onclick="addTF('photo')">+ Foto</button>
-    </div>
-    <hr>
-    <div class="section-title">Actividades predeterminadas del informe</div>
-    <div id="mTipoActs"></div>
-    <button class="btn btn-secondary btn-sm" style="margin:8px 0 14px" onclick="addTA()">+ Agregar Actividad</button>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveTipo('${id||''}')">Guardar Tipo</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-    </div>`);
-  renderTF();renderTA();
-}
-function addTF(type){_tipoFields.push({id:'f'+Date.now(),label:'',type,options:''});renderTF();}
-function renderTF(){
-  const cont=document.getElementById('mTipoFields');
-  if(!cont) return;
-  const typeNames={text:'Texto',textarea:'Párrafo',number:'Número',select:'Opciones',check:'Casilla',photo:'Foto'};
-  cont.innerHTML=_tipoFields.map((f,i)=>`
-    <div class="form-field-card">
-      <div class="fc-row">
-        <div class="fc-label field" style="margin:0">
-          <label>Pregunta / Etiqueta del campo</label>
-          <input type="text" value="${f.label||''}" placeholder="Ej. Marca del aceite utilizado" onchange="_tipoFields[${i}].label=this.value">
-        </div>
-        <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:4px">
-          <span style="font-size:.68rem;color:var(--fg2);font-weight:700;text-transform:uppercase">Tipo</span>
-          <span style="font-size:.75rem;background:var(--bg2);border:1px solid var(--border);padding:4px 8px;border-radius:4px">${typeNames[f.type]||f.type}</span>
-        </div>
-        ${f.type==='select'?`<div class="fc-label field" style="margin:0">
-          <label>Opciones (separar con coma)</label>
-          <input type="text" value="${f.options||''}" placeholder="Op1,Op2,Op3" onchange="_tipoFields[${i}].options=this.value">
-        </div>`:''}
-        <button class="fc-del" onclick="_tipoFields.splice(${i},1);renderTF()">✕</button>
+function pCapa3(eq,tipo){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Fotos Después del Trabajo</div>
+    <div id="fotoContainerDespues"></div>
+    <div class="foto-add-row">
+      <div class="foto-add-btn" onclick="addFoto('fotoDespues','camara')">
+        <span class="ficon">📷</span>Tomar foto
       </div>
-    </div>`).join('')||'<div class="empty">Sin campos aún.</div>';
+      <div class="foto-add-btn" onclick="addFoto('fotoDespues','galeria')">
+        <span class="ficon">🖼</span>Galería
+      </div>
+    </div>
+    <input type="file" id="fotoFileInputD" accept="image/*" capture="environment" style="display:none" onchange="onFotoFile(this,'fotoDespues')">
+    <input type="file" id="fotoGalInputD" accept="image/*" style="display:none" onchange="onFotoFile(this,'fotoDespues')">
+    ${navBtn(2,4)}
+  </div>`;
 }
-function addTA(){_tipoActs.push('');renderTA();}
-function renderTA(){
-  const cont=document.getElementById('mTipoActs');
-  if(!cont) return;
-  cont.innerHTML=_tipoActs.map((a,i)=>`
-    <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center">
-      <span style="color:var(--fg2);font-size:.78rem;min-width:20px">${i+1}.</span>
-      <input type="text" value="${a}" placeholder="Descripción de la actividad" style="flex:1;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);color:var(--fg)" onchange="_tipoActs[${i}]=this.value">
-      <button onclick="_tipoActs.splice(${i},1);renderTA()" style="background:var(--acc);border:none;color:#fff;border-radius:var(--rad2);padding:5px 9px;cursor:pointer">✕</button>
-    </div>`).join('')||'<div class="empty">Sin actividades.</div>';
-}
-function saveTipo(id){
-  const nombre=(document.getElementById('mTipoNombre').value||'').trim();
-  if(!nombre){alert('Ingrese nombre del tipo.');return;}
-  const tid=id||'tipo_'+Date.now();
-  DB.tipos[tid]={id:tid,nombre,fields:_tipoFields,acts:_tipoActs.filter(a=>a.trim())};
-  saveDB();closeModal();renderAdminTab(2);
-}
-function deleteTipo(id){if(!confirm('¿Eliminar tipo?'))return;delete DB.tipos[id];saveDB();renderAdminTab(2);}
 
-/* EQUIPO */
-function openModalEquipo(id){
-  const eq=id?null:null;
-  showModal(`
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3>Nuevo Equipo — ${DB.empresas[currentAdminEmpresa]?.nombre||''}</h3>
-    <div class="field"><label>Código</label><input type="text" id="mEqCod" placeholder="GEN-01"></div>
-    <div class="field"><label>Nombre</label><input type="text" id="mEqNom" placeholder="Generador Cummins 1200 kVA"></div>
-    <div class="field"><label>Bahía / Ubicación</label><input type="text" id="mEqBahia" placeholder="Bahía 1"></div>
-    <div class="row2">
-      <div class="field"><label>Marca</label><input type="text" id="mEqMarca" placeholder="Cummins"></div>
-      <div class="field"><label>Modelo</label><input type="text" id="mEqModelo" placeholder="C1250D5"></div>
+function pCapa4(eq,tipo){
+  return`<div class="tab-pane active">
+    <div class="sec-sep">Notas y Conclusiones</div>
+    <div class="field"><label>Conclusiones</label>
+      <textarea id="fConcl" rows="3" oninput="trigAS()">${FS.concl||''}</textarea>
     </div>
-    <div class="row2">
-      <div class="field"><label>Serie</label><input type="text" id="mEqSerie"></div>
-      <div class="field"><label>Potencia (kVA)</label><input type="number" id="mEqPot"></div>
+    <div class="field"><label>Recomendaciones</label>
+      <textarea id="fRec" rows="3" oninput="trigAS()">${FS.rec||''}</textarea>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveEquipo()">Guardar</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-    </div>`);
+    <div style="background:var(--bg3);border:1px solid var(--yellow);border-radius:var(--rad);padding:14px;margin-top:14px">
+      <div style="font-size:.82rem;font-weight:700;color:var(--yellow);margin-bottom:6px">ℹ Firmas</div>
+      <div style="font-size:.8rem;color:var(--fg2)">Las firmas para este tipo de informe se realizan de forma <strong>manual</strong> sobre el documento impreso. No se requieren firmas digitales en la aplicación.</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTab(3)">← Anterior</button>
+      <button class="btn btn-success" onclick="generarInforme()">📄 Generar Informe</button>
+    </div>
+  </div>`;
 }
-function saveEquipo(){
-  if(!currentAdminEmpresa){alert('Seleccione empresa primero.');return;}
-  const codigo=(document.getElementById('mEqCod').value||'').trim();
-  const nombre=(document.getElementById('mEqNom').value||'').trim();
-  if(!codigo||!nombre){alert('Código y nombre son obligatorios.');return;}
-  if(!DB.equipos[currentAdminEmpresa]) DB.equipos[currentAdminEmpresa]=[];
-  DB.equipos[currentAdminEmpresa].push({
-    id:'eq_'+Date.now(),codigo,nombre,
-    bahia:document.getElementById('mEqBahia').value.trim(),
-    marca:document.getElementById('mEqMarca').value.trim(),
-    modelo:document.getElementById('mEqModelo').value.trim(),
-    serie:document.getElementById('mEqSerie').value.trim(),
-    potencia:document.getElementById('mEqPot').value.trim()
+
+// ═══════════════════════════════════════════════════════════
+// COLLECT & RESTORE FS
+// ═══════════════════════════════════════════════════════════
+function collectFS(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value:'';};
+  FS.nOT=g('fNOT');FS.fecha=g('fFecha');FS.horaIni=g('fHoraIni');
+  FS.horaFin=g('fHoraFin');FS.horometro=g('fHorometro');
+  FS.nCapa=g('fNcapa');
+  FS.antecedentes=g('fAntec');FS.alcance=g('fAlcance');FS.objetivos=g('fObjetivos');
+  FS.desarrollo=g('fDesarrollo');FS.obs=g('fObs');FS.detalle=g('fDetalle');
+  FS.concl=g('fConcl');FS.rec=g('fRec');FS.atsObs=g('fAtsObs');
+  FS.tecSelId=g('fTecSel');FS.supSelId=g('fSupSel');
+  // Cond
+  COND_PARAMS.forEach((_,i)=>{
+    const vEl=document.getElementById('cv'+i+'_val');
+    const uEl=document.getElementById('cv'+i+'_uni');
+    if(vEl||uEl){
+      const cv=FS.condVals['cv'+i]||{};
+      if(vEl)cv.val=vEl.value;
+      if(uEl)cv.uni=uEl.value;
+      FS.condVals['cv'+i]=cv;
+    }
   });
-  saveDB();closeModal();renderAdminTab(4);
-}
-function deleteEquipo(idx){
-  if(!confirm('¿Eliminar equipo?'))return;
-  DB.equipos[currentAdminEmpresa].splice(idx,1);saveDB();renderAdminTab(4);
-}
-function descargarPlantillaEquipos(){
-  const csv='codigo,nombre,bahia,marca,modelo,serie,potencia_kva\nGEN-01,Generador Cummins 1200 kVA,Bahía 1,Cummins,C1250D5,,1200\nGEN-02,Generador Cummins 1200 kVA,Bahía 1,Cummins,C1250D5,,1200\n';
-  _fallback(new Blob([csv],{type:'text/csv;charset=utf-8;'}),'plantilla_equipos.csv');
-}
-function importarEquipos(input){
-  if(!currentAdminEmpresa){alert('Seleccione empresa primero.');return;}
-  const f=input.files[0];if(!f) return;
-  const r=new FileReader();
-  r.onload=e=>{
-    const lines=e.target.result.split('\n').filter(l=>l.trim());
-    if(!DB.equipos[currentAdminEmpresa]) DB.equipos[currentAdminEmpresa]=[];
-    let n=0;
-    lines.slice(1).forEach(row=>{
-      const c=row.split(',');
-      if(c.length<2||!c[0].trim()) return;
-      DB.equipos[currentAdminEmpresa].push({id:'eq_'+Date.now()+'_'+n,codigo:c[0]?.trim()||'',nombre:c[1]?.trim()||'',bahia:c[2]?.trim()||'',marca:c[3]?.trim()||'',modelo:c[4]?.trim()||'',serie:c[5]?.trim()||'',potencia:c[6]?.trim()||''});
-      n++;
-    });
-    saveDB();input.value='';renderAdminTab(4);alert(n+' equipos importados.');
-  };
-  r.readAsText(f);
 }
 
-/* USUARIO */
-function openModalUser(id){
-  const u=id?DB.usuarios[id]:{};
-  const empOpts=Object.values(DB.empresas).map(e=>`<option value="${e.id}"${e.id===(u.empresa||currentAdminEmpresa)?' selected':''}>${e.nombre}</option>`).join('');
-  showModal(`
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3>${id?'Editar':'Nuevo'} Usuario</h3>
-    <div class="field"><label>Usuario</label><input type="text" id="mUsrUser" value="${u.username||''}" placeholder="Ej. t1" ${id?'readonly':''}></div>
-    <div class="field"><label>Contraseña</label><input type="password" id="mUsrPass" value="${u.pass||''}" placeholder="${id?'Dejar vacío para no cambiar':'Contraseña'}"></div>
-    <div class="field"><label>Rol</label>
-      <select id="mUsrRol"><option value="tecnico"${(u.rol||'tecnico')==='tecnico'?' selected':''}>Técnico</option><option value="admin"${u.rol==='admin'?' selected':''}>Administrador</option></select>
+function restoreFS(idx,tmpl){
+  // Render fotos según tab
+  setTimeout(()=>{
+    if(tmpl==='capa'){
+      if(idx===2){renderFotosAlt('fotoAntes','fotoContainerAntes');}
+      if(idx===3){renderFotosAlt('fotoDespues','fotoContainerDespues');}
+    }else{
+      if(idx===4){renderFotosAlt('fotoData','fotoContainer');}
+      if(idx===5){initSig('tec');initSig('sup');}
+    }
+  },50);
+}
+
+function renderFotosAlt(arrKey,containerId){
+  const arr=FS[arrKey]||[];
+  const c=document.getElementById(containerId);
+  if(!c)return;
+  if(arr.length===0){c.innerHTML='<div style="color:var(--fg2);font-size:.8rem;padding:10px 0">Sin fotos aún</div>';return;}
+  c.innerHTML=arr.map((f,i)=>`
+    <div class="foto-item">
+      <img src="${f.b64}" alt="foto ${i+1}">
+      <button class="foto-del" onclick="delFotoAlt('${arrKey}','${containerId}',${i})">✕</button>
+      <input placeholder="Descripción..." value="${f.cap||''}" oninput="FS['${arrKey}'][${i}].cap=this.value;trigAS()">
+    </div>`).join('');
+}
+
+function delFotoAlt(arrKey,containerId,idx){
+  if(!FS[arrKey])return;
+  FS[arrKey].splice(idx,1);
+  renderFotosAlt(arrKey,containerId);
+  trigAS();
+}
+
+function addFoto(arrKey,modo){
+  if(arrKey==='fotoDespues'){
+    const inputId=modo==='camara'?'fotoFileInputD':'fotoGalInputD';
+    _fotoTarget=arrKey;
+    const el=document.getElementById(inputId);
+    if(el){el.click();}
+    return;
+  }
+  const inputId=modo==='camara'?'fotoFileInput':'fotoGalInput';
+  _fotoTarget=arrKey;
+  const el=document.getElementById(inputId);
+  if(el){el.click();}
+}
+
+function onFotoFile(input,arrKey){
+  const files=Array.from(input.files||[]);
+  files.forEach(file=>{
+    const fr=new FileReader();
+    fr.onload=e=>{
+      if(!FS[arrKey])FS[arrKey]=[];
+      FS[arrKey].push({b64:e.target.result,cap:''});
+      // Re-render
+      const containerMap={fotoData:'fotoContainer',fotoAntes:'fotoContainerAntes',fotoDespues:'fotoContainerDespues'};
+      const cid=containerMap[arrKey]||'fotoContainer';
+      renderFotosAlt(arrKey,cid);
+      trigAS();
+    };
+    fr.readAsDataURL(file);
+  });
+  input.value='';
+}
+
+// ═══════════════════════════════════════════════════════════
+// GENERAR INFORME
+// ═══════════════════════════════════════════════════════════
+function generarInforme(){
+  collectFS();
+  autoSave();
+  const eq=DB.equipos[_eqId];
+  const tipo=DB.tipos[_tipoId];
+  const emp=DB.empresas[SES.empActiva]||{};
+  const tmpl=tipo.template||'estandar';
+  const tec=DB.tecnicos[FS.tecSelId]||SES.user||{};
+  const sup=DB.tecnicos[FS.supSelId]||{};
+
+  let html='';
+  if(tmpl==='capa'){
+    html=genCapa(eq,tipo,emp,tec,sup);
+  }else{
+    html=genEstandar(eq,tipo,emp,tec,sup);
+  }
+
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  document.getElementById('visorFrame').src=url;
+  openM('mVisor');
+}
+
+function printInforme(){
+  const frame=document.getElementById('visorFrame');
+  if(frame&&frame.contentWindow){
+    frame.contentWindow.print();
+  }
+}
+
+function css_base(){
+  return`<style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;font-size:11pt;color:#222;background:#fff}
+    .page{max-width:210mm;margin:0 auto;padding:18mm 15mm;min-height:297mm}
+    h1{font-size:14pt;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+    h2{font-size:11pt;font-weight:700;margin:14px 0 6px;text-transform:uppercase;letter-spacing:.03em;color:#c0392b;border-bottom:2px solid #c0392b;padding-bottom:3px}
+    h3{font-size:10pt;font-weight:700;margin:10px 0 5px;color:#2980b9}
+    table{width:100%;border-collapse:collapse;margin-bottom:10px}
+    th,td{padding:5px 8px;border:1px solid #ccc;font-size:9.5pt}
+    th{background:#f5f5f5;font-weight:700;text-align:left}
+    .header-box{display:flex;align-items:center;gap:18px;border-bottom:3px solid #c0392b;padding-bottom:14px;margin-bottom:18px}
+    .logo-box{width:90px;height:60px;border:2px solid #c0392b;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9pt;font-weight:700;color:#c0392b;text-align:center}
+    .header-info h1{font-size:13pt}
+    .header-info .sub{font-size:9pt;color:#666;margin-top:3px}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .info-item{padding:5px 8px;border:1px solid #ccc;font-size:9.5pt}
+    .info-item label{font-weight:700;font-size:8.5pt;color:#555;display:block;text-transform:uppercase;margin-bottom:2px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:8pt;font-weight:700;background:#c0392b;color:#fff}
+    .foto-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+    .foto-cell img{width:100%;max-height:180px;object-fit:cover;border:1px solid #ddd;border-radius:4px}
+    .foto-cell .cap{font-size:8pt;color:#555;margin-top:4px;text-align:center}
+    .sig-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
+    .sig-box{border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center}
+    .sig-box img{max-height:80px;max-width:100%}
+    .sig-box .sig-name{font-size:9pt;font-weight:700;margin-top:6px;border-top:1px solid #ccc;padding-top:6px}
+    .sig-box .sig-cargo{font-size:8pt;color:#666}
+    .manual-sig{border:1px solid #ccc;border-radius:6px;padding:10px;text-align:center;min-height:80px;display:flex;align-items:flex-end;justify-content:center}
+    .manual-sig .sig-line{border-top:1px solid #555;padding-top:6px;width:80%;font-size:9pt;font-weight:700}
+    .st3-table th{background:#c0392b;color:#fff}
+    .v-ok{color:#27ae60;font-weight:700}
+    .v-no{color:#c0392b;font-weight:700}
+    .v-na{color:#f39c12;font-weight:700}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  </style>`;
+}
+
+function genEstandar(eq,tipo,emp,tec,sup){
+  const fecha=FS.fecha||hoy();
+  const atsRows=ATS_ITEMS.map((item,i)=>{
+    const v=FS.atsVals['a'+i];
+    const sym=v==='ok'?'✓':v==='no'?'✗':v==='na'?'N/A':'—';
+    const cls=v==='ok'?'v-ok':v==='no'?'v-no':v==='na'?'v-na':'';
+    return`<tr><td>${i+1}</td><td>${item}</td><td class="${cls}" style="text-align:center">${sym}</td></tr>`;
+  }).join('');
+
+  const chkRows=CHK_ITEMS.map(g=>`
+    <tr><th colspan="3" style="background:#e8e8e8;color:#333">${g.g}</th></tr>
+    ${g.items.map((item,ii)=>{
+      // reconstruct key
+      const gi=CHK_ITEMS.indexOf(g);
+      const key='c'+gi+'_'+ii;
+      const v=FS.chkVals[key];
+      const sym=v==='ok'?'✓':v==='no'?'✗':v==='na'?'N/A':'—';
+      const cls=v==='ok'?'v-ok':v==='no'?'v-no':v==='na'?'v-na':'';
+      return`<tr><td style="padding-left:16px">${item}</td><td class="${cls}" style="text-align:center;width:60px">${sym}</td><td style="width:40%"></td></tr>`;
+    }).join('')}`).join('');
+
+  const condRows=COND_PARAMS.map((p,i)=>{
+    const v=FS.condVals['cv'+i]||{};
+    const estMap={N:'Normal',A:'⚠ Alerta',C:'🔴 Crítico'};
+    return`<tr><td>${p}</td><td style="text-align:center">${v.val||'—'}</td><td style="text-align:center">${v.uni||''}</td><td style="text-align:center">${estMap[v.est]||'—'}</td></tr>`;
+  }).join('');
+
+  const fotoHTML=(FS.fotoData||[]).map(f=>`
+    <div class="foto-cell">
+      <img src="${f.b64}" alt="foto">
+      <div class="cap">${f.cap||''}</div>
+    </div>`).join('');
+
+  const sigTecHTML=FS.sigTecOk&&FS.sigTec
+    ?`<img src="${FS.sigTec}" alt="firma">`
+    :'<div style="height:60px"></div>';
+  const sigSupHTML=FS.sigSupOk&&FS.sigSup
+    ?`<img src="${FS.sigSup}" alt="firma">`
+    :'<div style="height:60px"></div>';
+
+  return`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+    <title>Informe ${eq.codigo}</title>${css_base()}</head><body><div class="page">
+    <div class="header-box">
+      <div class="logo-box">${emp.nombre||emp.id||''}</div>
+      <div class="header-info">
+        <div class="sub">INFORME TÉCNICO DE MANTENIMIENTO</div>
+        <h1>${tipo.nombre}</h1>
+        <div class="sub">${eq.codigo} — ${eq.nombre} · ${eq.bahia||''}</div>
+      </div>
     </div>
-    <div class="field"><label>Empresa</label><select id="mUsrEmp"><option value="">—</option>${empOpts}</select></div>
-    <div class="field"><label>Nombre completo</label><input type="text" id="mUsrNombre" value="${u.nombre||''}" placeholder="Ej. Juan Pérez"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveUser('${id||''}')">Guardar</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-    </div>`);
-}
-function saveUser(id){
-  const username=(document.getElementById('mUsrUser').value||'').trim();
-  const pass=(document.getElementById('mUsrPass').value||'').trim();
-  const rol=document.getElementById('mUsrRol').value;
-  const empresa=document.getElementById('mUsrEmp').value;
-  const nombre=(document.getElementById('mUsrNombre').value||'').trim();
-  if(!username){alert('Ingrese nombre de usuario.');return;}
-  if(!id&&DB.usuarios[username]){alert('El usuario ya existe.');return;}
-  const uid=id||username;
-  const prev=DB.usuarios[uid]||{};
-  DB.usuarios[uid]={id:uid,username,pass:pass||prev.pass||'',rol,empresa,nombre};
-  saveDB();closeModal();renderAdminTab(6);
-}
-function deleteUser(id){
-  if(id==='admin'){alert('No se puede eliminar al administrador.');return;}
-  if(!confirm('¿Eliminar usuario?'))return;
-  delete DB.usuarios[id];saveDB();renderAdminTab(6);
+
+    <h2>1. Datos del Informe</h2>
+    <div class="info-grid">
+      <div class="info-item"><label>N° Orden de Trabajo</label>${FS.nOT||'—'}</div>
+      <div class="info-item"><label>Fecha</label>${fecha}</div>
+      <div class="info-item"><label>Hora Inicio</label>${FS.horaIni||'—'}</div>
+      <div class="info-item"><label>Hora Fin</label>${FS.horaFin||'—'}</div>
+      <div class="info-item"><label>Horómetro</label>${FS.horometro||'—'}</div>
+      <div class="info-item"><label>Empresa</label>${emp.nombre||''}</div>
+      <div class="info-item"><label>Técnico</label>${tec.nombre||''} — ${tec.cargo||''}</div>
+      <div class="info-item"><label>Supervisor</label>${sup.nombre||'—'}</div>
+    </div>
+
+    <h2>2. Datos del Equipo</h2>
+    <div class="info-grid">
+      <div class="info-item"><label>Código</label>${eq.codigo||''}</div>
+      <div class="info-item"><label>Bahía</label>${eq.bahia||''}</div>
+      <div class="info-item"><label>Marca / Nombre</label>${eq.marca||''}</div>
+      <div class="info-item"><label>Modelo</label>${eq.modelo||''}</div>
+      <div class="info-item"><label>Motor</label>${eq.motor||''}</div>
+      <div class="info-item"><label>Potencia</label>${eq.potencia||''}</div>
+      <div class="info-item"><label>Tensión</label>${eq.tension||''}</div>
+      <div class="info-item"><label>Serie</label>${eq.serie||'—'}</div>
+    </div>
+
+    ${FS.antecedentes?`<h2>3. Antecedentes</h2><p style="font-size:10pt;line-height:1.5">${FS.antecedentes}</p>`:''}
+    ${FS.alcance?`<h2>4. Alcance</h2><p style="font-size:10pt;line-height:1.5">${FS.alcance}</p>`:''}
+    ${FS.objetivos?`<h2>5. Objetivos</h2><p style="font-size:10pt;line-height:1.5">${FS.objetivos}</p>`:''}
+
+    <h2>6. Condiciones Iniciales</h2>
+    <table><thead><tr><th>Parámetro</th><th>Valor</th><th>Unidad</th><th>Estado</th></tr></thead>
+    <tbody>${condRows}</tbody></table>
+
+    <h2>7. Análisis de Trabajo Seguro (ATS)</h2>
+    <table><thead><tr><th>#</th><th>Ítem</th><th style="width:60px;text-align:center">Estado</th></tr></thead>
+    <tbody>${atsRows}</tbody></table>
+    ${FS.atsObs?`<p style="font-size:9.5pt;margin-top:6px"><strong>Observaciones ATS:</strong> ${FS.atsObs}</p>`:''}
+
+    <h2>8. Lista de Verificación</h2>
+    <table><thead><tr><th>Ítem</th><th style="width:60px;text-align:center">Estado</th><th>Observación</th></tr></thead>
+    <tbody>${chkRows}</tbody></table>
+
+    ${FS.desarrollo?`<h2>9. Desarrollo del Trabajo</h2><p style="font-size:10pt;line-height:1.5">${FS.desarrollo}</p>`:''}
+    ${FS.obs?`<h2>10. Observaciones</h2><p style="font-size:10pt;line-height:1.5">${FS.obs}</p>`:''}
+
+    ${fotoHTML?`<h2>11. Respaldo Fotográfico</h2><div class="foto-grid">${fotoHTML}</div>`:''}
+
+    ${FS.concl?`<h2>12. Conclusiones</h2><p style="font-size:10pt;line-height:1.5">${FS.concl}</p>`:''}
+    ${FS.rec?`<h2>13. Recomendaciones</h2><p style="font-size:10pt;line-height:1.5">${FS.rec}</p>`:''}
+
+    <h2>14. Firmas</h2>
+    <div class="sig-row">
+      <div class="sig-box">
+        ${sigTecHTML}
+        <div class="sig-name">${tec.nombre||'Técnico'}</div>
+        <div class="sig-cargo">${tec.cargo||''}</div>
+      </div>
+      <div class="sig-box">
+        ${sigSupHTML}
+        <div class="sig-name">${sup.nombre||'Supervisor'}</div>
+        <div class="sig-cargo">${sup.cargo||''}</div>
+      </div>
+    </div>
+
+    <div style="margin-top:30px;border-top:1px solid #ccc;padding-top:8px;font-size:8pt;color:#999;text-align:center">
+      Generado con SGIMTTO v9 · ${new Date().toLocaleString('es-EC')}
+    </div>
+  </div></body></html>`;
 }
 
-/* ══════════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════════ */
-loadDB();
+function genCapa(eq,tipo,emp,tec,sup){
+  const fecha=FS.fecha||hoy();
+
+  const antesHTML=(FS.fotoAntes||[]).map(f=>`
+    <div class="foto-cell">
+      <img src="${f.b64}" alt="antes">
+      <div class="cap">${f.cap||''}</div>
+    </div>`).join('');
+
+  const despuesHTML=(FS.fotoDespues||[]).map(f=>`
+    <div class="foto-cell">
+      <img src="${f.b64}" alt="después">
+      <div class="cap">${f.cap||''}</div>
+    </div>`).join('');
+
+  return`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+    <title>Informe de Capa ${eq.codigo}</title>${css_base()}</head><body><div class="page">
+    <div class="header-box">
+      <div class="logo-box">${emp.nombre||emp.id||''}</div>
+      <div class="header-info">
+        <div class="sub">INFORME DE CAPA</div>
+        <h1>${tipo.nombre}</h1>
+        <div class="sub">${eq.codigo} — ${eq.bahia||''}</div>
+      </div>
+    </div>
+
+    <h2>1. Identificación</h2>
+    <div class="info-grid">
+      <div class="info-item"><label>N° Capa</label>${FS.nCapa||'—'}</div>
+      <div class="info-item"><label>Fecha</label>${fecha}</div>
+      <div class="info-item"><label>N° O.T.</label>${FS.nOT||'—'}</div>
+      <div class="info-item"><label>Empresa</label>${emp.nombre||''}</div>
+      <div class="info-item"><label>Hora Inicio</label>${FS.horaIni||'—'}</div>
+      <div class="info-item"><label>Hora Fin</label>${FS.horaFin||'—'}</div>
+      <div class="info-item"><label>Equipo</label>${eq.codigo} — ${eq.nombre}</div>
+      <div class="info-item"><label>Bahía</label>${eq.bahia||''}</div>
+      <div class="info-item"><label>Modelo</label>${eq.modelo||''}</div>
+      <div class="info-item"><label>Motor</label>${eq.motor||''}</div>
+    </div>
+
+    <h2>2. Detalle del Trabajo</h2>
+    <p style="font-size:10pt;line-height:1.6;white-space:pre-wrap">${FS.detalle||''}</p>
+    ${FS.obs?`<p style="margin-top:8px;font-size:10pt"><strong>Observaciones:</strong> ${FS.obs}</p>`:''}
+
+    ${antesHTML?`<h2>3. Fotos Antes del Trabajo</h2><div class="foto-grid">${antesHTML}</div>`:'<h2>3. Fotos Antes</h2><p style="font-size:9.5pt;color:#999">Sin fotos registradas</p>'}
+    ${despuesHTML?`<h2>4. Fotos Después del Trabajo</h2><div class="foto-grid">${despuesHTML}</div>`:'<h2>4. Fotos Después</h2><p style="font-size:9.5pt;color:#999">Sin fotos registradas</p>'}
+
+    ${FS.concl?`<h2>5. Conclusiones</h2><p style="font-size:10pt;line-height:1.5">${FS.concl}</p>`:''}
+    ${FS.rec?`<h2>6. Recomendaciones</h2><p style="font-size:10pt;line-height:1.5">${FS.rec}</p>`:''}
+
+    <h2>7. Firmas</h2>
+    <div style="font-size:9.5pt;color:#666;margin-bottom:14px">Las firmas se realizan de forma <strong>manual</strong> sobre el documento impreso.</div>
+    <div class="sig-row">
+      <div class="manual-sig"><div class="sig-line">${tec.nombre||'Técnico Responsable'}<br><span style="font-weight:400;font-size:8.5pt">${tec.cargo||''}</span></div></div>
+      <div class="manual-sig"><div class="sig-line">${sup.nombre||'Supervisor / Encargado'}<br><span style="font-weight:400;font-size:8.5pt">${sup.cargo||''}</span></div></div>
+    </div>
+
+    <div style="margin-top:30px;border-top:1px solid #ccc;padding-top:8px;font-size:8pt;color:#999;text-align:center">
+      Generado con SGIMTTO v9 · ${new Date().toLocaleString('es-EC')}
+    </div>
+  </div></body></html>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════
+function openM(id){document.getElementById(id).hidden=false;}
+function closeM(id){document.getElementById(id).hidden=true;}
+
+let _toastTimer=null;
+function showToast(msg){
+  const t=document.getElementById('toastEl');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+loadDB();ensureFields();
+if(Object.keys(DB.tecnicos).length===0)seed();
+document.getElementById('lUser').focus();
 </script>
 </body>
 </html>
