@@ -337,9 +337,9 @@ svg.lk{width:12px;height:12px;vertical-align:-1px}
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
 import { getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js';
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js';
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, persistentSingleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js';
 window.FBX = { initializeApp, getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
-  initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction };
+  initializeFirestore, persistentLocalCache, persistentMultipleTabManager, persistentSingleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction };
 window.__fbResolve();
 </script>
 <script>
@@ -350,7 +350,7 @@ const SEED_LOGO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBA
    SGIMTTO · Sistema de Gestión de Informes de Mantenimiento
    Desarrollado por Ing. Victor Hugo Paguay
    ============================================================ */
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.1.1';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1603,7 +1603,7 @@ async function nubeIniciar() {
   FB = window.FBX;
   APP = FB.initializeApp(FIREBASE_CONFIG);
   AUTH = FB.getAuth(APP);
-  try { FS = FB.initializeFirestore(APP, { localCache: FB.persistentLocalCache({ tabManager: FB.persistentMultipleTabManager() }) }); }
+  try { FS = FB.initializeFirestore(APP, { localCache: FB.persistentLocalCache({ tabManager: FB.persistentSingleTabManager() }) }); }
   catch (e) { console.warn('Sin caché persistente', e); FS = FB.initializeFirestore(APP, { localCache: FB.memoryLocalCache() }); }
   const sec = FB.initializeApp(FIREBASE_CONFIG, 'sgimtto-secundaria');
   SEC_AUTH = FB.initializeAuth(sec, { persistence: FB.inMemoryPersistence });
@@ -1806,6 +1806,7 @@ async function alCambiarSesion(user) {
   S.uid = c.uid;
   await escuchar();
   let ch = false; for (const co of D.companies) { if (migrarDiseno(co)) ch = true; if (migrarTipos(co)) ch = true; } if (ch) saveKV('companies');
+  if (!me() && c.rol === 'admin' && !D.users.length) return pantallaInicial({ ...c, authUid: user.uid, email: user.email });   // carga inicial incompleta: continuar
   if (!me()) { toast('Su usuario no está registrado en SGIMTTO.', 'bad'); await salir(); return; }
   const ses = LS.get('sgimtto_session');
   if (ses && ses.uid === S.uid) Object.assign(S, ses, { uid: S.uid }); else { S.view = 'admin'; S.cid = null; }
@@ -1840,11 +1841,11 @@ function datosEjemplo() {
 }
 function resumenDatos(d) { return `${d.kv.companies.length} empresa(s) · ${(d.kv.users || []).length} usuario(s) · ${(d.kv.equipos || []).length} equipo(s) · ${(d.reports || []).length} informe(s) · ${(d.photos || []).length} foto(s)`; }
 
-async function pantallaInicial() {
+async function pantallaInicial(reanudar) {
   const local = await leerLocal(); let elegido = local || null;
   const op = (v, t, d, on) => `<label class="profile" style="cursor:pointer"><input type="radio" name="src" value="${v}" ${on ? 'checked' : ''} style="width:20px;height:20px"><span><b>${t}</b><br><span class="small muted">${d}</span></span></label>`;
   $('#app').innerHTML = `<main class="wrap" style="max-width:760px">
-    <div class="pagehead"><div><p class="eyebrow">SGIMTTO v${APP_VERSION} · Puesta en marcha</p><h1>Configuración inicial de la nube</h1></div></div>
+    <div class="pagehead"><div><p class="eyebrow">SGIMTTO v${APP_VERSION} · Puesta en marcha</p><h1>${reanudar ? 'Completar la carga inicial' : 'Configuración inicial de la nube'}</h1>${reanudar ? '<p class="note" style="margin-top:10px">La carga anterior quedó incompleta. Elija los mismos datos y toque <b>Completar carga</b>; continúa desde donde quedó.</p>' : ''}</div></div>
     <section class="card sec"><header><h2>1. ¿Qué datos subir?</h2></header><div class="bd" style="display:grid;gap:10px">
       ${local ? op('local', 'Datos de este navegador (recomendado)', esc(resumenDatos(local)), true) : '<p class="note">En este navegador no hay datos de versiones anteriores de SGIMTTO. Si los tiene en otra computadora, abra esta página allí.</p>'}
       ${op('archivo', 'Archivo de respaldo (.json)', 'Un respaldo descargado con ⚙ → Descargar respaldo completo', !local)}
@@ -1853,8 +1854,8 @@ async function pantallaInicial() {
     <section class="card sec"><header><h2>2. Usuarios que se crearán</h2></header><div class="bd" data-users></div></section>
     <section class="card sec"><header><h2>3. Subir</h2></header><div class="bd" style="display:grid;gap:12px">
       <p class="small muted">Se crea una cuenta por usuario con su contraseña actual. Las contraseñas y los PIN quedan protegidos en Firebase y dejan de guardarse en el navegador. Requiere internet.</p>
-      <label class="f">Contraseña del administrador de esos datos<input class="in mono" type="password" data-apw autocomplete="off" placeholder="La que usa hoy para ingresar como administrador"></label>
-      <button class="btn accent block" style="min-height:52px" data-go>${ic('up')}Subir a la nube</button>
+      ${reanudar ? '' : '<label class="f">Contraseña del administrador de esos datos<input class="in mono" type="password" data-apw autocomplete="off" placeholder="La que usa hoy para ingresar como administrador"></label>'}
+      <button class="btn accent block" style="min-height:52px" data-go>${ic('up')}${reanudar ? 'Completar carga' : 'Subir a la nube'}</button>
       <pre class="note mono" data-log style="white-space:pre-wrap;max-height:260px;overflow:auto;display:none;margin:0"></pre></div></section></main>`;
   const usersBox = $('[data-users]'), fileIn = $('[data-file]'), log = $('[data-log]');
   const pinta = () => {
@@ -1867,21 +1868,30 @@ async function pantallaInicial() {
   $('[data-go]').onclick = async () => {
     if (!elegido) return toast('Elija qué datos subir', 'bad');
     const adm = (elegido.kv.users || []).find(u => u.rol === 'admin'); if (!adm) return toast('Los datos no tienen un usuario administrador', 'bad');
-    const apw = $('[data-apw]').value; if (!apw) return toast('Escriba la contraseña del administrador', 'bad');
-    if (adm.pass && apw !== adm.pass) return toast('La contraseña del administrador no coincide con la de esos datos', 'bad');
-    if (!adm.pass) { if (apw.length < 4) return toast('Mínimo 4 caracteres', 'bad'); adm.pass = apw; }
+    if (!reanudar) { const apw = $('[data-apw]').value; if (!apw) return toast('Escriba la contraseña del administrador', 'bad');
+      if (adm.pass && apw !== adm.pass) return toast('La contraseña del administrador no coincide con la de esos datos', 'bad');
+      if (!adm.pass) { if (apw.length < 4) return toast('Mínimo 4 caracteres', 'bad'); adm.pass = apw; } }
     if (!await confirmBox(`Se subirán ${esc(resumenDatos(elegido))} a la nube del proyecto <b>${FIREBASE_CONFIG.projectId}</b>. Esta carga se hace una sola vez. ¿Continuar?`, { ok: 'Subir a la nube', title: 'Configuración inicial' })) return;
     const btn = $('[data-go]'); btn.disabled = true; log.style.display = 'block';
     const p = t => { log.textContent += t + '\n'; log.scrollTop = log.scrollHeight; };
-    try { await subirDatos(elegido, p); p('✔ Carga completa. Ingresando…'); NUBE.iniciando = false; await alCambiarSesion(AUTH.currentUser); }
+    try { await subirDatos(elegido, p, reanudar); p('✔ Carga completa. Ingresando…'); NUBE.iniciando = false; await alCambiarSesion(AUTH.currentUser); }
     catch (e) { console.error(e); NUBE.iniciando = false; p('✖ ' + errTxt(e)); btn.disabled = false; toast('No se completó la carga: ' + errTxt(e), 'bad'); }
   };
 }
 
-async function subirDatos(src, p) {
+async function paso(etq, fn) { try { return await fn(); } catch (e) { const x = new Error(`${etq} → ${errTxt(e)}`); throw x; } }
+async function subirDatos(src, p, reanudar) {
   NUBE.iniciando = true;
   const kv = clone(src.kv); const users = kv.users || [];
   const admin = users.find(u => u.rol === 'admin');
+  if (reanudar) {
+    p('Continuando la carga con el administrador conectado…');
+    const n0 = parseInt((/-(\d+)@/.exec(reanudar.email || '') || [])[1] || '1', 10);
+    if (admin.id !== reanudar.uid) admin.id = reanudar.uid;
+    Object.assign(admin, { authUid: reanudar.authUid, authEmail: reanudar.email, authN: n0 });
+    await paso('Registro del administrador', () => commitOps([['set', 'login/' + admin.usuario.toUpperCase(), { email: admin.authEmail }], ['set', 'login/__ADMIN', { email: admin.authEmail }]]));
+    return subirResto(src, kv, users, admin, p);
+  }
   p(`Creando la cuenta del administrador ${admin.usuario}…`);
   let cred = null, n = 1;
   for (; n < 25 && !cred; n++) {
@@ -1891,14 +1901,17 @@ async function subirDatos(src, p) {
   if (!cred) throw new Error('No se pudo crear la cuenta del administrador');
   n--;
   Object.assign(admin, { authUid: cred.user.uid, authEmail: emailCuenta(admin.usuario, n), authN: n });
-  await commitOps([['set', 'config/inicial', { fecha: ahora(), por: admin.usuario, version: APP_VERSION, origen: src.origen }],
+  await paso('Inicio de la nube (config/inicial)', () => commitOps([['set', 'config/inicial', { fecha: ahora(), por: admin.usuario, version: APP_VERSION, origen: src.origen }],
     ['set', 'cuentas/' + cred.user.uid, { uid: admin.id, rol: 'admin', activo: admin.activo !== false }],
-    ['set', 'login/' + admin.usuario.toUpperCase(), { email: admin.authEmail }], ['set', 'login/__ADMIN', { email: admin.authEmail }]]);
+    ['set', 'login/' + admin.usuario.toUpperCase(), { email: admin.authEmail }], ['set', 'login/__ADMIN', { email: admin.authEmail }]]));
+  return subirResto(src, kv, users, admin, p);
+}
+async function subirResto(src, kv, users, admin, p) {
   for (const u of users) {
     if (u === admin) continue;
     p(`Usuario ${u.usuario}…`);
-    Object.assign(u, await cambiarClave(u, u.pass || '1234'));
-    if (u.aprueba && u.pin) Object.assign(u, await cambiarPin(u, u.pin)); else Object.assign(u, { tienePin: false, pinEmail: '' });
+    Object.assign(u, await paso(`Cuenta de ${u.usuario}`, () => cambiarClave(u, u.pass || '1234')));
+    if (u.aprueba && u.pin) Object.assign(u, await paso(`PIN de ${u.usuario}`, () => cambiarPin(u, u.pin))); else Object.assign(u, { tienePin: false, pinEmail: '' });
   }
   users.forEach(u => { delete u.pass; delete u.pin; });
   if (admin.aprueba) admin.tienePin = false;
@@ -1906,12 +1919,12 @@ async function subirDatos(src, p) {
   for (const co of kv.companies) { migrarDiseno(co); migrarTipos(co); }
   const counters = kv.companies.map(co => ['set', 'counters/' + co.id, { next: (co.seq || 0) + 1 }]);
   kv.companies.forEach(co => delete co.seq);
-  await commitOps([...kv.companies.map(o => ['set', 'companies/' + o.id, limpio(o)]), ...(kv.equipos || []).map(o => ['set', 'equipos/' + o.id, limpio(o)]),
-    ...users.map(o => ['set', 'users/' + o.id, limpio(o)]), ['set', 'config/settings', limpio({ ...(kv.settings || {}), requireCreds: true, nube: true })], ...counters]);
+  await paso('Empresas, equipos y usuarios', () => commitOps([...kv.companies.map(o => ['set', 'companies/' + o.id, limpio(o)]), ...(kv.equipos || []).map(o => ['set', 'equipos/' + o.id, limpio(o)]),
+    ...users.map(o => ['set', 'users/' + o.id, limpio(o)]), ['set', 'config/settings', limpio({ ...(kv.settings || {}), requireCreds: true, nube: true })], ...counters]));
   const reps = src.reports || [];
-  if (reps.length) { p(`Informes (${reps.length})…`); await commitOps(reps.map(r => ['set', 'reports/' + r.id, limpio(r)])); }
+  if (reps.length) { p(`Informes (${reps.length})…`); await paso('Informes', () => commitOps(reps.map(r => ['set', 'reports/' + r.id, limpio(r)]))); }
   const fotos = src.photos || [];
-  for (let i = 0; i < fotos.length; i++) { if (i % 5 === 0) p(`Fotos ${i + 1}/${fotos.length}…`); await FB.setDoc(dref('photos/' + fotos[i].id), limpio(fotos[i])); }
+  for (let i = 0; i < fotos.length; i++) { if (i % 5 === 0) p(`Fotos ${i + 1}/${fotos.length}…`); await paso('Foto ' + (i + 1), () => FB.setDoc(dref('photos/' + fotos[i].id), limpio(fotos[i]))); }
 }
 
 /* ================= ARRANQUE ================= */
