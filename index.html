@@ -316,6 +316,13 @@ label.f .lb{display:block}
 /* M08 v1.2.0 */
 svg.lk{width:12px;height:12px;vertical-align:-1px}
 
+/* v2.1.0: tres firmas y técnicos de apoyo */
+.sigs.s3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:980px){.sigs.s3{grid-template-columns:1fr}}
+.apoyos{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.check.apo{border:1px solid var(--line);border-radius:99px;padding:6px 12px;background:var(--surface);font-size:14px}
+.check.apo input{width:18px;height:18px}
+
 </style>
 </head>
 <body>
@@ -326,6 +333,15 @@ svg.lk{width:12px;height:12px;vertical-align:-1px}
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>window.__fbReady = new Promise(r => { window.__fbResolve = r; });</script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
+import { getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js';
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction } from 'https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js';
+window.FBX = { initializeApp, getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut,
+  initializeFirestore, persistentLocalCache, persistentMultipleTabManager, memoryLocalCache, doc, collection, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch, runTransaction };
+window.__fbResolve();
+</script>
 <script>
 const PDFJS_WORKER = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
 const SEED_LOGO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAFbAggDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7KooooAKKKKADtQKDRQAZoooNABRSUvFABRmigUAFFFFABQaKKADtRRR1oAKKKKADNHeikoAXpRRRQAUlLSUALRRRQAUUCjPNABQKKSgBTRmjNJQAoo70lFAC0Gk70tAAKKKKACiikxQAtFFJQAtBpKXigAooooAKXNJRQAUUUZoAOlAoooAKKSloAByaKKSgBaM8Uc0e9ABzRmiigAzQKKKAAcUUd6KAEpaKKACiiigA70UlLQADrRRRQAUlLSUAFLmijigAooooAO9FFFACUo60ZFFABRRSUALRRRQAlLRQaACiikoAWiiigBKXmkpaACgCjiigAooxRQAUUUcUAFFFFABRSUUALRRRQAUUUUAFFB4ooAKKSloAKKSigBaKKKACiig0AFJS0UAJS0UlAC0UlLQAUUd6KACl4pKKADiiiigA5oNGaKAEppkjU4Z1B9zT6+Gv20ppo/jZKqSyIP7OtzhXIHRq0pU/aSsZ1J8iufcXmxf89U/76FHmw/8APVP++hX5YG5uf+fib/v4f8aPtFz/AM/M3/fxv8a6PqnmYfWvI/U/zYs/61P++hR5sX/PVP8AvoV+WH2i4/5+Z/8Av4f8aBPc/wDPzP8A9/D/AI0fVPMPrPkfqeJov+esf/fQo86L/nqn/fQr8sDcXP8Az8z/APfw/wCNNa4ucH/SZ84/56H/ABo+qeYfWvI/VMEEZHSiuX+EbF/hb4WZ2JY6Rakk9T+6WuprkaszqWqDAprOinDOqn3OKViFQsSAAMknpX54/tDePZvG3xT1PULW5k/s21b7HYbHIUxISN//AAJst9CK0pUnUdjOrUVNXP0M82L/AJ6p/wB9ClEkbNtV1Y+gOa/LH7Tck5+0z/8Afw/411/wZ8b3Pgj4k6T4ge5mNpHL5V6hYkNA/D/kPmHuord4RpaMyWKu9UfpDRUdvNFcW8c8EiyRSKHR1OQykZBHsRUnFcZ1CcUtFNk+4aAE82LvKg/4EKDLDj/Wp/30K/LrVrm4Oq3g+0zYFxJ/y0P94+9VTcXJ63M//fw/412fVPM5PrXkfqj1596Wvm/9k340/wBv20PgXxVd51eBNun3Urc3aAfcYnrIo/76HuOfo+uacHB2Z0wmpq6FxSO6LjewUe5xS180/t6vInhbwuY5HTN/NnaxGf3Yopw55KIpy5Y3PpMTQ/8APWP/AL6FAkjLYEiEnsGFfll9pue1xMP+2h/xr0/9lWeZ/j14bWSaVwWn4ZyR/qJK6JYXlTdzCOJ5nax+gPemu6Lwzqp9zTucV8d/t5yyx+OfDipLImdMkztYj/lqfSuenDnlym9SfJG59g+bD/z1T/voUebF/wA9U/76Fflj9oue1zP/AN/D/jR9ouf+fmf/AL+H/Gur6p5nP9a8j9TvNi/56p/30KPNi/56x/8AfQr8sPtFz/z8z/8Afxv8aPtFx/z8zf8Afw/40vqnmH1nyP1O86H/AJ6x/wDfQpyyI33XUn2Oa/LAXNx/z8Tf9/D/AI19I/sFyyP4z8SiSSR/+JdEfmYn/lp71FTDckXK5cK/NK1j7A3cHPFM86L/AJ6x/wDfQrD+IrMPh/4iYEgjS7kgj/rk1fmYtxcFVP2ifOP+ejf41NGj7S+pVWt7N7H6n+bD/wA9U/76FIZos/62P/voV+WYuLnvczf9/D/jR9ouP+fib/v4f8a2+qeZl9a8j9TRJGeBIhP+8KcOa/LFbm5ByLmcf9tG/wAa6Lw78Q/HPh1kOj+K9XtQn3Y/tTPGPbYxK/pSeEfcaxS6o/S2ivkz4SftTXi3cWm/EW1ikgchRqlrHtZPeSMcEe64+hr6r0+8tdRsYL+wuIrm1uEEkUsTBkdSMggjqK5p05QepvCpGa0LFFFMlkSGNpZXVI0G5mY4AA7k1BY/tTJZI4o2klkWNFGWZjgD8a+a/jL+0/aaXcTaP8P4bfUbhCUk1OYEwIf+ma/x49Tx9a+Y/F/jjxd4tumn8Q+IdQv8tuEbykRL/uoMKPwFdEMNKWr0OeeIjHRan6Eat8Sfh/pTlL/xpoMDjqpvoyw/AHNVrH4r/DW9k8u38caCzejXiL/MivzdAHoPypenStvqke5l9al2P1K03VNN1OHztMv7S9i/v28yyL+ak1br8tdJ1LUdIvFvNL1C6sLhD8sttM0bD8VIr3H4YftO+LfD80Vp4uU+ItNyA0pwt1GPUN0f6Nz71nPCyWq1NI4lPRn2ySAMk0wTRdRKn/fQrF8GeJ9B8aeHYda0G/ivbGcYJHVD3R1PKsO4NfEv7Tnw/uvAHjt5NP8AtCaDqhaeyYOdsTZ+eH/gJOR7EelZU6fPLlbsaVKnKrpXPvPzYv8AnrH/AN9CnKyuMowYeoNflkbm5xj7TNj/AK6H/Gvef2PPia3hvxa3hDWbxv7K1iQfZ3lfiC56Dk9A44+oWtZ4VxjdMzhiFJ2aPtagUUVynSHFM86IHmWP/voV5H+1L8Sx4C8CvaadciPXtWDQWeD80SYw82PYHA/2iPSvg43NyTuNzOW9TI3+NdFLDuor3sYVK6g7H6mmWL/nrH/30KcrBhlSCPUV+bHwt8La14+8b2HhqwnuAJ33XM284ghX77n6DgepIFfox4d0iw0DQrLRtMh8mzs4VhhTOSFAxye5PUn1NRVpKm7XKpVHPWxoUUUVkagKKBRQAUlLRQAV8wftJfBLx349+Jb+IPD8emtYtZxQjz7ry23LnPGDxzX0/RVwm4O6InBTVmfCv/DLvxV/55aJ/wCB/wD9jXK/Ez4OeM/h1o1vq3iRNOW2uLgW8f2e58xt5UtyMDjCmv0U7V88ft4f8kx0b/sML/6Jkrpp4icpJMwqUIxi2j4w61t+B/DGq+MvE9p4c0RYGv7vd5Qmk2J8qljk9uAaxa9S/ZQ/5L74c+s//oh66pu0WzmirtI2T+y98Vv+eGin/t//APsaRv2Xfitt+WHRM+hv/wD7GvusUVw/WpnZ9WgYXw/0y70XwLoWkX6ot3ZWEFvMEbcodECnB7jIrdooPSudu5utDyb9qnxx/wAIZ8K7tLaXZqWrk2Npg4K7gfMf8Fz+JFfAOMcCvYv2tPHB8X/FO4sbabzNM0PNnBg/K0mf3r/99fL9FFePEHtXp0IckPU8+tPmkH40hHavcYPg6x/Zfl8bvbMNa+0jUV45+wj5CuPoTJ9AK8Q+laRmpXsZyi1ufcv7HPjgeJvhkmh3c2/UdBItmDHloDkxN+ABX/gNe4V+eX7Nvjc+Bvirp97PNs02/Isr/J4CORtc/wC62D9M1+hgIIyCCD3FefiIcs/U7qE+aItI/wB00uKa/wBw1gbH5aar/wAhW9/6+ZP/AEI1WzVnVf8AkK3v/XzJ/wChGqteyjyWS2txPa3UVzazSQTwuJI5I2wyMDkEHsQa+7P2ZvjDb/EPQ/7J1eVIvE1jGPPXoLpBx5qD1/vDseehr4OrQ8Oa1qnhzXLTW9Fu3tL+0kEkMq9j6H1BHBHcGsqtJVF5mtOo4M/Ufj1r5m/b5/5FXwt/1/zf+ixXqvwK+KGl/Ezwot9EUt9WtgqahZ7uY3x95fVG6g/h1FeVft8/8ip4X/6/5v8A0WK4qMXGqkzrqtOm2j5Dr0/9lL/kvnhv/en/APREleYV6h+ymP8Ai/nhv/en/wDREld9X4GcVP4kfoKa+OP29/8Ake/Df/YMk/8ARpr7HPavjn9vb/ke/Df/AGDJP/Rprgw38RHbiPgPm8V2vwk+G2ufEzWL3S9CubG2ls7cTyNdsyqVLBcDaDzk1xYr6F/Yav7Oy8d6+19eW9rG2lqFaaQICfNXgEmu+rJxi2jipxTkkyH/AIZN+IX/AEGvDf8A3+l/+N0f8Mm/EL/oNeG/+/03/wAbr7C/4SLw/j/kO6X/AOBcf+NH/CReH/8AoO6X/wCBcf8AjXD9YqHZ7CmfH3/DJvxCA51rw3/3+l/+N161+zH8G/E/wy8Q6vf69eaZcQ3tokMQtJHYhg+453KOK9nPiPw9317Sv/AuP/GtKN1dFdGDIwyCDkEVMq85KzHGjCLujC+I4/4t54jx/wBAu5/9FNX5jJ9xfpX6c/Ef/knviP8A7Bdz/wCimr8x4/uL9K6MJszHE7oUngmvadO/Zm+Jd9p1tfwf2IYrmJZY916QdrAEZ+Xrg14q/wBxvpX6feBh/wAUXof/AGDrf/0UtXXqyp2sRRpqd7nxVf8A7MnxVtbV7hLPSrsqM+VBfDe303AD9a8k1nTNR0bU59M1axuLG9t22ywTxlXU+4P86/UnGTmvmD9vPw/YHQtB8TpHHHfpdmykcDDSxshYA+u0qfzNZ0cRKUuWRpVoKMbo+SASOtfUH7EPxBuk1O5+H2pXDSWskbXOmbjny3XmSMexHzAeoPrXzBiu4+AN09l8avCM8TEMdTjiOO6vlCPyY10VY80GjCnLlkmj9Hcj6V8k/tifFu5lv5vh34fuSltEANXnjbmRjyIAfQcFvU8djX0t8RfEMfhXwLrPiKUA/wBn2ckyA/xOB8o/FsCvzQvru4vr2e9u5mmuLiVpZZGPLOxyT+ZNcmFpqT5n0OnETsuVEHAp0MUs8yQwRPLLIwVERSzMT0AA5Jpufavsz9j34VWGkeGrbx7rNosmsaghexEgz9mgPRlHZm659MD1rrq1FTVzlpwc3ZHi3g39m34m+IbSO7uLKz0OFxlRqMpWQj12KCR+ODXQ6j+yb48gtjJZ65oF3IP+WW+WMn6EpivtLvxRiuL6zM7FhoH5m+O/Ani7wRei18T6Jc2O84imIDwyf7rrlT9M5rI0DR9U1/WLbSNFsZr6/uX2QwxDLMf6AdyeBX6ceItE0rxDo9xpGtWEF9Y3C7ZYZVyD7+x9CORXIfCX4R+Efhr9rk0O3lmvLp2LXdyQ8qxk5WIHHCjj64ya1WK93Vambw2umxh/s4fCH/hWeiTz3+oS3OsaiqG7SOQ/Z4sdFVejEZ5c8ntxXU/GbwJZ/ETwFe+HrkpFOR5tnOR/qZ1+6307H2Jrs6K5HNuXN1OlQSjy9D8tNY0+80jVrrSdRge3vLOZoZ4mHKupwRVVSysGVirKchgcEH1FfVv7a/w0Lxx/EbR7cbkCw6uqDqvRJvw4U+230r5RJr06dTnjc86pBwlY+/v2ZPiUvxB8BRpfTA65pYW3vwTzJx8kv0YDn3Br0vXdUstE0e71fUbhYLO0haaaRuiqoyTX50/Brx5ffDzx3Za/AXe0z5N9AP8AltAx+YfUfeHuBXsv7X/xbs9csbHwd4V1BLjT54o73UJ4mysgYBoovywzD12jsa5J4d+0stmdUK3uXe54t8XvHN98Q/HV74ivA0cTny7OAn/UwKfkX69z7k1yBJ9M0HnrXt37JHwzPjPxp/wkGqQb9D0V1kIYfLcXHVE9wPvH8B3rsbVON+iOVJzlY+gP2UPhp/wg/gcavqduE13WUWWcMPmgh6xxex53H3OO1e0UDp0pBXlyk5O7PRjFRVkLRSUtSUFFFFABQPrRzRQAUlFLQAA8V88ft4f8ky0b/sML/wCiZK+hzXzx+3if+LY6N/2GF/8ARMla0f4iM63wM+Ma9R/ZR/5L54b+s/8A6IevLq9R/ZS/5L74b/3p/wD0Q9ejU+BnDD4kfoJRRRXknpBXAfH/AMbJ4D+GGqaxHIFv5U+zWA7mdwQp/wCAjLf8Brv+1fEv7aPjj+3/AIgxeFrObdYaEpEoB4e5cZb/AL5XC/XdWtGHPOxlWnyxPBXZndndmZmJLMxyST1JroPht4XufGnjvSPDNtuBvrgLK4/5ZxDmRvwUE1z1el/s/wDxG0X4Z+Ib7XdR0C51a8ltxBbGKZUEKk5c8g8nCj6Z9a9Gd+V2OGNrq59+JpVgmhLoq28f2Bbb7MICPl8rbt249McV+bvxQ8K3Hgvx9rHhqcNts7giFz/HC3zRt+KkfjmvpP8A4a90bt4H1H/wNj/+JrxP9oD4kaN8TtesNb0/w/c6ReQW5t7gyzrIJlBynQDBGWH0I9K5sPCcJarQ3rShJaM8xYZBFfoD+y145/4Tb4VWRupfM1PSsWN5k5Zio+Rz/vLj8Qa/P417L+yL43PhL4pQabdTbNN10CzmycBZc/un/wC+iV/4HWteHND0M6M+WR95fjSP9w0vakf7przT0D8s9U/5Ct7/ANfMn/oRqsas6p/yFb3/AK+ZP/QjVYmvZ6HlM6DUfB2tWXgjSvGTQ+Zo+pSSQpMnPlSoxXY/oTjIPfn0rnq+4f2YtB0vxR+zNaaFrVolzYXcl1HLG3cec2CD2IPIPYivlz43fDTU/hl4sbTLjzLjTbjMmn3hXiZP7p9HXgEfj0NYwqqUnF7msqbjFSWxh/DvxjrXgPxXa+ItDm23EJ2yRMTsnjP3o3HcH9Dg9q90/ao8caR8QfhL4O8Q6O2FfUJUuIGPz28oiG5G/oe4wa+ajTlkcRGLe3llgxXPGQMZx64JqnTTkpdUQptRcRDXp/7KR/4v54a/3p//AERJXmFen/spf8l88Nf70/8A6Ikp1fgYU/iR+g34V8c/t7f8j34b/wCwZJ/6NNfY4r44/b2/5Hrw3/2DJP8A0aa4MN/ER24j4D5woIBHIBor0L4GfDC4+KOu6hpcGsR6X9jtRcGR4DKHy4XGAwx1zXoykoq7OBJydkeebUH8I/Km7U/uD8q+o/8AhkG//wCh7tj/ANw1v/jlH/DIOof9D1bf+C1v/jlZfWKfc09hPsfLUyKYXwo+6e1fqH4K/wCRM0QD/oHW/wD6LWvmA/sgagysp8dWwBGM/wBmt/8AHK+qtDsv7N0Wx04v5htbaODeBjdtULnH4VzYipGduVnRQpyg3czPiOP+Le+I/wDsF3P/AKKavzHj/wBWv0r9OPiP/wAk98R/9gu5/wDRTV+Y8f3F+laYTZkYndDmHyH6V+j3g3xr4Oh8IaOkvivQ43SwgVla/iBUiNcgjdwa/OEUhVOhRfyrarSVS12ZU6jp9D9LdQ+I3gKwtWubrxnoKRKOSL6Nv0BJNfH/AO1R8XNP+IurWWk6Csh0XS3Z1nkXabmVhjcAeQoGQM8nJPpXiIVV5VQPoKdUU8PGDvuVOu5qwV6h+yzoE+v/ABu0IxITDprtfztjhVjHy5+rlR+Nec6PpuoazqtvpWlWU97fXLbIYIULO5+n9egr7v8A2afhOPhp4Xlm1IxzeINS2teOhysSj7sKnuBkknufYCnXqKMRUYc0hn7X9y8PwF1pUOPOmtomx6GZM/yr4I6V+g/7UumS6p8CfEscKbpIIUugMdopFc/oDX57jk1OF+AvE/EKo3Mq/wB5gK/UrQrSGw0WxsrdQsNvbxxIo7KqgD+Vflqc4ypwe3tX6UfBzxRb+MfhroeuwSK7zWqJOAclJkG2RT77ganFp2THhWrs66gUUVwnYebfGH4x+HvhjqGn2Wt6fqd099E8sZtEQhQpAIO5hzzXCD9rPwF/0AvEX/fqL/45XDft8n/iqPC//XlP/wCjFr5nrtpUISgmzjqVpxk0j9F/g78VND+KFpqVzoljqFqmnypHILtVBYsCRjax9K76vmH9gH/kA+Lf+vy3/wDQHr6ermqxUZtI6KUnKKbK2qWNpqem3OnX0CT2tzE0U0bjIdGGCD+Br86fjX4Au/hz49vNClDvZMfO0+cj/WwE8fiPun3HvX6P15T+018N4/iD4AlNpGv9t6WGubB+hfA+eIn0YD8wKuhU5Ja7MmtT5o6bnwBSYHpSijtXpHAaXhTQdR8T+JLDw/pMJmvb6YRRL2GerH0AGST6Cv0f+G3hDTfA3gvT/DemKPLtY/3kmMNNIeXkPuT+mB2rxL9i74aLpWgHx/qsKm+1OPZp6kZMNvnl/q5H/fIHqa+ka8/EVOZ8q2R20KfKuZhRRRXMdAUgopaAAUUUUAANFFBoAKKKKACvnn9vAD/hWGjf9hhf/RMlfQ3avnj9vDP/AArHRv8AsML/AOiZK1o/xEZ1vgZ8Y16j+yl/yXzw3/vT/wDoh68ur1H9lL/kvnhv/en/APRD16NT4GcEPiR+gnaiij8K8k9M5f4reLbbwP4A1bxLcFS1rCfIQn/WTN8sa/ixH4Zr82L66uL69nvbuVpbm4laWZz1Z2JLH8STX0l+3L43N5run+BLOXMNiBeX208GVhiNT/urk/8AAxXzNmvQw0OWN+5w1580rdhCfejPvXtv7IHgC08ZfEC41LV7GK70jR4d8kU0YaOWZ8qikHg4G5sewr6//wCFbfD3/oSPDv8A4Lov/iadTEKErWFCi5q5+aeR7UpIFfpWPhr8Pf8AoSPDv/gui/8AiaQ/DX4ef9CR4d/8F0X/AMTUfW12L+rPufmp15p0bvHIskTskiEMjKcFSOQR717V+174BtvB3xBg1HSLKK00jV4A8UUKBY4pUwrqAOBkbWx7mvFBXRGSlG6MJR5XZn6OfAjxonjz4ZaVrjupvBH5F8o/hnThvz4b6NXcyfcIr4t/Yl8bjRPHN14RvZ9lnrabrcMeFuUHAH+8mR9VFfaTnKHFedWhySsd9KfNG5+Weq/8hW9/6+ZP/QjVYirWq/8AIUvf+vmT/wBCNVq9Toeaz7y/Y2/5ILpOf+fm5/8ARzV3vxM8EaL4+8J3Ph/WosxyDdDMoHmW8g+7Ih9R+oyK4P8AY4/5ILpP/Xzdf+jmr2IV5VRtTbR6UEnBI/Mz4keDdZ8B+LLrw7rcO2aE7opVB2XER+7Ih9D+hyDXOV+inx1+GGl/Ezwq1jNst9VtgX0+828xP/db1RuhH49RX5+eJNF1Tw5r13oetWj2l/aSGOaJux9Qe4I5B7g13UaqqLzOOrT5H5GdmvUP2Uf+S++G/wDen/8ARD15dXqP7KP/ACX3w1/vT/8Aoh60qfAyKfxI/QYV8c/t7/8AI9+G/wDsGSf+jTX2MelfHP7e3/I8+G/+wZJ/6NNcGH/iI7cR8B84V9F/sHSKnj7xD5jqqnS16nH/AC1WvnSnI8iHMbuh9VYiu+cOeLicUZcskz9TvtFtn/Xxf99ilE9uf+W8X/fYr8svtFz/AM/M/wD38b/GlFzdf8/VwP8Atq3+Nc31TzOj615H6mefAP8AlvH/AN9ilWaFjhJUY+gYE1+WZurr/n6uD/21b/Gvb/2J3lk+NRMs0jAaTcEBnJH3o6ieG5Yt3HDEc0krH2D8R/8AknviI/8AULuf/RTV+Y6fcX6V+nHxIOfh54jx/wBAu5/9FNX5jx/6tfpWmE2ZOJ3QpyFJHavovR/2UvEOp6RZaini3S41uoEmCm2kJUMobHX3r50b/Vt9K/T7wPj/AIQvQ/8AsHW//otarEVJQSsRQgpt3Pz8+M/ww1v4X67bafqk0d5bXcXmW15ChEchHDLg9GHHHoQa4UD8K/SP4x+BNO+Ifge70G8VEuCPNs7gjmCYD5W+nYjuCa/OnXNL1HQ9avNH1W1e1vrOZoZ4m/hYH9R3B7g1VCr7Ra7hVp8j02Pff2K/HOiaL4juPCeq2dnDc6o+bHUDGokL45gZ+uDjK++R3FfZYxj2r8rYZJIZkmikaOWNg6OpwysDkEHsQa++/wBmr4oRfEXwYsd/Kg1/TVWK/jzgyDoswHo2OfRs+1YYmlZ8yNcPU05WeoalaW+oafcWN1GJbe4iaKVD0ZWBBH5GvzV+J3hC98C+OdT8NXyt/o0pMEhHEsJ5jcfUfqDX6YmvKv2hvhFZfE3QEktmjtPEFip+xXLDCuDyYpD/AHSe/Y8+tZ0KvI9djStT51pufn+K9V/Z++MeofDDU5ba4hlv/D944a5tUOHjfp5keeM46jocDpXnnifQdZ8M63PouvadPYX0Bw8Uq4yOzA9GU9iODWbXoSSmrM4Ytxd0fpL4L+JngbxdZpcaN4ksJGYZMEsoimX2KNg/0rorzWdIs4TPd6rY28QGS8twigfiTX5cHqDgZHQ+lOd2kGHZmH+0c1yvCLozoWJfVHvP7Z3i7w34q8WaIPDmr22qLY2ssdxJbtuRGZwQA3Q8DtmvBKCcdKQsByeBXVCKhGyOecnJ3Z9c/sBf8gDxZ/1+W/8A6A9fTv1r5x/YT0bVtO8Ia9f32n3FrbahdQvaSSoVEyqjAsueoyRzX0dXm1/4jO+j8CCq+p/8g26/64v/AOgmrAqvqf8AyDbr/ri/8jWSNWflmQMmkbpTj1P1pDXsnkn6L/s8f8kP8Hn/AKhcX8q72uB/Z3/5Id4P/wCwXF/Ku+ryJ/Ez1IfCgoooqSgoFFFABRQKKAA0UUUAFFFFAB2ry39pP4c6x8TPB9ho2jXljaz21+Llnui4UqEdcDapOcsK9Sopxk4u6FKKkrM+MB+yV47/AOhh8N/99z//ABuuy+C/7OvizwR8S9J8T6lrOiXFrZGQvHbtKXO6NlGNyAdT619O0Vq8RNqzMlQgncPxpsu/y28sAvg7QTgE+9OozzWJsfIPin9mT4leI/EWo69qXibw5Jd39w88n7yfgseAP3fQDAHsKzB+yZ4976/4c/77m/8AjdfaNFbrETMfYQPO/gB8OR8M/AceizzQXOozzNcX08IO13PAAyAcBQByPX1r0M0tFYtuTuzVJJWQUUlLSGedftBfDg/EvwGdGtZ7e21KC4S4s55wdiMOGBwCcFSRwOuK+c/+GSvHg/5mHw2T7PN/8br7RorWFacFZGcqUZO7PjjSP2WviLpeqWmqWXiXw5Fd2c6TwvvnyrqQQf8AV+or7Athcmzi+0iNZyg80Rkld2OcZ5xnpU5opTqSnuOFNQ2PjW7/AGUPHU95cTr4g8OASSu4BebIBYn/AJ51D/wyV47/AOhi8Nf99z//ABuvs+lq/rNQj6vA4P4DeC9R8AfDWy8Marc2tzdW8sztJbFjGQ7lhjcAeh9K7yg0Vi3d3ZqlZWQV5F+0P8GLL4nadDeafLb6f4itcLDdSKdkseeY5MAnHUg4JB9jXrtFOMnF3QSipKzPi9v2SvHePl8ReG8/78//AMbrsvgt+zp4t8EfErSfE+pa1olxa2RkMkdu0pdt0bKMbkA6sO9fT1FaPETaszJUIJ3DHvXg37SvwX8SfE/xJpWpaLqelWcNlaNBIt20gZmL7sjap4r3mjtWcJuDujSUVJWZ8Yf8MleO/wDoYvDX/fc//wAbo/4ZL8ef9DF4b/77n/8AjdfZ9Fa/Wahn9XgfGH/DJfjz/oYvDf8A33P/APG6X/hkrx3/ANDF4b/77n/+N19nUUfWagvq8D4x/wCGTPHeSP8AhIPDf/fc/wD8br0L9nr4DeKfh18RD4i1jVtIurX7FLbeXatIX3OUIPzIBj5T3r6MopSrzkrMqNCEXdGX4t06bVvC+q6TbPHHLeWU1ujPnarOhUE47ZNfISfsk+PBGM+IvDZIH9+f/wCN19o0d6mFWUNhzpxnufF3/DJnjwoQdf8ADoJH9+b/AON19g+HbKXTfD+nadM6vLa2sULsvQlUCkj24rQNFE6sp7hCnGGwcHrXhf7RvwKk+I2p2eueHbqw07V0XyrtrkMEuIwPlJKgncvTpyPoK90oqYzcHdFSipKzPi4fsmePB11/w7n/AH5v/jddP8Lv2f8A4neAvG9j4l03xB4ePkttuIPNnCzwn76H933HI9CAa+qqK1eIm1ZmaoQTuHaiiisDY5rx74F8K+OdN+w+JdIgvVUERykbZYs90ccj+VfOnjL9ki4EjzeEPFMbRkkrbalGQQPTzEHP4rX1hRmtIVZQ2ZEqcZbo+CNS/Zu+LVmxEehWt6B0NvfR8/8AfRWq9n+zv8XbiTYfC6W/+1NfQgfoxr7/AKStfrUzL6tE+MvDH7JvjO9ZX8Qa5pWkxn7yQ7riQf8AoK/rXtvw6/Z2+HvhGWO8ubSTXtQjORPqGGRT6rGPlH45New0VnKvOXUuNGEegiKqKFVQoAwABgAUtFFZGoCoryNprSaFSAZI2UE9BkVLRQB8Xf8ADJnjzJ/4qDw6R675v/jdL/wyZ48IP/FQeHB9Xm/+N19oUldH1moY/V4HNfCzw/eeFPh1oXhy/lhmudOs0gleEkozL3GQDj6iumozRWDd3c1SsrBRRRSGJS0UUAAooBooAO/WjiikoAUdKKKSgBaSlooAKSlooAKKKKACijrRQAUd6KSgBaKKSgBaKQ0CgBaKSlz7UAFJS0UAFFUNe1nTdDsGvdVu47aBTjcx5Y+gHUn2FcBdfGXQopysGmajPED/AKwBV/HBNcWJzHC4V2rTSZ6GDyrGY1XoU3Jd+n3np1Fcz4Q8b6B4nJi0+4ZLkLuNvMNr49R2I+ldNXRRr068FOnJNeRy18PVw83TqxcZLowoFGK861b4uaDpuoXNjLp+ovJBK0TFQmCVODj5qzxOMoYVJ1pKKZrhMDiMZJxoQcmux6NQa84034weGbucRTQX9op/5aSRgqPrtJNegWdzBd20dzazJNDIoZHQ5DD1BpYbG4fFX9jNSt2Hi8vxWDa9vBxv3JqKOD0psjrGjO7BVUZJJwAK6jjHfjRXnuu/Frwzp9w0FmtzqTKcFoANmfYk8/hUvh34q+G9UuFt7nz9NlY4U3IGwn/eB4/HFed/a+C9p7P2qv8A112PVeR5gqXtXRly+n6b/gd7RSKwYbgcjtTq9E8oSisjxdr9r4a0WTVbyGWaKN1UpEBuJY4HUipfDOsQa/odrq9tFJFDcqWVZMbhgkc4+lZe3p+19jf3rXt5dzb6vV9j7fl929r+e9jSpKwvGviix8KafDeX0E8yyy+WohAznBPcj0rU0m9j1LTLbUIkZI7mJZVVuoDDIzRGvTlUdJP3lq0EsPVjSVZx916J+haoormvHHjGw8Ix20l/bXM63DMq+SFOMAHnJHrRWrU6EHUqOyXUMPh6uIqKlSV5PZHS0g6V5kPjR4dJGNO1Ijudqcf+PV2XhbxVoniWF5NKu/MePmSJhtdPqPT3rmw+Z4TES5KVRN9jrxOUY3Cw561Jpd7G5RQTSV3HnC0GiigAooooAKKKKACg0lLQAUUlLQAlLRRQAUUUUAFJSiigAoopKAFooFFABRRj3ooAKO1HSigA7UUUUAFFFGKACiiigAopKKAFox3oooAKOaQUUALRRRQAlL2pKWgAoPTNJQw4xQB4l4tWfxv8Xk8OzyMun2TFCFPQKu5z9SeM/SvXNN0HRtOs1s7TTLWKADG3ywc/Unr+NeR+Nmn8EfFWLxGYDJZ3j78j+IFdsi/UdR+Fep6f4q8PX1iLyHWbPysZO+UIV+oPIr5vKpUliK6rW9pzPffl6W8j6vOY15YbDfV0/Zci225vtX87jNL8O+G9L1ya+06ytba9mXawQgEdzhe2e+K3uleLaXqFjqfx8F3YXSXMDZCSR8qcQ4OD9Qa9o9q9HLMTTrxqezikoya06+fzPKzbCVMNOn7WTk5QT13V+mvYX614p8MrW3uPi14gE8EVwo+0HEihgD5y9jXtdfPOhaBqGu/EjXLWy1R9MdZZ5DKhOSPNxjgj1/SuHO5SjWw7jHmfM9O+nmejw9GM6GKjOfKnFa9tfLU9P+KekeHV8F6hPe2lpbPFEWgkRAjCT+EAj1PGKqfAOSZ/AxWRi0aXcixZ7LhSQPxJrzb4geGr/wAN6lp7eINQu9X06dwDIrtkEH5lG4nBxyPWvePC8Gl22g2cWioiWHlBodvcHnP19aywLlicylVcORwjZrq76300sbZjGGEymFKNR1FUlzKXRW0sr63+41DXmnx91i7sfDlvp1oxQ38jLKwOMxqASPxJFelV5z8edDuNU8NQ3tqjyyWEhd0QcmNhhj+GAfzr0s6VT6jU9lvb8Ov4Hk5A6SzGj7X4b9e/T8bGr8O/BWj6DottIbOGe/ljV5p5FDHJGcDPQD2qt8UfBmlavoF1fRWkMGoWsTSxyxqF3bRkq2OoIFL8PPHej6poVrDe3kFlfxRhJI5XC7sDG5SeoPWqXxR8e6NZaBeadp17Fe39xGYgsLBhEGGCzEcDjoK45zy55dpy8lvLe35/jc7qdPNXmq+L2nNvrtf7uX8LEvwL1ubVPCkltcSGV7GXylcnkoRlR+HI/CvQc1wPwP0K50fwkZryIxTX0nnbGGGVMYXPv1P4131d2UKqsFS9r8Vv+G/A8/O/Y/2hV9j8N/8Ah/xucJ8dePh7dE/894v/AEKr/wAIyD8ONGwc/um/9Dam/F7Tp9S8A38NvE0ske2YIvVgjAkD8M1g/BnxXpJ8KW2kXN1BZ3NpuUJK4XepYkMCevWuKU40s4vN2UoWXrc9CFOVbIrU1dxqXduicbXD9objwpYkf8/g/wDQGrsvAxz4M0Yn/nyi/wDQRXl3xz8SaZrH9n6DpVyt9cLcb5BAdw3Y2quR1OTXrnhy0bT9A0+xf70FtHG31CgGjBTVXNK84O6Sir+YY+nKjk+HhUVpOUnZ727l/tXkP7R+77Jo4GdvmS5/75WvXs15F+0cT9l0fBx+8l/9BWtuIP8AkXVPl+aMeF/+RrS+f/pLPRtN0nSm0q2B02zbdAm7MC8/KPavJ9AitdN+OrWehRhLXzGWRUb5VBjywHsGrQtPhl4intInfxlcCOSNTtHmcAjp96ut8A/D/TPCckl2k8l7fSLtaeQY2juFHbP51xTo4nG1KN6PIoNO91fTordzuhXwmApV7V/aOcXFRSaV31d+x2VFJ3o6V9MfJC0nNFFAC0UnvRQAtFJS0AFJS0UAFHFJS0AFHFJRQAUuKM0hoAWiiigAopKWgAoozRQAUUDrRQAdKKKKADBo/GiigAooooASlFJilFAAaKKKACiikoAKWig0AFFJ7UtABSUtFABRRSUAU9Y0rTtYsms9TtIrqBuSki5wfUeh9xXDXPwg8Ly3BkSbUI4z/wAshKCB9CQTXo1FcmIwGGxLTqwTaO3C5li8ImqFRxT7M53wr4M8PeGtz6XYhZ2GGnkYvIR6ZPT8K6LtRRzW9KjToxUKaSXkc9avVrzdSrJyb6vUMVzWheDNI0fxFd65avcm6ut/mB5Mr8zBjgY9RXSUUqlGnUlGUldx1XkOnXqUoyjCVlLR+aM3xJoun+INLk03UofMgfBGDhlI6EHsaj8L6Da+HdP+wWU9zJAHLKsz7tmeoHoO9a9Jil7Cn7T2vL71rX62D6xV9l7HmfLe9ul+4tIwGCCMg0tFbGJw+vfC/wALarcPcLbzWUkhy32Z8KT67SCB+FP8O/DLwro10l2trLd3CHKNcvuCn1CgAZ/Cu1orgWV4NVPaKkr+h6TzjHul7L20uXtcOg4oFFFd55ojDPFcNrnws8K6peyXYiuLOWQ5cW8mEY+u0ggfhXdUVz4jC0cTHlrRUl5nThcbiMJLmoTcX5HIeFPh34Z8O3gvbS2knu1+5NcNuKf7o6D64rrqWkqqGHpYePJSikvIWJxVbFT9pWk5Puxa57xl4R0nxXHbx6p5+LcsU8p9vUAHP5V0FB6VVWjCtBwqK6fQijXqUJqpSlaS6oZbxrDBHCmdsahVz6AYp9LRWiVjJu4UUUUAFJS0UAFJRS0AGKKKKACiiigBKXFFFABRRSc0ALRRSGgBaKO9JQAtFFA5oAKKKKACiiigAoo+tFABSUUtABRR3ooAKKSloAKKDzRmgA70UUcUAJRS0UAFHaiigAopKWgBKWikFAC9qBRRQAGiiigBKKWigAoopKACiiloASjNLRQAnWjpRRjmgApaKTvQAtJS8UUAJ3paSloAU0lJS0AFJS0lAC0UlLQAUUUUAJRRS0AFJS0UAJRS0lAC0c0UlABQKB1paAEpaKKACkpaKACiiigAo+lFJQAtFFIaAFpDS0CgBKWjPNAoAKKKOe1ABRig8VVfUbBdSXTTe24vmjMq25kHmFBgFtvXHI596ALX1rn/ABp408MeDbA3niLV7ezXHyRk7pZPZUHzH8q+f/jl8fPE2m+JtV8KeG7WLTPsM7W8l82JJZCOpQH5VH5n6V87apqN9quoSX+o3txeXUpy808hd2/E0AfVnhz4+zeMPiponhrQNJW10e6uGSa4uuZ5AI2YYUHCcgep+lWfiT8dZ/APxXufDuo6St/o4t4JA8B2zxFlyTzww9uPrXhf7M+mX998ZNBu7WzuJbezmeS5lSMlIl8twCzdByQK1/2vLG9t/i3PqE1jcR2c9pAsNyYyI3ZVwQG6ZHpQB9W+BfHHhjxrYC78P6rDckDMkJ+WaL2ZDyPr0966QjtX5qadfX2n3kd7p15cWdzEcxzQSFHU+xFe9fDT9pLV9M8qx8a2p1W2GF+2wKFuFHqy/df9D9aAPrHFFc/4K8Z+GfGWnfbfDmrQXyAfOinEkfsyHlfxFdBQAUUUGgApPalooASilooAKSlpKADFFAooAKKWigApKKWgApKKKACjilpKAFpDS0UAIKKOMUtACCloooASlpKKAFooooAQUUp5pKAF60nailoASlopDQAtFFJQAtJSiigBKWjiigAoopKAFooo5xQAUUUUAJS0Ud6AEpRQfekFACmiigZoAMUcUYrlPHvxC8JeCLUy+INXhhmIylrH888n0Qc/icD3oA6vjvXLePPiF4S8EWpm8QavDBJjMdsnzzyfRBz+JwPevP8A4T/Ge6+IvxJudGsdJSw0eDT5LhWlbdPIweNQTjhRhjwM/Wvl/wCMcjv8WfFbOxY/2rOMk54DnAoA9P8AiR+0l4h1cSWfhG2GiWZyPtMmHuWHt/Cn4ZPvVT9kS8ub/wCNF3d3tzPc3UulTtJLM5dnO+Pkk815r4D8C+KfG181r4c0t7kIQJp2OyGHP95zwPp19q+rvgX8FIPh7etrt/qr32sS27QlYl2wRqxBIGeWPyjk4+lAHy/8dGY/GLxZk/8AMTkx+ldz+y98L/DvjxtT1TxEbmaLTZ440tY32JKWUtlyOccdARXCfHID/hcXiz/sJy/zr3X9hnnQPFH/AF+wf+izQB9A6NpGl6Np8dhpNhbWNpGMJDBGEUfgO/vUmpafY6lZyWeoWcF3bSjEkU0YdGHuDxVnqa838SfGfwf4b8f3Hg/X3ubCaFI2F20e6Bt6ggErkrjPUjFAHEfEn9mvRNV8y98G3f8AYt0cn7JLl7Zj6D+JP1HtXzh468C+KfBN35HiLSZrZScJcAb4JP8AdccfgcH2r9A9K1LTtVskvdLvra9tnGVlglDqfxFSX1na6hayWl9bQ3NvKMSRSoHRh6EHg0Afm/pWp6jpF9Hf6Xf3NjdRnKTW8hRh+Ir3v4bftMalZeVY+NrD+0IBhft9soWZfd06N+GD7Gu0+JH7NnhzWjJeeErk6Fedfs7AyWzn6dU/DI9q+bvH3w78X+CLsx6/pEsUGcJdxDzLd/o44H0ODQB92eD/ABd4c8Xad9u8PavbX8QHziNvnjPoynlT9RW7X5r6Jq2p6JqUeo6NqFzp93GcrNBIVYe3HUex4r6E+Gf7TN1AYrDx3Y/aYxhf7QtEAce7x9D9Vx9KAPqSjisjwr4m0HxTpq6h4f1W21C3PVonyUPoy9VPsQK18UAFHajFFAB2ooooAKKKKACk5paSgAoNLiigAHSiikoAKWgUUAFJS0lAC0lLR9KACiiigApKWigBKKKWgApO9LRQAUUh+tLQAlFFLQAlFLRQAUUUlAC0lLRQAUUlLQAGiikoAUUUfjRQACjFFFACUtFFAAOlA4GaKOxoA+Ufjl8d/FsXifVvC3h5Y9Ht7G5e1kukO+eUqcEgnhB9Bn3r5/u7m5vLmS6vLma5uJW3SSyuXdz6knk10/xmJHxb8W/9he4/9DNen/sofDjwv4yg1TWfEdo981hcpFDbs5EJyu7LAfe+hOPagBn7GGm6g3xAv9W+x3IsF0ySH7T5ZERcyRkLu6E4B49q8v8AjCu34seK+c/8Ta4/9DNfoLa21vZ2qW1rbxQQRLtjjiQKqj0AHAr8+fi9/wAlW8Vf9ha4/wDQzQB9CfsO/wDIqeI/bUI//RVfRBHyn6V87/sOf8ir4j/7CEf/AKKr6IP3T9KAPz8+OX/JY/Fn/YTl/nXuv7DI/wCKf8Uf9fkH/os14X8c/wDksXiz/sJy/wA691/YZP8AxT/ij/r8h/8ARZoA+ja+I/2tIni+NmpTSK6JLbW+xmXAbEYzg96+3B71S1nSNK1mzaz1fTrS/t2HMdxCsi/kRQB+dfhrxDr/AIbvxfaBrF7ps/cwSlQ3sy9GH1Br3XwN+09qtmI7Xxho6ahGMA3dliOUe5Q/K34Fa9B8a/s3+CNYDy6HJdaBcnkCE+ZBn/cbkfgRXiHjX9nz4g+HxJPZ2sOvWq877E/vMe8bc5+maAPqzwN8SvBfjKFf7C1y3kuCMm1lPlzr9Ubk/hkV1VxBBdW8lvcwRzRSAq8ciBlYehB4Ir81bmG60+9MNxFPZ3cLco6tHIhH1wQa9N8BfHnx94XEVvc3y65YJgeRfZZwPRZB8w/HNAHufxG/Zy8J68Jbzw258P6g2TsjXfbOfdP4f+An8K+a/iD8MPGfgaVjrWkyNZg4W+tsyQN9WH3fowFfUHgP9ofwN4i2W+qSSeHr1uNt4cwk+0g4/wC+sV61DNZ6hZCSCSC8tpl4ZSHR1Pv0IoA/Obw1ruseG9SXU9D1O50+7H/LSByu4ehHRh7HIr7L/Zq+IWt/EDwpf3GuxW/2qwult/OiTb5wKBtxXoDz24qr8Rf2fvBfiZ5L3S0bQNRbJ32qjyXb/ai6f984q1+zn4A134e6Xrul621rKJ75Zbea3fKyJ5YGcHlTkdDQB6rS0UdqACiiigAoo/CkyPwoAKWik69KAF7UdqKOlABRRRQAnvRRS0AJRRS/WgAoooPAzQAUUn8qUYxxQAlLScd6XtQAlLRSUALRSfSl70AFJS0fhQAUlLRQAlLRSd6AFpOKWk4PSgBaKKKAEpaKKACkpaKACiiigAFFAoNABSUtFAAKD0oo7UAfnv8AGf8A5K54t/7C9x/6Ga9//Yb/AORX8Sf9hCP/ANF14B8Z/wDkrni3/sL3H/oZr3/9hv8A5FfxL/1/x/8AougD6JP3TX55/F7/AJKr4q/7C1x/6Ga/Qxuhr88/i9/yVXxV/wBha4/9DNAH0J+w7/yKniP/ALCEf/oqvohvun6V87/sO/8AIqeI/wDsIR/+iq+iG6H6UAfn58c/+SxeLP8AsJy/zr3X9hj/AJAHij/r8g/9FmvCvjmP+LxeLP8AsJy/zr3X9hk50DxT/wBfkH/os0gPo7p1rxX4hfHiDwR8SL3wzqvh+W5soEidbq2mHmfOgY5Rhg9fUV7V25r5A/ak8GeLbv4oajrtn4d1K70yaGEJcW8JkXKxgHO3JGCO4pge/eEvjL8OvEm1LXxDBZ3DceRf/uHz6fN8p/Amu/jkjmjWSJ0kjYZVlOQR7GvzQmiaKRop42RxwyOuCPqDW74X8Z+LPDDhtA8QahYrnPlxykxn6ocqfyoA+9/Fng/wx4rtvI8Q6JZaioGFeWMb0/3XHzD8DXiHjf8AZe0q4L3Pg/W5rFzyLS9/ex/QOPmX8d1cl4R/ac8VWAWLxHpVnrEQ4MsP+jy/plT+Qr2Hwh+0D8O9eCR3V/Notw3Hl38e1c/9dBlfzIoA+VvHHwt8deEGd9Y0C4Nqv/L3bDzoSPUsv3f+BAVk+DfGvirwjcCXw3r13YLkFoVbdE/+8hyp/Kv0OsL+w1O1FxYXlteW7DiSGQSKfxHFcP44+Dfw/wDFpkmvdEjs7x/+Xqx/cyZ9Tj5W/EGgDyPwF+1Aw8u18aaID0BvdP8A5tEx/kfwr6A8F+L/AA74y0o6l4b1OK/t1bZIVBDRtjO1lIBBx2NfM3jf9mPxHYF7jwrqlvq8A5FvcYhnHtn7rf8Ajteh/sheH9Z8N+H/ABHp+uaTd6ZdDUlbZPGV3jylGVPRh7jNAHudQagzJp9yykhhExBHY4NT/Wq+p/8AINuv+uL/AMjQB+cU2ua5JK7ya3qZJYk5u5PX61GNc1f+HW9Q/wDAx/8AGqU2P3mR61+j2k6NpH9lWmNJsAPIT/l3T+6PagD89dN17Vl1O0P9uaiW8+PAF4/XcP8Aar9Ic4BJ6VSXR9IVgw0qxDA5BFugIP5VdI9elAH5xX2va7Je3JOt6oMzOSftkmc7j719wfATxgPGfwz03UZJvNvoF+yXpJ581AASf94Yb8a+Dr05vbjHTzX/APQjXuP7G/i1dI8a3Xhe4k22+sx74cngTxgkD/gS7h+AoA7/APbWvbyz8HaB9lvbm2Mmotu8mVk3YjbGcHmuL/Y01TVLz4hapBeajeXEP9llgks7OMiVMHBPXk/nXW/txDPg/wAOn/qIv/6KNcP+xTz8StU/7BTf+jY6APZ/2rru5s/gzqElrcTQObm3XfFIUbBkGRkc188fsz6vq8vxp0KCbVb6aF/ODRyXDspHlP1BOK+gf2uh/wAWUv8A/r7t/wD0YK+cP2Yv+S3+H/rN/wCiXoA+66WjtRQB8+ftr317ZeHPDhsr24td97Lv8mVk3Yj4zg81yf7F+pahd+O9ahu9RvLlP7ODBZp2cZEg5wT15NdL+3EM+G/DX/X7N/6LFcf+xL/yULWf+wYP/Rq0Aeu/tb3V3afB24ls7qa2kN7bqXikKNjccjI5r5b+F3j7V/CfjvS9ZudTvri0SYJdxyXDurQtw/BOOAcj3Ar6e/bC/wCSMXH/AF/2/wD6Ea+LaAP0yhkSWFJoXDxuoZWU8MDyCK+Lf2ptV1OD4z6lFb6nfQIkEG1I7h1UfuweADiveP2VfF//AAkvwzt7C4lL3+jMLSXJ5MeMxN/3zx/wGvnz9q8f8Xs1Q/8ATC3/APRYoA+iP2T7u7vvgzYS31zNcSi6uV3yyF2wJTgZPNcx+1X8Uta8KSWfhfwzdGzvLqH7RdXS/wCsjjJIVU9CcEk9gBjrXQ/sh/8AJE7DP/P3c/8Ao014h+2Pj/hcC5/6BcH/AKFJQB5TP4i1ySdp59d1NpZGyzNeSZY/99UkOua9FMs8Gu6pHKp3K63kgIPr1r6Y/Yw8OaLc+DNV1u6021uL5tRa3E00QdljWNCFGegyxJ9fwqp+2poekWmkaBq1pp8FtdvdyW8kkMYQumzcA2OuCOPqaAOi/ZV+J+p+L7S98OeIrlrvU9PjWaK6fG+aInaQ3qynHPcHmvV/iB4jh8J+DNV8RzxmVLG3aUR5x5jdFX8WIH418r/sYj/i7N2eo/siX/0ZFXvP7UZI+BviAr6Qf+j46APkLxh8RPGPivUnv9W16+BLEpBBM0UUQ9FVSAPr1rCOu6w2B/beosf+vyT/AOKrpfghpdhrXxZ8O6dqdul1aS3eZYXGVfapYAjuMgcV9ya54U8Oalod1pt1omnNbSwlGUWyDAxwRgcEdsdKAPjn4OfF7xP4R8R2cV/q11faFLKEura4kMmxScF0J5Ujr6GvuNGDIrKQytyCO4r8z3UJOUyTtfHJ9DX6UaQf+JVaf9cE/wDQRQB+evinW9aXxVq5TWdSz9umz/pcn/PRvevqP9jzxTc654BvdK1C8mubvS7varSuWfypBuXk8kAhxXyb4r48Uatj/n+n/wDRjV6r+x94hGk/FJtKlbEWsWrQ8/8APRPnX9A4/GgD7NOQK+Gf2gPG+pa38VtZaw1W9hs7KX7FAsNw6riPhjgEdW3V9m+NtZj8PeEdW1yZgEsrSSYZOMkKdo/E4H41+c88slxNJPKxaSRi7k92JyT+dAH0d+xTqOoXnibxJHe6hd3KrZwsFmnZwDvbkZJxX1HXyl+w7/yNXiX/AK8Yf/Q2r6toAKKSloASloooAKKKKAA0GiigAo70UUAAoooNAH57/Gf/AJK54t/7C9x/6Ga9/wD2G/8AkVvEn/X/AB/+i68A+NH/ACVzxb/2Frj/ANDNe/8A7Df/ACK3iT/sIR/+i6APog9DX56fF/8A5Kr4q/7C1x/6Ga/Qthwa/PT4vf8AJVfFX/YWuP8A0M0AfQn7Dn/IqeI/+whH/wCiq+iD0Jr53/Yc/wCRV8R/9hCP/wBFV9EHoaAPz9+OZ/4vF4s/7Ccte6fsM/8AIA8U/wDX5B/6LNeF/HMf8Xi8Wf8AYTl/nXun7DP/ACAPFH/X5B/6LNID6OoxzRXzh8Yvjj4u8DfFXUNDsrXS7zS4I4WWOaJg/wAyBj84b1PoaYHvHiDwv4c1+Ix61oWnagMYzPbq5H0JGR+FeaeJf2c/h3qu97CC+0aVuhtJyUH/AAF9w/LFcpoP7U+lybU1vwreW5/iktLhZB/3ywU/qa7/AED48/DLVtqnXjp8rf8ALO+gaLH1bBX9aAPHPE37LviK23SeHvEFjqKDpFdRtA/5jcP5V5f4m+F3j/w7vOp+FdQESZzNAnnR/XcmcfjivvDSNe0TV0Emlaxp98rDj7PcJJ/I1o0Afm3o+s6zoF75+j6pfaZcKeWt5mjP4gdfxr1Twl+0f4/0fZFqhs9dgXAIuE8uXH++mOfqDX1j4k8FeEvEiMut+HtNvmP/AC0lt13/APfQ+b9a8t8TfszeBtQLSaPdalosh6KknnRf98vz/wCPUAJ4R/aW8F6oUi12yvtDlbALsvnQ/wDfS/MB/wABr13w14h0LxJY/btA1W01G3B2l7eQMFPXB9D7GvlTxN+zJ41stz6Lqel6vEM4RmMEh/Bsrn/gVeqfsm+E/EHhDw9r9h4h0mfTbiTUFdBIVIkXylG5SpIIyKAPbKr6n/yDbr/ri/8A6CasCq+p/wDINuh/0xf/ANBNAH5pTDdvAOCc19yad8cfhdFp9rFJ4rhVlhRWH2abghRkfcr4akwpZj2JzXcwfCT4lzQpLH4M1NkdQynaoyCOO9AH2n4L+Ing3xleT2fhrWor+4gj82VFjdCqZxn5lGecV1JPBr5r/ZM8B+LfC/jHV9Q8Q6Dd6ZBLp4hjebADN5inAwfQGvpRqAPzQvP+P24A/wCez/8AoRqzpV9f6BrtrqVqGhvrC4WaMMMFXQ5wR+GDVa9wLy4JP/LV/wD0I16r+034Rk0LxbY65boFsdbs45sgYCzqiiQfj8rf8CNAHf8A7V+uWvib4T+DNes2BhvrkzAA52kwnK/UHI/Cud/YpH/FydV/7BTf+jY68uufErXPwzs/CU5dzY6o93bE8hUeMhl/765/4Ea9S/Yr/wCSkapx/wAwpv8A0bHQB7B+11/yRS//AOvu2/8ARgr5x/Zi/wCS36B9Z/8A0S9fR37XX/JFL/8A6+7f/wBGCvnH9mIf8Xu0D6zf+iXoA+66KOlA+tAHzt+3D/yLfhr/AK/Zf/RYrj/2Jh/xcHWj/wBQwf8Aoxa7D9uL/kWvDX/X7L/6LFcf+xN/yUHWv+wYP/Ri0Aerfthf8kYuP+v+3/8AQjXxfHG8m7YjMEXcxAzgep9q+0P2wx/xZmf/AK/7b/0I189fs1aXaa38Szot/GJLW90y7hlBHZo8Z+o60AWf2XPFv/CLfFC3t7iYJY6wos5snADk5jb/AL64+jGm/tWNn43asMdILf8A9FivP/Emi3/hvxLfaPelobvT7loiwODlT8rD68EfWtX4neJv+Ew8TLrrKVnlsreO4z3lSMK5HsSM/jQB9Xfsif8AJFLA/wDT3c/+jTXh/wC2P/yWBf8AsFwf+hSV7j+yJ/yROw/6+7n/ANGmvD/2xv8AksC/9guD/wBCkoA9X/Yo5+F+pZ/6DEn/AKKir1zxb4T8PeLLOG08RaVBqMEEnmRpLn5WwRkYI7E15J+xR/yTDUv+wxJ/6Kir3WgDl/Cfw88F+FNSfUfD3h+00+7kjMTSxlixQkEjknuB+Vc1+1H/AMkO8QfSD/0fHXpteY/tSf8AJDvEH0g/9Hx0AfK/7O3/ACWvwx/19N/6LavvO4/1En+4f5V8F/s7f8ls8Mf9fTf+i2r70n/1D8/wn+VAH5pyc3T8f8tD/Ov0l0n/AJBdp/1xT/0EV+bcvF0//XQ/zr9JdJ/5Bdp/1wT/ANBFAH5z+K/+Ro1b/r+n/wDRjVP4cvbrwp4003U5UaG50y9jldSORtYFh+Iz+dV/Fxx4m1jH/P7P/wCjGrvv2j/DR0jxfp+pqoW21nSre5GBx5gjVJP5A/8AAqAPcv2uvFEVr8J7SytJlY65cRqhU/ehUeYx+n3B+NfIYtbhrJr0RN9nWUQmTtvILbfyBNdb8RPGsnifQfCWl5cjRdLFtIWH3pdxGR/wBY+frXQeN/Dcmhfs9eDrm4AW51XU572Tjna0eIx/3yoP40Adp+w7/wAjV4l/68Yf/Q2r6tr5R/Yc/wCRq8S/9eMP/obV9XYoASlpKWgAoNFFAC9KKSigAoopKAFooooAKD0opKAPz4+M/wDyVzxZ/wBha4/9DNe/fsNf8iv4l/7CEf8A6LrwH4z/APJXPFv/AGF7j/0M179+w2P+KX8S/wDYQj/9F0AfRR6Gvzz+L3/JVfFX/YWuP/QzX6Ft0Nfnp8Xv+Sq+Kv8AsLXH/oZoA+hP2HP+RV8R/wDYQj/9FV9EN0NfO/7Dv/IqeI/+whH/AOiq+iD90/SgD8/fjp/yWLxX/wBhOX+de6/sNf8AIv8Aij/r9g/9FmvCvjn/AMli8Wf9hOWvdf2Gf+Rf8Uf9fsP/AKLNAH0b9a+ZPj/8FvHPiv4hah4m0GLT7q0uEiVImuvLlyqBTwwC9R619N0fjQB8D6p8Hvibpu4z+DtRkC9Tb7Zv/QCa5TUtD1vTSw1HRtRs9vXz7Z0x+Yr9IzSSIjpsdVZT2IyKAPzOhkMMglhlMcg6OjbSPxFdfoXxO+IWibF07xdqixpwI5pfOQD02vkV9zav4O8J6vn+0/DWkXZPVpbNCfzxmuQ1b4EfC/UA3/FNpaMf4rWeSMj8M4/SgDwjQP2mPHdiFXVbLSdVQcEmIwuffKnH6V32h/tS+H5gBrfhrUrI92tpEnX9dpq5q37L3g64Zm07XNasfRWZJVH5qD+tcjqv7K2qJuOl+L7OfHRbm0aP9VLfyoA9g0D43/DLWQBF4lhs3P8ABextAfzYY/Wu80vU9N1S3+0aZqFrfQ9PMt5lkX8wa+NdV/Zz+JloxFvaabfxjnMF4AT+Dha9r/ZO8H6/4O8Oa7Z+IdKm06ee/WSNZCp3qIwMgqSCM0Ae1VX1P/kG3R/6Yv8AyNWKr6n/AMg265/5Yv8AyNAH5oynhz25r9LNJx/Zdp/1wT/0EV+acgDblz1JFfUlj+1JpFvZQQP4Rvy0cSoSLtMEgY9KAPpI/Sg8CvnaD9qjSJrmKBfB2o/vHVN32uPjJxnpX0RztyetAH5o3w/0u4P/AE1f+Zr7W+Ovg8+MPgoI7eLff6dbR31pgckonzKPqu4fXFfFV/8A8fVyP+mr/wAzX6QaEobQLAEAg2sYIP8AuCgD82RgYIOa93/YqJPxJ1T/ALBTf+jY68++OXhP/hDPibqukxoVs5X+1WfHHlSEkAf7pyv/AAGvQP2Kv+Sk6p/2Cm/9Gx0Aexftcf8AJFL/AP6+7f8A9GCvnH9mP/kt3h/6z/8Aol6+jf2uefgrf/8AX3b/APowV8o/CrxTD4J8d6d4lns5L2O037oUcKzbkK8E+mc0AfoXzQK+ch+1XpB6eDtR/wDAxP8ACuz+EXxu0/4h+J5NDt9Au9OkS2a4Eks6uCFIBGAPegDj/wBuI48N+Gv+v2X/ANFiuP8A2Jv+Sg61/wBgwf8Aoxa6/wDbj58N+Guf+X2X/wBFiuR/YlH/ABcDWv8AsGD/ANGrQB6t+2F/yRmf/r/t/wD0I14V+yKR/wALntB/05XH/oFe6/thf8kZn/6/7f8A9CNeFfsjDHxps/8AryuP/QKAOq/bP8Imz8Qaf4ytYsQ3yfZbvA4EqDKMfquR/wAAr57r9A/jF4VXxl8O9W0NUU3MkPmWhP8ADMnzJ+ZGPoTX5+SJJG7RyoySISrK3UEcEUAfav7In/JFLD/r8uf/AEaa8O/bH4+MC/8AYLg/9Ckr3H9kT/kilj/193P/AKNNeKftl2s0fxYt7l0Iin0uLy29druDQB6l+xP/AMkv1L/sMSf+ioq6T9oz4iax8OvD+mX2i29nNNeXZgYXKsyhQhbgAjnivnv4EfGcfDfSb7R7vRZNRs7mf7QjQyhHjcqFIOQQQQoqt8ePi63xMi06yg0htNsbGRpQJJQ8kkhGMnAAAAzx70Aeyfs+fGfxH4/8aXGha1YabDEli1yklsjq25XRcHLHj5v0rrv2pP8AkhviD6Qf+j468P8A2LLSaT4j6neqhMEGlsjvjgF5EwP/AB0/lXun7TFtPefBLxFHboXZIo5SB/dWVGY/gAT+FAHyl+zr/wAlr8Mf9fTf+i2r7zn/ANRJ/un+VfnR4G1+fwn4v03xHbQpPNYTCUROcBxjBXPbIJ5r6A1j9qiGbSZ4tN8IXEV68ZWN57tTGjEdSAMnHpxQB81y/wDH2+f+eh/nX6SaR/yCrT/rgn/oIr82bdJbi7iijUyTTSKqqOrMTgAfUmv0p06NorG3iYfMkSq31AAoA/OPxbkeJtXI5P22f/0Y1fTn7UHh3+0vgv4e15RiXSVgLkf885Y1U/8Aj2yvmXxbgeJtXI/5/Z//AEY1ffE2hWfir4Yx+H9R3ra3+lxwyNHjcuY15GeMg4I+lAHwP4b0qXXPEmm6JbIWlv7qO3XAzjcwBP4DJ/CvpD9s60hsfA3hSyt1CQW920Ua+irDgD8hXY/Dv4AeG/Bniy08RW+sanfz2gYwxXAjCBipXd8qg5AJrlv24f8AkV/DnH/L/L/6KpAc3+w7/wAjT4l/68Yf/Q2r6tr5R/Yc/wCRq8Tf9eMP/obV9XUwEJoopaACikpaACiiigANFFFABRRmigAo7UUdqAPz3+M3/JXPFv8A2F7j/wBDNe//ALDf/Ir+Jf8AsIR/+i68B+NA/wCLt+Lf+wtcf+hmvff2Gz/xS/iX/sIR/wDougD6KbpX56fF3/kqvir/ALC1x/6Ga/Qtuhr88/i9x8VfFQ/6i1x/6GaAPoT9h3/kVfEf/YQj/wDRVfRB+6fpXzv+w7/yKviP/sIR/wDoqvog9DQB+fvxz/5LF4s/7Ccte6/sM/8AIv8Aij/r8h/9FmvCvjn/AMli8V/9hOX+de6/sNf8i/4o/wCvyH/0WaQH0aBivkz9oD4meO/DPxh1XTtD8SXVpZQxwGO3Co0YJjUnhlPevrOvEPir8AU8c+NbzxKPFL2L3SxqYDZiQLtUL13jrimB4xp/7RPxPtWBm1HT71R/DNYqAf8AvjBrfsP2ovGMbf6doGiXI/6Z+ZEf/QmrWn/ZVvx/qPGls3+/YMP5Oapyfss+Ih/q/FelH/et5BQBqWH7VXQX/gxsd2gv/wCjJ/Wt6x/ai8HyEC80HW7b1KiOQD/x4VwNx+y/4zT/AFOuaFN9WlT/ANlNUZP2aPiKp+SfQXHqLtx/7ToA9osP2jvhlcybZbvU7Qf3prFsf+O5rfsfjT8L7wgReL7GMntOrxf+hKK+b5/2cPiXH9yHSJv9y9x/NRVCb9n/AOKkfTQLeT/cv4T/AOzUAfX9h438G6gQtl4r0SZj0Vb6Pd+Wc1t29xBcoXt54pl6bo3DD9K+G5vgV8UYxuPhVn/3LmI/+zV9A/sn+E/EXhLwtrNn4j0qXTZpr8SRI7Kdy+WoyME9xQB7RUdzF51tLDu2+YhXPpkYqSjigD5Rf9ljxFvbZ4p0nGTjMEnSmj9ljxL38U6P/wB+ZK+sKDxQB8qWn7LXiKO7hlfxVpQVJFZtsEmcAgmvqpgcHB5opaAPlOf9lvxFJcSufFWlbXkZgTbyZwTmvqWwtzbWFvbb9/kxLHn1wAM/pWF8RPGWl+B9Bj1fVbe9uIpbmO1jitIhJI8jnCgAkfzqj4O8ef8ACRaw2nf8If4t0gCIyfaNT03yITgj5d24/Mc8D2NAHOfH/wCErfEi302fT7620/UbJmUyzRlhJE3JU454IyPqayfgL8GNT+Hfie81nUNbs73z7M2yxwRMuCXViSW/3f1r2osOmaUD3oA4v4z+Dbrx34CuvDtnew2c8ssciyyoWUbGBwQOea8DH7LHiXHPirSM/wDXCSvrAUE+tAHyf/wyx4lH/M1aP/34krvvgZ8ENU+H/jKTX9Q1yyvUNo9usUETKcsVOST24r3Ij1rI8K+JNH8T6fJf6JdG5tormW1d9jLiSNtrjkDoe9AHDftAfDPUPiPpWl2un6pbWD2Nw8rGeNmDhl24GO9Y/wABPg3qnw68R3+rX+t2d6tzaCBY4ImUg7g2ST9K9o60UAcP8bfBN14/8Cy+HrO+gs5nuIphLMhZfkOccc1578FvgVrHgPx3D4jvtesLuKO3li8qGJwxLjAOT2Fe9dqMAigAPT0r5w+Iv7N17r3jbU9c0XXbCys7+XzzbzQsTG7ffwR2Jyfxr6P60nfFAHGfBjwbdeA/AVt4du72G8mimlkaSJCqne5bGDzxmovi78M9F+I+jR2uoSSWl7bEtaXkQBeInqCD95TgZHtwRUvj74jaV4Q1vTdFuNJ1vVNQ1KOSW3g0y0E7lUxuJG4Hv2rS8E+Kl8UW1zOvh/XtHEEgTZqtn9naTIzlRk5HbPrQB86Sfsr+IA7eV4r0tlzwXt5ASPpk0tv+yv4gMyi48WaWkWfmKW0jMB7Akfzr6rpTQBx3wo+HmifDrw+dL0nzJ5Zn8y6upseZO+MAnHAA7AdK6y8t4Lu1ltbmFJoJkMckbjKupGCCPQipRg9DR0oA+afFv7LazarLceGPEcdpZyMStteQs5i9g6nkfUZ9zWKP2WPEmefFWkY/64SV9N+Ldcg8O+HrzWLmC4uEtoywht4y8krdFRVHUkkAfWp9Buru/wBGtby/09tOupoleW1aQO0JIztLDgkd8UAeOfCT9nnS/CWuQa9rupjWL+2bfbRJFsgifs+CSWYdugHpXuAGOKX8aKAPlvXP2YNfvtXvryHxTpipcXEkqh4HyAzEjPvzX01pFqbHSrSyZw5t4EiLAY3bVAz+lWqKACvMf2gfhrqHxJ0bS7PTtUtbCSyuWmYzozBwU24GO9enUUAeO/s/fCHU/htq+rX2oaxZ3wvoI4kSCNl27WJJJb617FRRQAUgpaKACjpRRQAUUUUAFFA5pKAF70UCg0AFJ2paDQB+fPxox/wtvxZ/2Frj/wBDNe+/sOLjwt4kJ738f/ouvepdG0eWV5ZdKsHkc7ndrdCWPqTjk1PZWVnZKy2dpb2yscsIowgJ9TigCwehr89Pi9/yVXxV3/4m1x/6Ga/QvNUJdF0aaZppdJsJJXO5na2Qsx9ScUAeDfsO4PhXxHg/8xCP/wBFV9EHoar2dlZ2SstlaQWyscsIowgJ9TirBoA/P745Ef8AC4vFYz/zE5f6V7p+w1/yAPFHP/L5B/6Aa9+n0XRp5mnn0mwllY5Z3tkZifUkip7KxsrFWWys7e2VjlhDEqBj74FAFiikpaADPtRRRQAUUGigAooooAQ/SloooAKKSl7UAFFFJQAtFFFAHkf7VJk/4QLSBbtGtz/wkVh5BkyUD+Z8u7HOM4zXXeGbPxvcQ6ja+OrjQJ7WaLy4Rpcc0bc5D7i59CMY561b+IXg7SvG+hJo+ryXcUMdzHcpJay+XIkiHKkHBrN8P/DyDRpriWPxV4svGnt3gxeao0oTd/GoIwHHY9qAPFfBeoahqXxItPhJdeJZrnw7oeo3E8N95ziXUvK2slmZP4jGWO7nkDHpXS6b4Zt/HPxv+Imma/q2rnTLI2XlWFvfyQxsz24+c7SDxg4HTJyc13w+FHhOHwxouhWcV1aJot2L2zuoZsXAmzlnZ8fMWz82ev4Vw9r8OLjxH8YvH2o6jP4g0SORrNbHUNOuWtzNGYAJUz0dcqM8cH0oA4qTxp4otfhJP4ch1HU7kx+Mm8Ow6jHMBcyWgOcLI2AHP3AxI+tdt8PdB8T6D8S9Mk0Lwp4h0TwzcW8serw6nqiXSGQDMcqDzHYPng49a9BX4ZeDR8Ph4FbS9+jA7tpkbzPMzu83f18zPO7+lN8HfDy08OauNVPiPxLrFwkTQwjU9RaZIkJGQqAAZ4HJBPvQB5r+z54RtvE/hi48S+INY1u/uWvb60giOoSpHbwl3VlUKRydzHceRxjGKxvhfbR+E/gf4v8AHGiw3X9s2kupQ2++6keNVSUhW8snbkYBLYyccnmvefA/hXS/B+hnR9HE32Yzy3H759zb5GLNzgcZNY3h/wCGmg6Jqur3Vpdam9jqwl+06VNcl7LMpzIyx44J+vc0AeS+KfDSeC/hFpvxL0nxLrMvieFbS7nu5dQklXUTKybomjJKFTvOABxitL4t2V5F4wvPEvjHSPEWo+EWsITa3Gj3zRPo7hcyu0SsCxyc7+cDjFdpp3wV8JWlzYrJea7e6Xp8wnstJu9QaSzt5AcqRGeuD0BJAq54r+FejeItXvr641vxHaw6ltGoWNrqLJbXQChcMmDjIAB24zQB1ml3tvN4attQ02dru1e0WWCVySZU2ZUknnJGK+ZPDtp4s8Y+Bz4xsND8V3fjC7le4s9Zg1eNLaFlkIESwmUARgDaVK5619TWFpa2GnwWFpCsNtBGsUUajhVUYAH4CvPpfg54cW8uW07V/Eek6fdTNPcaXYam8NrI7HLHaOVyeoUgUAcjr+n3fir486RoGv3+p2dtJ4SF1f2dnePCksglAZGKHpuPbk7QM4rovgJ9s0/UvGvhR766vNP0PWBDp5uZTJJHE8YbZuPJAPTNdqvhLSV8bReLv3/9pRacdOXMmU8kuH6euR1zTvDfhbTdA1jXNVsWnM+t3S3V15j7lDhdo2jHAxQB5l8XV15vjz4FXwxLp0ep/wBnX/ltfo7RAbRuyEIOcZxVj413Pi3Tf2ePElx4jv7BNXTYUm0kSRIqedHjG47s9c812Pjr4d6R4u1nTtYu9R1jT77T4pIoJtOuzAwV8bgSBntVef4Y6PdeDdU8K6lrGv6pY6mUMz3t+ZZU2kEBGI+UZAzQBwOp6EfAfjf4eajo+s6zc3Gt332LVmu715VvFaPduZWOFIPTaABxXOLFq/j7xF4wvtT0DxXq81lqs+n6Y+m6qlrFpgj4UqhkUlyfmJIIOa9517whpWtXug3d4bgSaFdC6s9kmBvC7fm45GKxNe+Fuiajr93rdhq2vaDd3+Pt/wDZV+YFu8DGXGCM47jBoA828RQeMNQtvhN4f8T6nqWk6ve3VzbanLa3G2WRFiOclTjcyjrzgsSOan+I1toeheN/CXgnV5ta/wCEMGnXU/2a0uLiaWScPwZvLJlKDdwemTivVj4F0Qy+GZs3Zbw2ztYF7guSWQod5bJfg9z1rz74w6HNcfE/Sta1Xw94g1HQYNMkt459AZluYZ2kyfM2MHKFQMYOASaAOKfSdS0D9nrx1q2/W7IXmp7tNlvbmYXX2JZkEWQ7ZTgt2BI612/xJHh7W/EtpoVzpfivxLqkemJI+n6VemCC1RicTOS6LvJ4GSeg4pvgHwPqniPwv4q0TxUmv2vhbUrqM6VZ6nd776GNcFiWJYqGYAhSSRzXZ+Jvhro2ta3HrMeo61pF99lW0nl028MBuYF6JJgc4z1GD70AYn7MWsX+rfC5f7Uubq4mstQubJZLp98uyN8KHbuQDjPtXqJYdyPzrgofhN4Wt/A7eD7R9SttMN99u/c3bLIJN4bG/rtyBxWvc+CtJudf1bWpZtQ+06rpw06dVumEaxYIyi/wtz97/wCvQB0wIIyCCKWsnwjoNn4Y8N2OgafJcSWtjEIomuJDJIQPVj161rUAFJS0UAFJzS0UAFFJS0ABNFFFAAKKSigBaDRxSd6AD8aWiigBKWiigAooooAMUlLSUALRSGloABQaSloASjPNL3ooAKKKKADFFFFAB2ooooAKKPwpKAFooooAO9FFFABSd6WigAooooAO9FJjmloAKAaSigBTRRRQAUUUGgAooooAKKKKACikpaACiikoAU0UUdaACiikoAWikooAWikpcUAFFFFABQaKKADvRRRQAUUUUAAooooADSUtFABRRRQAUUd8UlAC0UUCgApKWigAoopKAFopKWgAxRSdKWgAooooAKKKKADvRRSUALRRRQAUUUUAJS0UUAFApKWgANJS0lABRS0lAC0UUlAC0UlLQAUlLRQAUUUUAFJS0UAFFFFABRRQKACikpaACikpaACkpaKACiiigAooooAKKKKACijBooAKSlooAKKO9FABSUopO9AC0AUUUAFIKWkHegBaKTuKWgBKWg0UAFFApB0oAWiijtQAUlLSUAFLRRQAhpaKKACiiigAooooAKKKKACiiigA7CgUhpRQAHNFAoNACUtJ2pTQAUUDpRQAlLSUvb8KADNJQKWgBKWiigAFFFFABQaO9J3oAWiikFACijFFFABRRSd6AFoopKACiloFABQc0ppDQAHrRQKKACiiigAoFFFABiikNFAH/9k=';
@@ -334,7 +350,7 @@ const SEED_LOGO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBA
    SGIMTTO · Sistema de Gestión de Informes de Mantenimiento
    Desarrollado por Ing. Victor Hugo Paguay
    ============================================================ */
-const APP_VERSION = '1.3.0';
+const APP_VERSION = '2.1.0';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -667,7 +683,7 @@ async function buildPDF(r, co, opts = {}) {
     // ficha
     cy = Math.max(cy + 6, 175);
     doc.setDrawColor(...mixRGB(P, [255, 255, 255], 0.6)); doc.setLineWidth(0.3); doc.setFillColor(...mixRGB(P, [255, 255, 255], 0.93));
-    const fx = 40, fw = 130, rows = [['Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Informe N°', r.numero], ['Orden de trabajo', r.datos.ot || '—'], ['Equipo', [eq.codigo, eq.marca].filter(Boolean).join(' · ') || '—'], ['Tipo de mantenimiento', r.datos.tipoMtto || '—']];
+    const fx = 40, fw = 130, rows = [['Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Informe N°', numTxt(r)], ['Orden de trabajo', r.datos.ot || '—'], ['Equipo', [eq.codigo, eq.marca].filter(Boolean).join(' · ') || '—'], ['Tipo de mantenimiento', r.datos.tipoMtto || '—']];
     doc.roundedRect(fx, cy, fw, rows.length * 8 + 6, 2, 2, 'FD');
     doc.setFontSize(9.5); rows.forEach((rw, i) => { const yy = cy + 8 + i * 8; doc.setFont(F, 'bold'); doc.setTextColor(90); doc.text(rw[0] + ':', fx + 6, yy); doc.setFont(F, 'normal'); doc.setTextColor(...INK); doc.text(doc.splitTextToSize(String(rw[1]), 78)[0], fx + 50, yy); });
     cy += rows.length * 8 + 22;
@@ -700,11 +716,11 @@ async function buildPDF(r, co, opts = {}) {
     doc.setFont(F, 'bold'); doc.setFontSize(12.5); doc.setTextColor(...P); const tl = doc.splitTextToSize(dz.titulo || 'INFORME TÉCNICO DE MANTENIMIENTO', CW); doc.text(tl, W / 2, y, { align: 'center' }); y += tl.length * 5.4;
     if (dz.subtitulo) { doc.setFont(F, 'normal'); doc.setFontSize(8.8); doc.setTextColor(90); const sl = doc.splitTextToSize(dz.subtitulo, CW); doc.text(sl, W / 2, y, { align: 'center' }); y += sl.length * 4; }
     y += 2; const K = { fontStyle: 'bold', fillColor: TINT, cellWidth: 31 }; const L0 = r.datos.lider || {};
-    table({ body: [['Informe N°', r.numero, 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Encargado de turno', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
+    table({ body: [['Informe N°', numTxt(r), 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Encargado de turno', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
       ['Equipo', [eq.codigo, eq.bahia ? 'Bahía ' + eq.bahia : ''].filter(Boolean).join(' · ') || '—', 'Ubicación', r.datos.ubicacion || dz.ubicacion || '—'],
       ['Marca / Modelo', [eq.marca, eq.modelo].filter(Boolean).join(' ') || '—', 'Motor', [eq.motor, eq.modelo2].filter(Boolean).join(' ') || '—'],
       ['Potencia / Tensión', [eq.potencia, eq.tension].filter(Boolean).join(' · ') || '—', 'Horómetro', r.datos.horometro ? r.datos.horometro + ' h' : '—'],
-      ['Técnico de apoyo', r.datos.apoyo || '—', '', '']], columnStyles: { 0: K, 2: K } });
+      ['Técnico líder (ejecutó)', (r.datos.ejecutor || {}).nombre || '—', 'Técnicos de apoyo', r.datos.apoyo || '—']], columnStyles: { 0: K, 2: K } });
   }
   heading('Antecedentes. –'); para(r.textos.antecedentes);
   heading('Objetivo del servicio solicitado. –'); para(r.textos.objetivo);
@@ -761,22 +777,23 @@ async function buildPDF(r, co, opts = {}) {
   /* ---- Firmas ---- */
   heading('Firmas.', 75);
   ensure(68);
-  const fb = r.firmas || {}; const bw = (CW - 10) / 2;
+  const fb = r.firmas || {}; const legado = !fb.ejecutado && !r.datos.ejecutor && r.estado !== 'borrador'; const NB = legado ? 2 : 3; const GAPF = 7; const bw = (CW - GAPF * (NB - 1)) / NB;
   const sigBlock = (x, label, s, fallbackName, fallbackCargo) => {
     doc.setFont(F, 'bold'); doc.setFontSize(9.5); doc.setTextColor(...P); doc.text(label, x, y);
     const by = y + 3; doc.setDrawColor(210); doc.setLineWidth(0.2); doc.rect(x, by, bw, 32);
     if (s && s.img) { const [iw, ih] = fitBox(s.img.w || 300, s.img.h || 100, bw - 10, 28); doc.addImage(s.img.data, 'PNG', x + (bw - iw) / 2, by + (32 - ih) / 2, iw, ih); }
     else { doc.setFont(F, 'italic'); doc.setFontSize(9); doc.setTextColor(170); doc.text('Pendiente de firma', x + bw / 2, by + 17, { align: 'center' }); }
     doc.setDrawColor(...INK); doc.setLineWidth(0.3); doc.line(x + 6, by + 38, x + bw - 6, by + 38);
-    doc.setTextColor(...INK); doc.setFont(F, 'bold'); doc.setFontSize(9.5); doc.text((s && s.nombre) || fallbackName || '________________', x + bw / 2, by + 43, { align: 'center' });
-    doc.setFont(F, 'normal'); doc.setFontSize(8.5); doc.text((s && s.cargo) || fallbackCargo || '', x + bw / 2, by + 47.5, { align: 'center' });
-    if (s && s.fecha) { doc.setTextColor(110); doc.setFontSize(7.5); doc.text('Firmado: ' + fmtDT(s.fecha), x + bw / 2, by + 51.5, { align: 'center' }); }
+    doc.setTextColor(...INK); doc.setFont(F, 'bold'); doc.setFontSize(9); doc.text(doc.splitTextToSize((s && s.nombre) || fallbackName || '________________', bw - 4)[0], x + bw / 2, by + 43, { align: 'center' });
+    doc.setFont(F, 'normal'); doc.setFontSize(8); doc.text(doc.splitTextToSize((s && s.cargo) || fallbackCargo || '', bw - 4)[0], x + bw / 2, by + 47.5, { align: 'center' });
+    if (s && s.fecha) { doc.setTextColor(110); doc.setFontSize(7.5); doc.text('Firmado: ' + fmtDT(s.fecha), x + bw / 2, by + 51.5, { align: 'center' }); if (s.emergencia) doc.text('Aprobación con PIN de emergencia', x + bw / 2, by + 55, { align: 'center' }); }
   };
-  const lid = r.datos.lider || {};
-  sigBlock(M, 'Elaborado por:', fb.elaborado, lid.nombre, lid.cargo);
-  sigBlock(M + bw + 10, 'Aprobado por:', fb.aprobado, '', 'Supervisor de Mtto. / Jefe de Proyecto');
-  y += 60;
-  if (r.datos.apoyo) { doc.setFont(F, 'normal'); doc.setFontSize(8.5); doc.setTextColor(80); doc.text('Técnico de apoyo: ' + r.datos.apoyo, M, y); y += 5; }
+  const lid = r.datos.lider || {}, ejx = r.datos.ejecutor || {}; let bx = M;
+  if (!legado) { sigBlock(bx, 'Ejecutado por:', fb.ejecutado, ejx.nombre, ejx.cargo || 'Técnico líder'); bx += bw + GAPF; }
+  sigBlock(bx, 'Elaborado por:', fb.elaborado, lid.nombre, lid.cargo || 'Encargado de turno'); bx += bw + GAPF;
+  sigBlock(bx, 'Aprobado por:', fb.aprobado, '', 'Supervisor de Mtto. / Jefe de Proyecto');
+  y += 62;
+  if (r.datos.apoyo) { doc.setFont(F, 'normal'); doc.setFontSize(8.5); doc.setTextColor(80); const al = doc.splitTextToSize('Técnicos de apoyo: ' + r.datos.apoyo, CW); doc.text(al, M, y); y += al.length * 4 + 2; }
 
   /* ---- Índice ---- */
   if (tocPage) {
@@ -793,7 +810,7 @@ async function buildPDF(r, co, opts = {}) {
     if (co.logo) { const [lw, lh] = fitBox(co.logo.w || 300, co.logo.h || 200, 30, 15); doc.addImage(co.logo.data, imgFmt(co.logo.data), M, 7 + (15 - lh) / 2, lw, lh); }
     doc.setFont(F, 'bold'); doc.setFontSize(9.5); doc.setTextColor(...INK); doc.text(dz.encabezado || co.nombre, W / 2, 12, { align: 'center' });
     doc.setFont(F, 'normal'); doc.setFontSize(7); doc.setTextColor(90); doc.text(doc.splitTextToSize(dz.titulo || '', 95), W / 2, 16, { align: 'center' });
-    doc.setFontSize(7.5); doc.setTextColor(60); const cd = r.codigoDoc || dz.codigoDoc; if (cd) doc.text(`Código: ${cd}`, W - M, 7.5, { align: 'right' }); doc.text(`Informe N° ${r.numero}`, W - M, 11, { align: 'right' }); doc.text(`OT: ${r.datos.ot || '—'}`, W - M, 15, { align: 'right' }); doc.text(`Equipo: ${eq.codigo || '—'}`, W - M, 19, { align: 'right' });
+    doc.setFontSize(7.5); doc.setTextColor(60); const cd = r.codigoDoc || dz.codigoDoc; if (cd) doc.text(`Código: ${cd}`, W - M, 7.5, { align: 'right' }); doc.text(`Informe N° ${numTxt(r)}`, W - M, 11, { align: 'right' }); doc.text(`OT: ${r.datos.ot || '—'}`, W - M, 15, { align: 'right' }); doc.text(`Equipo: ${eq.codigo || '—'}`, W - M, 19, { align: 'right' });
     doc.setDrawColor(...P); doc.setLineWidth(0.7); doc.line(M, 24, W - M, 24); doc.setDrawColor(...S2); doc.setLineWidth(0.7); doc.line(M, 25.1, M + 40, 25.1);
     doc.setDrawColor(200); doc.setLineWidth(0.2); doc.line(M, H - 13, W - M, H - 13);
     doc.setFontSize(7.5); doc.setTextColor(110);
@@ -804,11 +821,11 @@ async function buildPDF(r, co, opts = {}) {
       if (r.estado === 'borrador' && !opts.noWatermark) { try { doc.saveGraphicsState(); doc.setGState(new doc.GState({ opacity: 0.07 })); doc.setFontSize(80); doc.setTextColor(120); doc.text('BORRADOR', W / 2, H / 2 + 20, { align: 'center', angle: 35 }); doc.restoreGraphicsState(); } catch (e) {} }
     }
   }
-  doc.setProperties({ title: `Informe ${r.numero}`, subject: dz.titulo, author: (r.datos.lider || {}).nombre || 'SGIMTTO', creator: 'SGIMTTO ' + APP_VERSION });
+  doc.setProperties({ title: `Informe ${numTxt(r)}`, subject: dz.titulo, author: (r.datos.lider || {}).nombre || 'SGIMTTO', creator: 'SGIMTTO ' + APP_VERSION });
   return doc;
 }
 async function photosFor(r) { const o = {}; for (const f of r.fotos || []) { const p = await getPhoto(f.id); if (p) o[f.id] = p; } return o; }
-function pdfName(r, formato) { return `Informe_${String(r.numero).replace(/[^\w-]+/g, '')}_${(r.datos.equipo || {}).codigo || 'EQ'}_OT-${(r.datos.ot || 'SN').replace(/[^\w-]+/g, '')}${formato === 'ejecutivo' ? '_EJECUTIVO' : ''}.pdf`; }
+function pdfName(r, formato) { return `Informe_${numTxt(r).replace(/[^\w-]+/g, '')}_${(r.datos.equipo || {}).codigo || 'EQ'}_OT-${(r.datos.ot || 'SN').replace(/[^\w-]+/g, '')}${formato === 'ejecutivo' ? '_EJECUTIVO' : ''}.pdf`; }
 const FORMATOS = [{ v: 'completo', t: 'Completo', d: 'Con portada e índice' }, { v: 'ejecutivo', t: 'Ejecutivo', d: 'Sin portada ni índice, más corto' }];
 async function exportPDF(r, formato) {
   const co = D.companies.find(c => c.id === r.cid); formato = formato || r.formato || 'completo';
@@ -832,7 +849,7 @@ async function renderPdfInto(container, doc) {
   } catch (e) { console.error(e); container.innerHTML = `<div class="ld">No se pudo mostrar la vista previa (${esc(e.message)}). Use “Descargar PDF”.</div>`; }
 }
 function exportChooser(r) {
-  modal({ title: 'Exportar PDF · ' + r.numero, body: `<p class="small muted" style="margin-bottom:12px">Elija el formato del informe.</p><div style="display:grid;gap:10px">${FORMATOS.map(f => `<button class="profile" data-fmt="${f.v}"><span class="avatar">${ic('file')}</span><span><b>${f.t}</b><br><span class="small muted">${f.d}</span></span></button>`).join('')}</div>`,
+  modal({ title: 'Exportar PDF · ' + numTxt(r), body: `<p class="small muted" style="margin-bottom:12px">Elija el formato del informe.</p><div style="display:grid;gap:10px">${FORMATOS.map(f => `<button class="profile" data-fmt="${f.v}"><span class="avatar">${ic('file')}</span><span><b>${f.t}</b><br><span class="small muted">${f.d}</span></span></button>`).join('')}</div>`,
     onMount(el, close) { $$('[data-fmt]', el).forEach(b => b.onclick = () => { close(); exportPDF(r, b.dataset.fmt); }); } });
 }
 function previewModal(doc, title, r) {
@@ -863,42 +880,36 @@ function topbar() {
   return `<header class="topbar"><div class="inner"><button class="brandmark" data-home><span class="sq">${ic('bolt')}</span>SGIMTTO</button><span class="spacer"></span>
   <div class="who"><span class="avatar" style="width:30px;height:30px;font-size:11px;background:var(--accent);color:var(--accent-ink)">${esc(initials(u.nombre))}</span><span class="nm"><b>${esc(u.nombre)}</b></span><span class="chip-role">${esc(u.rol === 'admin' ? 'Admin' : u.cargo)}</span></div>
   ${u.rol === 'admin' ? `<button class="icon-btn" data-config title="Configuración y respaldo" aria-label="Configuración">${ic('cog')}</button>` : ''}
-  <button class="icon-btn" data-logout title="Salir" aria-label="Salir">${ic('out')}</button></div></header>`;
+  ${redHTML()}<button class="icon-btn" data-logout title="Salir" aria-label="Salir">${ic('out')}</button></div></header>`;
 }
 function bindTop(root) {
   const h = root.querySelector('[data-home]'); if (h) h.onclick = goHome;
-  const l = root.querySelector('[data-logout]'); if (l) l.onclick = () => { S.uid = null; LS.del('sgimtto_session'); go({ view: 'login', loginMode: 'main' }); };
+  const l = root.querySelector('[data-logout]'); if (l) l.onclick = () => { LS.del('sgimtto_session'); salir(); };
   const c = root.querySelector('[data-config]'); if (c) c.onclick = configModal;
 }
 
 /* ================= LOGIN ================= */
 VIEWS.login = {
   html() {
-    const req = D.settings.requireCreds; let box;
-    if (req) box = `<div><p class="eyebrow">Acceso</p><h2 style="font-size:24px">Ingresar a SGIMTTO</h2></div>
+    const box = `<div><p class="eyebrow">Acceso</p><h2 style="font-size:24px">Ingresar a SGIMTTO</h2></div>
       <form class="form" style="grid-template-columns:1fr" data-cred><label class="f">Usuario<input class="in" name="u" autocomplete="username" autocapitalize="characters" required></label>
       <label class="f">Contraseña<input class="in" name="p" type="password" autocomplete="current-password" required></label>
-      <button class="btn primary block" style="min-height:50px">Ingresar</button><p class="small" data-err style="color:var(--bad)"></p></form>`;
-    else if (S.loginMode === 'perfiles') {
-      const groups = [{ n: 'Administración', us: D.users.filter(u => u.rol === 'admin' && u.activo !== false) }, ...D.companies.map(c => ({ n: c.nombre, us: D.users.filter(u => u.cid === c.id && u.activo !== false) }))];
-      box = `<div><span class="testbadge">${ic('warn')}Modo pruebas · sin contraseña</span><h2 style="font-size:22px;margin-top:10px">Elija un perfil</h2></div>
-      <div class="profiles">${groups.filter(g => g.us.length).map(g => `<p class="eyebrow" style="margin-top:6px">${esc(g.n)}</p>` + g.us.map(u => `<button class="profile" data-prof="${u.id}"><span class="avatar">${esc(initials(u.nombre))}</span><span><b>${esc(u.usuario)}</b> · ${esc(u.nombre)}<br><span class="small muted">${esc(u.rol === 'admin' ? 'Administrador global' : u.cargo)}${u.aprueba ? ' · aprueba con PIN' : ''}</span></span></button>`).join('')).join('')}</div>
-      <button class="btn ghost" data-backmain>${ic('back')}Volver</button>`;
-    } else box = `<div><span class="testbadge">${ic('warn')}Modo pruebas · sin credenciales</span><h2 style="font-size:26px;margin-top:12px">Bienvenido</h2>
-      <p class="muted" style="margin-top:6px">Ingrese al panel del administrador para gestionar empresas, equipos, usuarios y el diseño de los informes.</p></div>
-      <button class="btn accent block" style="min-height:56px;font-size:17px" data-start>${ic('bolt')}Iniciar</button>
-      <button class="btn block" data-perfiles>${ic('users')}Ingresar con otro perfil de prueba</button>`;
+      <button class="btn primary block" style="min-height:50px">Ingresar</button><p class="small" data-err style="color:var(--bad)"></p></form>
+      <button type="button" class="btn block" data-admbtn>${ic('lock')}Ingreso de administrador</button>`;
     return `<div class="login"><section class="side"><div><div class="big">SGI<span>MTTO</span></div><p class="tag">Sistema de Gestión de Informes de Mantenimiento</p>
       <div class="feat"><div>${ic('shield')}Análisis de riesgos (ATS) antes de intervenir</div><div>${ic('list')}Listas de verificación con terminología UNE-EN 13306</div><div>${ic('camera')}Respaldo fotográfico desde el celular</div><div>${ic('pen')}Firma táctil y aprobación con PIN</div><div>${ic('file')}Informe PDF con la imagen de cada empresa</div></div></div>
       <div class="dev">Desarrollado por <b>Victor Hugo Paguay</b><br>Ingeniero de Mantenimiento Industrial · v${APP_VERSION}</div></section>
       <main class="main"><div class="box">${box}</div></main></div>`;
   },
   bind(root) {
-    const st = root.querySelector('[data-start]'); if (st) st.onclick = () => { const a = D.users.find(u => u.rol === 'admin' && u.activo !== false); if (a) login(a); };
-    const pf = root.querySelector('[data-perfiles]'); if (pf) pf.onclick = () => go({ loginMode: 'perfiles' });
-    const bm = root.querySelector('[data-backmain]'); if (bm) bm.onclick = () => go({ loginMode: 'main' });
-    $$('[data-prof]', root).forEach(b => b.onclick = () => login(D.users.find(u => u.id === b.dataset.prof)));
-    const f = root.querySelector('[data-cred]'); if (f) f.onsubmit = e => { e.preventDefault(); const u = D.users.find(x => x.activo !== false && x.usuario.toUpperCase() === f.u.value.trim().toUpperCase() && x.pass === f.p.value); if (!u) { f.querySelector('[data-err]').textContent = 'Usuario o contraseña incorrectos.'; return; } login(u); };
+    const f = root.querySelector('[data-cred]'); f.onsubmit = async e => { e.preventDefault(); const b = f.querySelector('button'); const er = f.querySelector('[data-err]'); b.disabled = true; er.textContent = 'Ingresando…';
+      try { await entrar(f.u.value, f.p.value); er.textContent = ''; } catch (x) { er.textContent = errTxt(x); b.disabled = false; } };
+    root.querySelector('[data-admbtn]').onclick = () => modal({ title: 'Ingreso de administrador', body: `<form class="form" style="grid-template-columns:1fr" data-af><label class="f">Clave del administrador<input class="in mono" name="p" type="password" autocomplete="current-password" required></label><p class="hint">También acepta el PIN genérico de emergencia.</p><p class="small" data-aerr style="color:var(--bad)"></p></form>`,
+      foot: `<button class="btn" data-x2>Cancelar</button><button class="btn primary" data-ok>${ic('lock')}Ingresar</button>`,
+      onMount(el, close) { const af = el.querySelector('[data-af]'); setTimeout(() => af.p.focus(), 50); el.querySelector('[data-x2]').onclick = close;
+        const go3 = async () => { const ok = el.querySelector('[data-ok]'); ok.disabled = true; el.querySelector('[data-aerr]').textContent = 'Ingresando…';
+          try { await entrarAdmin(af.p.value); close(); } catch (x) { ok.disabled = false; el.querySelector('[data-aerr]').textContent = esCredMala(x) ? 'Clave incorrecta.' : errTxt(x); } };
+        el.querySelector('[data-ok]').onclick = go3; af.onsubmit = e => { e.preventDefault(); go3(); }; } });
   }
 };
 
@@ -974,7 +985,7 @@ TABVIEWS.informes = {
       <select class="in" data-fe aria-label="Estado"><option value="">Todos los estados</option>${['borrador', 'elaborado', 'aprobado'].map(k => `<option value="${k}" ${S.fEstado === k ? 'selected' : ''}>${estadoTxt(k)}</option>`).join('')}</select>
       <button class="btn accent" data-new>${ic('plus')}Nuevo informe</button></div>
       ${list.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Informe</th><th>OT</th><th>Equipo</th><th class="hide-m">Fecha</th><th class="hide-m">Encargado de turno</th><th>Estado</th><th></th></tr></thead><tbody>
-      ${list.map(r => `<tr class="click" data-open="${r.id}"><td class="mono"><b>${esc(r.numero)}</b>${r.codigoDoc ? `<br><span class="small muted">${esc(r.codigoDoc)}</span>` : ''}</td><td class="mono">${esc(r.datos.ot || '—')}</td><td><b class="mono">${esc((r.datos.equipo || {}).codigo || '—')}</b></td><td class="hide-m">${fmtCorta(r.datos.fecha)}</td><td class="hide-m">${esc((r.datos.lider || {}).nombre || '—')}</td><td><span class="chip ${r.estado}">${estadoTxt(r.estado)}</span>${r.estado === 'borrador' && !puedeEditar(r) ? `<br><span class="small muted">${ic('lock', 'lk')} Solo lectura</span>` : ''}</td>
+      ${list.map(r => `<tr class="click" data-open="${r.id}"><td class="mono"><b>${esc(numTxt(r))}</b>${r.codigoDoc ? `<br><span class="small muted">${esc(r.codigoDoc)}</span>` : ''}</td><td class="mono">${esc(r.datos.ot || '—')}</td><td><b class="mono">${esc((r.datos.equipo || {}).codigo || '—')}</b></td><td class="hide-m">${fmtCorta(r.datos.fecha)}</td><td class="hide-m">${esc((r.datos.lider || {}).nombre || '—')}</td><td><span class="chip ${r.estado}">${estadoTxt(r.estado)}</span>${r.estado === 'borrador' && !puedeEditar(r) ? `<br><span class="small muted">${ic('lock', 'lk')} Solo lectura</span>` : ''}</td>
       <td class="act"><button class="icon-btn" data-pdf="${r.id}" title="Descargar PDF" aria-label="Descargar PDF">${ic('down')}</button>${isAdmin() ? `<button class="icon-btn" data-delr="${r.id}" title="Eliminar" aria-label="Eliminar">${ic('trash')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div>`
       : `<div class="empty">${all.length ? 'No hay informes con ese filtro.' : 'Aún no hay informes. Pulse <b>Nuevo informe</b> para crear el primero.'}</div>`}`;
   },
@@ -984,18 +995,18 @@ TABVIEWS.informes = {
     root.querySelector('[data-new]').onclick = () => newReport(co);
     $$('[data-open]', root).forEach(tr => tr.onclick = e => { if (e.target.closest('button')) return; go({ view: 'informe', rid: tr.dataset.open, step: 0 }); });
     $$('[data-pdf]', root).forEach(b => b.onclick = () => exportChooser(R.get(b.dataset.pdf)));
-    $$('[data-delr]', root).forEach(b => b.onclick = async () => { const r = R.get(b.dataset.delr); if (!await confirmBox(`¿Eliminar definitivamente el informe <b>${esc(r.numero)}</b> y sus fotografías?`, { ok: 'Eliminar', danger: true })) return;
+    $$('[data-delr]', root).forEach(b => b.onclick = async () => { const r = R.get(b.dataset.delr); if (!await confirmBox(`¿Eliminar definitivamente el informe <b>${esc(numTxt(r))}</b> y sus fotografías?`, { ok: 'Eliminar', danger: true })) return;
       for (const f of r.fotos || []) await DB.del('photos', f.id); await DB.del('reports', r.id); R.delete(r.id); toast('Informe eliminado'); render(); });
   }
 };
 const estadoTxt = k => ({ borrador: 'En progreso', elaborado: 'Pend. aprobación', aprobado: 'Aprobado' }[k] || k);
 function newReport(co) {
-  const u = me(); co.seq = (co.seq || 0) + 1; saveKV('companies');
+  const u = me();
   const tp = co.tipos[0]; const p = tp.plantilla;
-  const r = { id: uid(), cid: co.id, numero: numInforme(co, co.seq), codigoDoc: co.design.codigoDoc || '', estado: 'borrador', creado: ahora(), actualizado: ahora(), creadoPor: u.id,
+  const r = { id: uid(), cid: co.id, numero: '', codigoDoc: co.design.codigoDoc || '', estado: 'borrador', creado: ahora(), actualizado: ahora(), creadoPor: u.id,
     datos: { ot: '', fecha: hoyISO(), tipoId: tp.id, tipoMtto: tp.nombre, equipoId: '', equipo: null, horometro: '', ubicacion: co.design.ubicacion || co.sitio || '', lider: u.cid === co.id ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null, apoyo: '' },
     textos: clone(p.textos), plantilla: { ats: clone(p.ats), iniciales: clone(p.iniciales), trabajos: clone(p.trabajos), pruebas: clone(p.pruebas) }, resp: {}, fotos: [], firmas: {} };
-  saveReport(r, true); go({ view: 'informe', rid: r.id, step: 0 }); toast('Informe ' + r.numero + ' creado');
+  saveReport(r, true); go({ view: 'informe', rid: r.id, step: 0 }); toast(NUBE.online ? 'Informe creado' : 'Informe creado. El N° se asigna al recuperar la señal.'); asignarNumero(r);
 }
 
 /* ================= ASISTENTE DEL INFORME ================= */
@@ -1004,7 +1015,8 @@ function newReport(co) {
    No: los demás técnicos (lo ven en solo lectura). */
 const esSupervisor = u => !!u && (u.rol === 'admin' || u.aprueba || /supervisor|jefe|encargado/i.test(u.cargo || ''));
 function apoyoUid(r) { if (r.datos.apoyoUid) return r.datos.apoyoUid; const n = norm(r.datos.apoyo); const u = n && D.users.find(x => x.cid === r.cid && norm(x.nombre) === n); return u ? u.id : null; }
-function puedeEditar(r, u = me()) { if (!u) return false; if (esSupervisor(u)) return true; return [r.creadoPor, (r.datos.lider || {}).uid, apoyoUid(r)].includes(u.id); }
+function apoyosDe(r) { const a = (r.datos.apoyos || []).slice(); const old = !r.datos.apoyos && apoyoUid(r); if (old) { const u = D.users.find(x => x.id === old); if (u) a.push({ uid: u.id, nombre: u.nombre, cargo: u.cargo }); } return a; }
+function puedeEditar(r, u = me()) { if (!u) return false; if (esSupervisor(u)) return true; return [r.creadoPor, (r.datos.lider || {}).uid, (r.datos.ejecutor || {}).uid, ...apoyosDe(r).map(a => a.uid)].includes(u.id); }
 function responsable(r) { const u = D.users.find(x => x.id === r.creadoPor); return (r.datos.lider || {}).nombre || (u && u.nombre) || '—'; }
 const STEPS = [
   { k: 'general', t: 'Datos generales' }, { k: 'antecedentes', t: 'Antecedentes y objetivo' }, { k: 'ats', t: 'Análisis de riesgos' },
@@ -1017,11 +1029,11 @@ const filled = v => v !== undefined && v !== null && String(v).trim() !== '';
 function progress(r, k) {
   const items = s => r.plantilla[s].filter(i => i.t === 'item');
   if (['ats', 'iniciales', 'trabajos', 'pruebas'].includes(k)) { const it = items(k); return [it.filter(i => filled(r.resp[i.id])).length, it.length]; }
-  if (k === 'general') { const req = [r.datos.ot, r.datos.fecha, r.datos.equipoId, r.datos.lider]; return [req.filter(Boolean).length, req.length]; }
+  if (k === 'general') { const req = [r.datos.ot, r.datos.fecha, r.datos.equipoId, r.datos.ejecutor, r.datos.lider]; return [req.filter(Boolean).length, req.length]; }
   if (k === 'antecedentes') return [[r.textos.antecedentes, r.textos.objetivo].filter(filled).length, 2];
   if (k === 'cierre') return [[r.textos.observaciones, r.textos.recomendaciones, r.textos.conclusiones].filter(filled).length, 3];
   if (k === 'fotos') return [r.fotos.filter(f => filled(f.desc)).length, r.fotos.length];
-  if (k === 'firmas') return [(r.firmas.elaborado ? 1 : 0) + (r.firmas.aprobado ? 1 : 0), 2];
+  if (k === 'firmas') return [['ejecutado', 'elaborado', 'aprobado'].filter(x => r.firmas[x]).length, 3];
   return [0, 0];
 }
 function stepperHTML(r) {
@@ -1032,7 +1044,7 @@ function updateStepper(r) { const el = $('[data-stepper]'); if (el) { const sl =
 function bindStepper(el) { $$('[data-step]', el).forEach(b => b.onclick = () => go({ step: +b.dataset.step })); }
 function issues(r) {
   const out = []; const d = r.datos;
-  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); else if (!/^\d{3}$/.test(d.ot)) out.push('La orden de trabajo debe tener 3 dígitos.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.lider) out.push('Falta el encargado de turno.');
+  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); else if (!/^\d{3}$/.test(d.ot)) out.push('La orden de trabajo debe tener 3 dígitos.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.ejecutor) out.push('Falta el técnico líder que ejecutó el trabajo.'); if (!d.lider) out.push('Falta el encargado de turno que elabora el informe.');
   for (const [k, n] of [['ats', 'Análisis de riesgos'], ['iniciales', 'Controles iniciales'], ['trabajos', 'Trabajos realizados'], ['pruebas', 'Pruebas de funcionamiento']]) { const [a, b] = progress(r, k); if (a < b) out.push(`${n}: ${b - a} punto(s) sin registrar.`); }
   const atsX = r.plantilla.ats.filter(i => r.resp[i.id] === 'X').length; if (atsX) out.push(`ATS: ${atsX} condición(es) marcadas como NO cumplidas (X).`);
   if (!r.fotos.length) out.push('No hay fotografías de respaldo.'); const sd = r.fotos.filter(f => !filled(f.desc)).length; if (sd) out.push(`${sd} fotografía(s) sin descripción.`);
@@ -1056,7 +1068,7 @@ function itemCtl(r, i) {
 function checklistHTML(r, sec, numbered = true) {
   const nums = numeracion(r.plantilla);
   return `<div class="cl">${r.plantilla[sec].map(i => i.t === 'h1' ? `<div class="h1">${esc(i.txt)}</div>` : i.t === 'h2' ? `<div class="h2">${esc(i.txt)}</div>`
-    : `<div class="it"><div class="num">${numbered ? nums[i.id] : '•'}</div><div class="tx">${esc(i.txt)}</div><div class="ctl">${itemCtl(r, i)}</div></div>`).join('')}</div>`;
+    : `<div class="it"><div class="num">${numbered ? nums[i.id] : '•'}</div><div class="tx">${esc(i.txt)}${i.extra ? ` <span class="chip elaborado">Otro</span> <button type="button" class="icon-btn" style="width:30px;height:30px;vertical-align:middle" data-delx="${sec}:${i.id}" aria-label="Quitar punto">${ic('trash')}</button>` : ''}</div><div class="ctl">${itemCtl(r, i)}</div></div>`).join('')}</div>`;
 }
 const STEP_HTML = {
   general(r, co) {
@@ -1075,18 +1087,20 @@ const STEP_HTML = {
       <label class="f">Horómetro (h)<input class="in mono" inputmode="decimal" data-b="datos.horometro" value="${esc(d.horometro)}" placeholder="Ej. 399"></label>
       ${e ? `<div class="full eqcard">${[['Código', e.codigo], ['Bahía', e.bahia], ['Marca', e.marca], ['Modelo', e.modelo], ['Motor', e.motor], ['Modelo motor', e.modelo2], ['Potencia', e.potencia], ['Tensión', e.tension]].map(([a, b]) => `<div><span>${a}</span><b>${esc(b || '—')}</b></div>`).join('')}</div>` : ''}
       </div></section>
-      <section class="card sec"><header><h2>Personal que ejecuta</h2></header><div class="bd form">
-      <label class="f"><span class="lb">Encargado de turno (firma el informe) <span class="req">*</span></span><select class="in" data-lider><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.lider && d.lider.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
-      <label class="f">Técnico de apoyo <span class="hint">(se registra, no firma; puede continuar el informe)</span><select class="in" data-apoyo><option value="">— Ninguno —</option>${users.filter(u => !d.lider || u.id !== d.lider.uid).map(u => `<option value="${u.id}" ${apoyoUid(r) === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
+      <section class="card sec"><header><h2>Personal</h2></header><div class="bd form">
+      <label class="f"><span class="lb">Técnico líder · ejecutó el trabajo <span class="req">*</span></span><select class="in" data-ejecutor><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.ejecutor && d.ejecutor.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select><span class="hint">Firma como ejecutor del trabajo.</span></label>
+      <label class="f"><span class="lb">Encargado de turno · elabora el informe <span class="req">*</span></span><select class="in" data-lider><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.lider && d.lider.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select><span class="hint">Firma como elaborador del informe.</span></label>
+      <div class="f full"><span>Técnicos de apoyo <span class="hint">(seleccione uno o varios; no firman y pueden continuar el informe)</span></span>
+        <div class="apoyos">${users.filter(u => !d.ejecutor || u.id !== d.ejecutor.uid).map(u => `<label class="check apo"><input type="checkbox" data-apoyoc value="${u.id}" ${apoyosDe(r).some(a => a.uid === u.id) ? 'checked' : ''}> ${esc(u.nombre)}</label>`).join('') || '<span class="hint">No hay otros usuarios.</span>'}</div></div>
       </div></section>`;
   },
   antecedentes(r) {
     return `<section class="card sec"><header><h2>1. Antecedentes</h2><button type="button" class="btn sm" data-restore="antecedentes">${ic('refresh')}Texto de plantilla</button></header><div class="bd"><textarea class="in" rows="6" data-b="textos.antecedentes">${esc(r.textos.antecedentes)}</textarea></div></section>
       <section class="card sec"><header><h2>2. Objetivo del servicio</h2><button type="button" class="btn sm" data-restore="objetivo">${ic('refresh')}Texto de plantilla</button></header><div class="bd"><textarea class="in" rows="6" data-b="textos.objetivo">${esc(r.textos.objetivo)}</textarea></div></section>`;
   },
-  ats(r) { return `<section class="card sec"><header><div><h2>Análisis de seguridad en el trabajo (ATS / PTS)</h2><p class="small muted">Verifique cada condición antes de intervenir el equipo. ✓ cumple · X no cumple · N/A no aplica.</p></div><button type="button" class="btn sm" data-bulk="ats">${ic('check')}Marcar pendientes ✓</button></header><div class="bd">${checklistHTML(r, 'ats')}</div></section>`; },
+  ats(r) { return `<section class="card sec"><header><div><h2>Análisis de seguridad en el trabajo (ATS / PTS)</h2><p class="small muted">Verifique cada condición antes de intervenir el equipo. ✓ cumple · X no cumple · N/A no aplica.</p></div><button type="button" class="btn sm" data-bulk="ats">${ic('check')}Marcar pendientes ✓</button></header><div class="bd">${checklistHTML(r, 'ats')}<button type="button" class="btn sm" style="margin-top:12px" data-otro="ats">${ic('plus')}Agregar otro punto</button></div></section>`; },
   iniciales(r) { return `<section class="card sec"><header><div><h2>Controles iniciales</h2><p class="small muted">Registre los niveles en % y el estado de cada control visual.</p></div><button type="button" class="btn sm" data-bulk="iniciales">${ic('check')}Controles pendientes ✓</button></header><div class="bd">${checklistHTML(r, 'iniciales', false)}</div></section>`; },
-  trabajos(r) { return `<section class="card sec"><header><div><h2>Trabajos realizados</h2><p class="small muted">Toque <b>✓</b> si la actividad se realizó, <b>X Novedad</b> si encontró un problema o no se pudo hacer, y <b>N/A</b> si no aplica.</p></div><button type="button" class="btn sm" data-bulk="trabajos">${ic('check')}Marcar pendientes como realizados</button></header><div class="bd">${checklistHTML(r, 'trabajos')}
+  trabajos(r) { return `<section class="card sec"><header><div><h2>Trabajos realizados</h2><p class="small muted">Toque <b>✓</b> si la actividad se realizó, <b>X Novedad</b> si encontró un problema o no se pudo hacer, y <b>N/A</b> si no aplica.</p></div><button type="button" class="btn sm" data-bulk="trabajos">${ic('check')}Marcar pendientes como realizados</button></header><div class="bd">${checklistHTML(r, 'trabajos')}<button type="button" class="btn sm" style="margin-top:12px" data-otro="trabajos">${ic('plus')}Agregar otro trabajo</button>
     </div></section>`; },
   pruebas(r) { const e = r.datos.equipo || {}; return `<section class="card sec"><header><div><h2>Pruebas de funcionamiento${e.codigo ? ' · ' + esc(e.codigo) : ''}</h2><p class="small muted">Ingrese los valores que muestra el módulo de control del generador.</p></div><button type="button" class="btn sm" data-bulk="pruebas">${ic('check')}Verificaciones pendientes ✓</button></header><div class="bd">${checklistHTML(r, 'pruebas')}</div></section>`; },
   fotos(r) {
@@ -1101,25 +1115,30 @@ const STEP_HTML = {
     return ['observaciones', 'recomendaciones', 'conclusiones'].map(k => `<section class="card sec"><header><h2>${{ observaciones: 'Observaciones finales', recomendaciones: 'Recomendaciones', conclusiones: 'Conclusiones' }[k]}</h2><button type="button" class="btn sm" data-restore="${k}">${ic('refresh')}Texto de plantilla</button></header><div class="bd"><textarea class="in" rows="5" data-b="textos.${k}">${esc(r.textos[k])}</textarea></div></section>`).join('');
   },
   firmas(r) {
-    const is = issues(r); const f = r.firmas; const adm = isAdmin();
+    const is = issues(r); const f = r.firmas; const adm = isAdmin(); const ed = r.estado === 'borrador' && puedeEditar(r);
     const sig = (s, pendTxt) => `<div class="sigimg">${s ? `<img src="${s.img.data}" alt="Firma">` : `<span class="pend">${pendTxt}</span>`}</div>`;
+    const caja = (k, titulo, persona, falta) => { const s = f[k]; const p = s || persona || {};
+      return `<section class="card sigbox"><p class="eyebrow">${titulo}</p>
+        ${s ? sig(s) : ed ? `<div class="padwrap inl"><canvas data-pad-k="${k}" aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(null, 'Pendiente de firma')}
+        <div><b>${esc(p.nombre || falta)}</b><br><span class="small muted">${esc(p.cargo || '')}${s ? ' · ' + fmtDT(s.fecha) : ''}</span></div>
+        ${s && ed ? `<button type="button" class="btn sm danger" data-quitar="${k}">Quitar esta firma</button>` : !s && ed ? `<div class="row"><button type="button" class="btn" data-clr-k="${k}">${ic('refresh')}Borrar trazo</button><button type="button" class="btn accent" style="flex:1" data-firmar="${k}">${ic('pen')}Firmar</button></div>` : ''}</section>`; };
     return `<section class="card sec"><header><h2>Revisión antes de firmar</h2></header><div class="bd chk-sum">${is.length ? is.map(t => `<div class="bad">${ic('warn')}${esc(t)}</div>`).join('') : `<div class="ok">${ic('check')}El informe está completo.</div>`}</div></section>
       <section class="card sec"><header><h2>Vista previa del PDF</h2><div class="row"><div class="seg txt" data-fmtsel role="group" aria-label="Formato del informe">${FORMATOS.map(x => `<button type="button" data-f="${x.v}" class="v-st ${(r.formato || 'completo') === x.v ? 'on' : ''}" title="${x.d}">${x.t}</button>`).join('')}</div><button type="button" class="btn sm" data-regen>${ic('refresh')}Actualizar</button><button type="button" class="btn sm primary" data-dlpdf>${ic('down')}Exportar PDF</button></div></header><div class="bd"><div class="pdfview" data-pv><div class="ld">Generando vista previa…</div></div></div></section>
-      <div class="sigs">
-        <section class="card sigbox"><p class="eyebrow">Elaborado por · encargado de turno</p>${r.estado === 'borrador' && puedeEditar(r) ? `<div class="padwrap inl"><canvas data-padel aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(f.elaborado, 'Pendiente de firma')}
-          <div><b>${esc((f.elaborado || r.datos.lider || {}).nombre || 'Sin encargado de turno')}</b><br><span class="small muted">${esc((f.elaborado || r.datos.lider || {}).cargo || '')}${f.elaborado ? ' · ' + fmtDT(f.elaborado.fecha) : ''}</span>${r.datos.apoyo ? `<br><span class="small muted">Técnico de apoyo: ${esc(r.datos.apoyo)}</span>` : ''}</div>
-          ${r.estado === 'borrador' && !puedeEditar(r) ? `<p class="small muted">En progreso por ${esc(responsable(r))}. Solo él, su técnico de apoyo o el supervisor pueden firmarlo.</p>` : r.estado === 'borrador' ? `<div class="row"><button type="button" class="btn" data-clrel>${ic('refresh')}Borrar trazo</button><button type="button" class="btn accent" style="flex:1" data-signel>${ic('pen')}Firmar informe</button></div>` : r.estado === 'elaborado' && puedeEditar(r) ? `<button type="button" class="btn sm danger" data-unsign>Quitar firma y volver a editar</button>` : ''}</section>
-        <section class="card sigbox"><p class="eyebrow">Aprobado por · supervisor / jefe de proyecto</p>${sig(f.aprobado, r.estado === 'borrador' ? 'Requiere la firma del técnico' : 'Pendiente de aprobación')}
-          ${f.aprobado ? `<div><b>${esc(f.aprobado.nombre)}</b><br><span class="small muted">${esc(f.aprobado.cargo)} · ${fmtDT(f.aprobado.fecha)}</span></div>` : '<p class="small muted">El aprobador firma con su PIN personal (supervisor, jefe de proyecto o encargado de turno).</p>'}
+      <div class="sigs s3">${caja('ejecutado', 'Ejecutado por · técnico líder', r.datos.ejecutor, 'Sin técnico líder')}${caja('elaborado', 'Elaborado por · encargado de turno', r.datos.lider, 'Sin encargado de turno')}
+        <section class="card sigbox"><p class="eyebrow">Aprobado por · supervisor / jefe de proyecto</p>${sig(f.aprobado, r.estado === 'borrador' ? 'Requiere las firmas de ejecución y elaboración' : 'Pendiente de aprobación')}
+          ${f.aprobado ? `<div><b>${esc(f.aprobado.nombre)}</b><br><span class="small muted">${esc(f.aprobado.cargo)} · ${fmtDT(f.aprobado.fecha)}${f.aprobado.emergencia ? ' · con PIN de emergencia' : ''}</span></div>` : '<p class="small muted">El aprobador firma con su PIN personal (supervisor, jefe de proyecto o encargado de turno).</p>'}
           ${r.estado === 'elaborado' ? `<button type="button" class="btn primary" data-approve>${ic('lock')}Aprobar con PIN</button>` : ''}
-          ${r.estado === 'aprobado' && adm ? `<button type="button" class="btn sm danger" data-unapprove>Anular aprobación (admin)</button>` : ''}</section></div>`;
+          ${r.estado === 'aprobado' && adm ? `<button type="button" class="btn sm danger" data-unapprove>Anular aprobación (admin)</button>` : ''}</section></div>
+      ${apoyosDe(r).length ? `<p class="small muted" style="margin-top:10px">Técnicos de apoyo: ${esc(apoyosDe(r).map(a => a.nombre).join(', '))}</p>` : ''}
+      ${r.estado === 'borrador' && !puedeEditar(r) ? `<p class="small muted" style="margin-top:10px">En progreso por ${esc(responsable(r))}. Solo el personal del informe o el supervisor pueden firmarlo.</p>` : ''}
+      ${r.estado === 'elaborado' && puedeEditar(r) ? `<div class="row" style="margin-top:12px"><button type="button" class="btn sm danger" data-unsign>Quitar las firmas y volver a editar</button></div>` : ''}`;
   }
 };
 VIEWS.informe = {
   html() {
     const r = R.get(S.rid); const co = company(r.cid); const st = STEPS[S.step] || STEPS[0]; const edit = puedeEditar(r); const locked = (r.estado !== 'borrador' || !edit) && st.k !== 'firmas';
     return topbar() + `<div class="wz-head"><div class="inner"><div class="wz-title"><button class="icon-btn" data-backlist aria-label="Volver a informes">${ic('back')}</button>
-      <div style="flex:1;min-width:0"><p class="eyebrow" style="margin:0">${esc(co.nombre)}</p><h2 class="mono" style="font-size:16px">${esc(r.numero)} <span class="chip ${r.estado}" style="font-family:var(--font);vertical-align:middle">${estadoTxt(r.estado)}</span></h2></div>
+      <div style="flex:1;min-width:0"><p class="eyebrow" style="margin:0">${esc(co.nombre)}</p><h2 class="mono" style="font-size:16px">${esc(numTxt(r))} <span class="chip ${r.estado}" style="font-family:var(--font);vertical-align:middle">${estadoTxt(r.estado)}</span></h2></div>
       <span class="saved" id="saved">${ic('check')}Guardado automático</span></div><nav class="stepper" data-stepper>${stepperHTML(r)}</nav></div></div>
       <main class="wz">${!edit && r.estado === 'borrador' ? `<div class="lock">${ic('lock')}<span><b>Informe en progreso por ${esc(responsable(r))}.</b> Solo el técnico que lo creó, su técnico de apoyo, el supervisor o el encargado de turno pueden continuarlo. Usted lo ve en modo solo lectura.</span></div>` : locked ? `<div class="lock">${ic('lock')}<span>Este informe ya fue firmado y no admite cambios. ${r.estado === 'elaborado' ? 'Para corregirlo, quite la firma en el paso “Vista PDF y firmas”.' : 'Solo el administrador puede anular la aprobación.'}</span></div>` : ''}
       <fieldset ${locked ? 'disabled' : ''}>${STEP_HTML[st.k](r, co)}</fieldset></main>
@@ -1159,8 +1178,18 @@ VIEWS.informe = {
       await saveReport(r, true); render(); toast('Puntos de “' + t.nombre + '” cargados');
     };
     const eqSel = root.querySelector('[data-eq]'); if (eqSel) eqSel.onchange = () => { const e = D.equipos.find(x => x.id === eqSel.value); r.datos.equipoId = e ? e.id : ''; r.datos.equipo = e ? clone(e) : null; saveReport(r, true); render(); };
-    const lid = root.querySelector('[data-lider]'); if (lid) lid.onchange = () => { const u = D.users.find(x => x.id === lid.value); r.datos.lider = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null; if (u && apoyoUid(r) === u.id) { r.datos.apoyo = ''; r.datos.apoyoUid = null; } saveReport(r, true); render(); };
-    const apo = root.querySelector('[data-apoyo]'); if (apo) apo.onchange = () => { const u = D.users.find(x => x.id === apo.value); r.datos.apoyoUid = u ? u.id : null; r.datos.apoyo = u ? u.nombre : ''; saveReport(r); };
+    const lid = root.querySelector('[data-lider]'); if (lid) lid.onchange = () => { const u = D.users.find(x => x.id === lid.value); r.datos.lider = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null; saveReport(r); updateStepper(r); };
+    const eje = root.querySelector('[data-ejecutor]'); if (eje) eje.onchange = () => { const u = D.users.find(x => x.id === eje.value); r.datos.ejecutor = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null;
+      r.datos.apoyos = apoyosDe(r).filter(a => !u || a.uid !== u.id); delete r.datos.apoyoUid; r.datos.apoyo = r.datos.apoyos.map(a => a.nombre).join(', '); saveReport(r, true); render(); };
+    $$('[data-apoyoc]', root).forEach(c => c.onchange = () => { r.datos.apoyos = $$('[data-apoyoc]', root).filter(x => x.checked).map(x => { const u = D.users.find(y => y.id === x.value); return { uid: u.id, nombre: u.nombre, cargo: u.cargo }; });
+      delete r.datos.apoyoUid; r.datos.apoyo = r.datos.apoyos.map(a => a.nombre).join(', '); saveReport(r); });
+    $$('[data-otro]', root).forEach(b => b.onclick = async () => { const sec = b.dataset.otro; const t = await promptBox(sec === 'ats' ? 'Describa la condición de seguridad adicional:' : 'Describa el trabajo adicional realizado:', { ok: 'Agregar', title: sec === 'ats' ? 'Otro punto del ATS' : 'Otro trabajo' });
+      if (!t || !t.trim()) return; const L = r.plantilla[sec];
+      if (sec === 'trabajos' && !L.some(i => i.t === 'h1' && i.extra)) L.push(Object.assign(hd('OTROS TRABAJOS', 'h1'), { extra: true }));
+      L.push(mk(t.trim(), sec === 'ats' ? 'check' : 'estado', { extra: true, def: 'OK' })); saveReport(r, true); render(); toast('Punto agregado a este informe', 'ok'); });
+    $$('[data-delx]', root).forEach(b => b.onclick = async () => { const [sec, id] = b.dataset.delx.split(':'); if (!await confirmBox('¿Quitar este punto adicional del informe?', { ok: 'Quitar', danger: true })) return;
+      const L = r.plantilla[sec]; r.plantilla[sec] = L.filter(i => i.id !== id); delete r.resp[id];
+      if (sec === 'trabajos' && !r.plantilla.trabajos.some(i => i.extra && i.t === 'item')) r.plantilla.trabajos = r.plantilla.trabajos.filter(i => !i.extra); saveReport(r, true); render(); });
     $$('[data-restore]', root).forEach(b => b.onclick = async () => { const kk = b.dataset.restore; if (filled(r.textos[kk]) && !await confirmBox('¿Reemplazar el texto actual por el texto de la plantilla de la empresa?', { ok: 'Reemplazar' })) return; r.textos[kk] = (tipoDe(co, r.datos.tipoId) || {}).plantilla.textos[kk] || ''; saveReport(r, true); render(); });
     $$('[data-bulk]', root).forEach(b => b.onclick = () => { const sec = b.dataset.bulk; let n = 0;
       for (const i of r.plantilla[sec]) { if (i.t !== 'item' || filled(r.resp[i.id])) continue; if (i.tipo === 'check') { r.resp[i.id] = '✓'; n++; } else if (i.tipo === 'estado') { r.resp[i.id] = TRABAJO_HECHO[i.def] ? i.def : 'OK'; n++; } }
@@ -1174,7 +1203,7 @@ function bindFotos(root, r) {
   const cam = root.querySelector('[data-incam]'), gal = root.querySelector('[data-ingal]');
   root.querySelector('[data-cam]').onclick = () => cam.click(); root.querySelector('[data-gal]').onclick = () => gal.click();
   const add = async files => { files = [...files]; if (!files.length) return; toast(`Procesando ${files.length} foto(s)…`);
-    for (const f of files) { try { const p = await fileToData(f, 1600, 0.78); const id = uid(); const rec = { id, rid: r.id, ...p }; await DB.put('photos', rec); PH.set(id, rec); r.fotos.push({ id, desc: '' }); } catch (e) { toast(e.message, 'bad'); } }
+    for (const f of files) { try { let p = await fileToData(f, 1280, 0.72); if (p.data.length > 700000) p = await fileToData(f, 1024, 0.6); const id = uid(); const rec = { id, rid: r.id, ...p }; await DB.put('photos', rec); PH.set(id, rec); r.fotos.push({ id, desc: '' }); } catch (e) { toast(e.message, 'bad'); } }
     await saveReport(r, true); render(); toast('Foto(s) agregada(s). Escriba la descripción de cada una.', 'ok'); };
   cam.onchange = () => { add(cam.files); cam.value = ''; }; gal.onchange = () => { add(gal.files); gal.value = ''; };
   $$('[data-delph]', root).forEach(b => b.onclick = async () => { if (!await confirmBox('¿Eliminar esta fotografía?', { ok: 'Eliminar', danger: true })) return; const id = b.dataset.delph; r.fotos = r.fotos.filter(f => f.id !== id); await DB.del('photos', id); PH.delete(id); await saveReport(r, true); render(); });
@@ -1189,31 +1218,37 @@ function bindFirmas(root, r, co) {
   root.querySelector('[data-regen]').onclick = () => genPreview(root, r, co);
   $$('[data-fmtsel] button', root).forEach(b => b.onclick = () => { r.formato = b.dataset.f; $$('[data-fmtsel] button', root).forEach(x => x.classList.toggle('on', x === b)); saveReport(r, true); genPreview(root, r, co); });
   root.querySelector('[data-dlpdf]').onclick = () => exportPDF(r);
-  const padEl = root.querySelector('[data-padel]'); const padEl2 = padEl ? sigPad(padEl) : null;
-  const cl = root.querySelector('[data-clrel]'); if (cl) cl.onclick = () => padEl2.clear();
-  const se = root.querySelector('[data-signel]'); if (se) se.onclick = async () => {
-    if (!r.datos.lider) { toast('Seleccione el encargado de turno en “Datos generales”.', 'bad'); return go({ step: 0 }); }
+  const pads = {}; $$('[data-pad-k]', root).forEach(c => pads[c.dataset.padK] = sigPad(c));
+  $$('[data-clr-k]', root).forEach(b => b.onclick = () => pads[b.dataset.clrK].clear());
+  $$('[data-quitar]', root).forEach(b => b.onclick = async () => { delete r.firmas[b.dataset.quitar]; await saveReport(r, true); render(); });
+  const firmar = async k => {
+    const P = k === 'ejecutado' ? r.datos.ejecutor : r.datos.lider;
+    if (!P) { toast(k === 'ejecutado' ? 'Seleccione el técnico líder en “Datos generales”.' : 'Seleccione el encargado de turno en “Datos generales”.', 'bad'); return go({ step: 0 }); }
     const crit = []; if (!filled(r.datos.ot)) crit.push('número de OT'); if (!r.datos.equipoId) crit.push('equipo');
     if (crit.length) { toast('Antes de firmar complete: ' + crit.join(', '), 'bad'); return go({ step: 0 }); }
-    const L = r.datos.lider; const u = D.users.find(x => x.id === L.uid);
-    let img = padEl2 && !padEl2.isEmpty() ? padEl2.toData() : null;
-    if (!img && u && u.firma && await confirmBox(`No dibujó la firma en el recuadro. ¿Usar la firma registrada de <b>${esc(L.nombre)}</b>?<div class="sigimg" style="margin-top:10px"><img src="${u.firma.data}" alt=""></div>`, { ok: 'Usar firma registrada', title: 'Firma registrada' })) img = u.firma;
-    if (!img) { toast('Dibuje su firma con el dedo en el recuadro y pulse “Firmar informe”.', 'bad'); padEl && padEl.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
-    const is = issues(r);
-    if (is.length && !await confirmBox(`<b>Hay puntos pendientes:</b><ul style="margin:8px 0 8px 18px;padding:0">${is.map(t => `<li>${esc(t)}</li>`).join('')}</ul>¿Desea firmar el informe de todas formas?`, { ok: 'Firmar de todas formas', title: 'Informe incompleto' })) return;
-    r.firmas.elaborado = { uid: L.uid, nombre: L.nombre, cargo: L.cargo, img, fecha: ahora(), por: S.uid }; r.estado = 'elaborado';
-    await saveReport(r, true); render(); toast('Informe firmado. Queda pendiente de aprobación.', 'ok');
+    const u = D.users.find(x => x.id === P.uid); const pad = pads[k];
+    let img = pad && !pad.isEmpty() ? pad.toData() : null;
+    if (!img && u && u.firma && await confirmBox(`No dibujó la firma en el recuadro. ¿Usar la firma registrada de <b>${esc(P.nombre)}</b>?<div class="sigimg" style="margin-top:10px"><img src="${u.firma.data}" alt=""></div>`, { ok: 'Usar firma registrada', title: 'Firma registrada' })) img = u.firma;
+    if (!img) { toast('Dibuje la firma con el dedo en el recuadro y pulse “Firmar”.', 'bad'); const c = root.querySelector(`[data-pad-k="${k}"]`); c && c.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+    const otra = k === 'ejecutado' ? 'elaborado' : 'ejecutado'; const is = issues(r);
+    if (r.firmas[otra] && is.length && !await confirmBox(`<b>Hay puntos pendientes:</b><ul style="margin:8px 0 8px 18px;padding:0">${is.map(t => `<li>${esc(t)}</li>`).join('')}</ul>¿Desea firmar el informe de todas formas?`, { ok: 'Firmar de todas formas', title: 'Informe incompleto' })) return;
+    r.firmas[k] = { uid: P.uid, nombre: P.nombre, cargo: P.cargo, img, fecha: ahora(), por: S.uid };
+    if (r.firmas.ejecutado && r.firmas.elaborado) r.estado = 'elaborado';
+    await saveReport(r, true); render();
+    toast(r.estado === 'elaborado' ? 'Firmas de ejecución y elaboración registradas. Queda pendiente de aprobación.' : `Firma registrada. Falta la firma de ${otra === 'elaborado' ? 'elaboración (encargado de turno)' : 'ejecución (técnico líder)'}.`, 'ok');
   };
-  const un = root.querySelector('[data-unsign]'); if (un) un.onclick = async () => { if (!await confirmBox('Se eliminará la firma del técnico y el informe volverá a estado borrador para editarlo. ¿Continuar?', { ok: 'Quitar firma', danger: true })) return; delete r.firmas.elaborado; r.estado = 'borrador'; await saveReport(r, true); render(); };
+  $$('[data-firmar]', root).forEach(b => b.onclick = () => firmar(b.dataset.firmar));
+  const un = root.querySelector('[data-unsign]'); if (un) un.onclick = async () => { if (!await confirmBox('Se eliminarán las firmas de ejecución y elaboración y el informe volverá a “En progreso” para editarlo. ¿Continuar?', { ok: 'Quitar firmas', danger: true })) return; delete r.firmas.elaborado; delete r.firmas.ejecutado; r.estado = 'borrador'; await saveReport(r, true); render(); };
   const ua = root.querySelector('[data-unapprove]'); if (ua) ua.onclick = async () => { if (!await confirmBox('Se anulará la aprobación. El informe quedará pendiente de aprobación. ¿Continuar?', { ok: 'Anular', danger: true })) return; delete r.firmas.aprobado; r.estado = 'elaborado'; await saveReport(r, true); render(); };
   const ap = root.querySelector('[data-approve]'); if (ap) ap.onclick = () => approveModal(r);
 }
 function approveModal(r) {
-  const aps = D.users.filter(u => u.cid === r.cid && u.aprueba && filled(u.pin) && u.activo !== false);
+  const aps = D.users.filter(u => u.cid === r.cid && u.aprueba && u.tienePin && u.activo !== false);
   if (!aps.length) return toast('No hay usuarios aprobadores con PIN en esta empresa. Configúrelos en la pestaña Usuarios.', 'bad');
-  modal({ title: 'Aprobar informe ' + r.numero, body: `<form class="form" style="grid-template-columns:1fr" data-f>
+  modal({ title: 'Aprobar informe ' + numTxt(r), body: `<form class="form" style="grid-template-columns:1fr" data-f>
     <label class="f">Aprobador<select class="in" name="u">${aps.map(u => `<option value="${u.id}">${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
     <label class="f">PIN personal<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" required></label>
+    <p class="hint">Si el aprobador olvidó su PIN, se puede usar el PIN genérico de emergencia; queda registrado en el informe.</p>
     <label class="check" data-usewrap><input type="checkbox" name="use" checked> Usar la firma registrada del aprobador</label>
     <p class="small" data-err style="color:var(--bad)"></p></form>`,
     foot: `<button class="btn" data-x2>Cancelar</button><button class="btn primary" data-ok>${ic('lock')}Validar PIN y firmar</button>`,
@@ -1222,11 +1257,13 @@ function approveModal(r) {
       f.u.onchange = upd; upd(); setTimeout(() => f.pin.focus(), 50);
       el.querySelector('[data-x2]').onclick = close;
       const go2 = async () => {
-        const u = D.users.find(x => x.id === f.u.value); if (!u || f.pin.value !== String(u.pin)) { el.querySelector('[data-err]').textContent = 'PIN incorrecto.'; f.pin.select(); return; }
+        const u = D.users.find(x => x.id === f.u.value); const okb = el.querySelector('[data-ok]'); okb.disabled = true; el.querySelector('[data-err]').textContent = 'Validando PIN…';
+        let valido = false, emerg = false; try { valido = !!u && await verificarPin(u, f.pin.value); if (!valido && u && pinGenerico()) emerg = valido = await verificarEmail(pinGenerico().email, f.pin.value); } catch (e) { okb.disabled = false; el.querySelector('[data-err]').textContent = errTxt(e); return; }
+        okb.disabled = false; if (!valido) { el.querySelector('[data-err]').textContent = 'PIN incorrecto.'; f.pin.select(); return; }
         const useSaved = u.firma && f.use.checked; close();
         const img = useSaved ? u.firma : await askSignature('Firma de aprobación', `${esc(u.nombre)} · ${esc(u.cargo)}`);
         if (!img) return toast('Aprobación cancelada');
-        r.firmas.aprobado = { uid: u.id, nombre: u.nombre, cargo: u.cargo, img, fecha: ahora(), por: S.uid }; r.estado = 'aprobado';
+        r.firmas.aprobado = { uid: u.id, nombre: u.nombre, cargo: u.cargo, img, fecha: ahora(), por: S.uid, ...(emerg ? { emergencia: true } : {}) }; r.estado = 'aprobado';
         await saveReport(r, true); render(); toast('Informe aprobado', 'ok');
       };
       el.querySelector('[data-ok]').onclick = go2; f.onsubmit = e => { e.preventDefault(); go2(); };
@@ -1256,9 +1293,9 @@ TABVIEWS.diseno = {
       <section class="card sec"><header><h2>Numeración de informes</h2></header><div class="bd form">
         <label class="f">Prefijo del número <span class="hint">(opcional)</span><input class="in mono" data-d="numPrefijo" value="${esc(d.numPrefijo)}" placeholder="Ej. IT-"></label>
         <label class="f">Dígitos<select class="in" data-d="numDigitos">${[3, 4, 5].map(n => `<option ${+d.numDigitos === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
-        <label class="f">Siguiente N° de informe<input class="in mono" type="number" min="1" step="1" data-seq value="${(co.seq || 0) + 1}"></label>
+        <label class="f">Siguiente N° de informe<input class="in mono" type="number" min="1" step="1" data-seq value="${(D.counters[co.id] || {}).next || 1}"></label>
         <label class="check" style="align-self:end;min-height:44px"><input type="checkbox" data-d="numAnio" ${d.numAnio ? 'checked' : ''}> Incluir el año</label>
-        <p class="note full" data-numej>El próximo informe será el N° <b class="mono">${esc(numInforme(co, (co.seq || 0) + 1))}</b>.</p>
+        <p class="note full" data-numej>El próximo informe será el N° <b class="mono">${esc(numInforme(co, (D.counters[co.id] || {}).next || 1))}</b>.</p>
       </div></section>
       <section class="card sec"><header><h2>Pie de página y secciones</h2></header><div class="bd form">
         <label class="f full">Texto del pie de página<input class="in" data-d="pie" value="${esc(d.pie)}" placeholder="SGIMTTO · Sistema de Gestión de Informes de Mantenimiento"></label>
@@ -1273,23 +1310,23 @@ TABVIEWS.diseno = {
     const mock = () => { const m = root.querySelector('[data-mock]'); const ff = (FUENTES.find(f => f.v === d.fuente) || FUENTES[0]).css;
       m.style.fontFamily = ff; m.innerHTML = `<div class="ml">${co.logo ? `<img src="${co.logo.data}" alt="">` : ''}</div><div class="mt1">${esc(d.encabezado)}</div><div class="mt2" style="color:${esc(d.primario)}">${esc(d.titulo)}</div><div class="mt3">${esc(d.subtitulo)}</div><div class="mt3" style="margin-top:auto">Fecha:<br>${fmtFecha(hoyISO())}<br>“${esc(d.ubicacion)}”</div><div class="bar2" style="background:${esc(d.secundario)}"></div><div class="bar" style="background:${esc(d.primario)}"></div>`; };
     mock();
-    let t; const save = () => { clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
+    let t; const save = () => { marcarEdicion('companies'); clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
     $$('[data-d]', root).forEach(el => { const ev = el.type === 'checkbox' || el.tagName === 'SELECT' || el.type === 'color' ? 'input' : 'input';
       el.addEventListener(ev, () => { const k = el.dataset.d; let v = el.type === 'checkbox' ? el.checked : el.value;
         if (k === 'primario' || k === 'secundario') { if (!/^#[0-9a-f]{6}$/i.test(v)) return; $$(`[data-d="${k}"]`, root).forEach(o => { if (o !== el) o.value = v; }); }
         d[k] = v; mock(); save(); numEj(); }); });
-    const numEj = () => { const el = root.querySelector('[data-numej]'); if (el) el.innerHTML = `El próximo informe será el N° <b class="mono">${esc(numInforme(co, (co.seq || 0) + 1))}</b>.`; };
-    const sq = root.querySelector('[data-seq]'); sq.oninput = () => { const n = parseInt(sq.value, 10); if (n >= 1) { co.seq = n - 1; save(); numEj(); } };
+    const numEj = () => { const el = root.querySelector('[data-numej]'); if (el) el.innerHTML = `El próximo informe será el N° <b class="mono">${esc(numInforme(co, (D.counters[co.id] || {}).next || 1))}</b>.`; };
+    const sq = root.querySelector('[data-seq]'); sq.oninput = () => { const n = parseInt(sq.value, 10); if (n >= 1) { D.counters[co.id] = { next: n }; commitOps([['set', 'counters/' + co.id, { next: n }]]).catch(avisarError); numEj(); } };
     const inl = root.querySelector('[data-inlogo]');
     root.querySelector('[data-uplogo]').onclick = () => inl.click();
-    inl.onchange = async () => { const f = inl.files[0]; if (!f) return; try { const p = await fileToData(f, 700, 0.9, 'image/png'); co.logo = p; await saveKV('companies'); render(); toast('Logo actualizado', 'ok'); } catch (e) { toast(e.message, 'bad'); } };
+    inl.onchange = async () => { const f = inl.files[0]; if (!f) return; try { let p = await fileToData(f, 500, 0.9, 'image/png'); if (p.data.length > 400000) p = await fileToData(f, 500, 0.85, 'image/jpeg'); co.logo = p; await saveKV('companies'); render(); toast('Logo actualizado', 'ok'); } catch (e) { toast(e.message, 'bad'); } };
     const rm = root.querySelector('[data-rmlogo]'); if (rm) rm.onclick = async () => { co.logo = null; await saveKV('companies'); render(); };
     $$('[data-sample]', root).forEach(b => b.onclick = async () => { try { const r = sampleReport(co); const fm = b.dataset.sample; const doc = await buildPDF(r, co, { photos: {}, noWatermark: true, formato: fm }); previewModal(doc, 'Informe de muestra · ' + (fm === 'ejecutivo' ? 'Ejecutivo' : 'Completo'), r); } catch (e) { toast(e.message, 'bad'); } });
   }
 };
 function sampleReport(co) {
   const tp = tipoDe(co, S.tipoSel); const p = tp.plantilla; const e = D.equipos.find(x => x.cid === co.id) || { codigo: 'GE00', bahia: '1', marca: 'Marca', modelo: 'Modelo', motor: 'Motor', modelo2: 'Modelo motor', potencia: '1000 kVA', tension: '480/277 V' };
-  const r = { id: 'muestra', cid: co.id, numero: numInforme(co, (co.seq || 0) + 1), codigoDoc: co.design.codigoDoc || '', estado: 'aprobado', datos: { ot: 'OT-MUESTRA', fecha: hoyISO(), tipoMtto: tp.nombre, equipo: e, horometro: '399', ubicacion: co.design.ubicacion, lider: { nombre: 'Nombre del técnico', cargo: 'Técnico de Mantenimiento' }, apoyo: '' },
+  const r = { id: 'muestra', cid: co.id, numero: numInforme(co, (D.counters[co.id] || {}).next || 1), codigoDoc: co.design.codigoDoc || '', estado: 'aprobado', datos: { ot: 'OT-MUESTRA', fecha: hoyISO(), tipoMtto: tp.nombre, equipo: e, horometro: '399', ubicacion: co.design.ubicacion, lider: { nombre: 'Nombre del técnico', cargo: 'Técnico de Mantenimiento' }, apoyo: '' },
     textos: clone(p.textos), plantilla: clone({ ats: p.ats, iniciales: p.iniciales, trabajos: p.trabajos, pruebas: p.pruebas }), resp: {}, fotos: [], firmas: {} };
   const vals = { V: '478', Hz: '59.8', RPM: '1800', kVA: '897', A: '1050' };
   for (const s of ['ats', 'iniciales', 'trabajos', 'pruebas']) for (const i of r.plantilla[s]) if (i.t === 'item') r.resp[i.id] = i.tipo === 'check' ? '✓' : i.tipo === 'estado' ? (i.def || 'C') : i.tipo === 'nivel' ? '100' : (vals[i.unidad] || '0');
@@ -1321,7 +1358,7 @@ TABVIEWS.plantilla = {
       <div class="row" style="margin-top:6px"><button class="btn danger sm" data-resettpl>${ic('refresh')}Reemplazar por la plantilla base (250 h)</button></div>`;
   },
   bind(root, co) {
-    const tp = tipoDe(co, S.tipoSel); const p = tp.plantilla; let t; const save = () => { clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
+    const tp = tipoDe(co, S.tipoSel); const p = tp.plantilla; let t; const save = () => { marcarEdicion('companies'); clearTimeout(t); t = setTimeout(() => saveKV('companies'), 300); };
     root.querySelector('[data-tiposel]').onchange = e => { S.tipoSel = e.target.value; render(); };
     root.querySelector('[data-newtipo]').onclick = () => tipoForm(co);
     root.querySelector('[data-rentipo]').onclick = async () => { const n = await promptBox('Nuevo nombre del tipo de mantenimiento:', { ok: 'Renombrar', title: 'Renombrar tipo' }); if (!n || !n.trim()) return;
@@ -1424,27 +1461,30 @@ TABVIEWS.usuarios = {
   html(co) {
     const us = D.users.filter(u => u.cid === co.id);
     return `<div class="filters"><button class="btn accent" data-newu>${ic('plus')}Nuevo usuario</button></div>
-      <p class="note" style="margin-bottom:14px">El <b>encargado de turno</b> elegido en el informe lo firma en el panel táctil. El <b>aprobador</b> (supervisor de mantenimiento, jefe de proyecto o encargado de turno) firma con su <b>PIN</b>. Por ahora el ingreso es sin contraseña (modo pruebas); las contraseñas quedan registradas para activar el acceso con credenciales.</p>
+      <p class="note" style="margin-bottom:14px">El <b>encargado de turno</b> elegido en el informe lo firma en el panel táctil. El <b>aprobador</b> (supervisor de mantenimiento, jefe de proyecto o encargado de turno) firma con su <b>PIN</b>. Las contraseñas y los PIN se guardan protegidos en la nube: no se pueden ver, solo reemplazar.</p>
       ${us.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Cargo</th><th>Aprueba</th><th class="hide-m">Firma</th><th>Estado</th><th></th></tr></thead><tbody>
-      ${us.map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b></td><td>${esc(u.nombre)}</td><td>${esc(u.cargo)}</td><td>${u.aprueba ? `<span class="chip aprobado">Con PIN</span>` : '<span class="muted">—</span>'}</td><td class="hide-m">${u.firma ? 'Registrada' : '<span class="muted">—</span>'}</td><td>${u.activo !== false ? 'Activo' : '<span class="muted">Inactivo</span>'}</td>
+      ${us.map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b></td><td>${esc(u.nombre)}</td><td>${esc(u.cargo)}</td><td>${u.aprueba ? (u.tienePin ? `<span class="chip aprobado">Con PIN</span>` : `<span class="chip elaborado">Falta PIN</span>`) : '<span class="muted">—</span>'}</td><td class="hide-m">${u.firma ? 'Registrada' : '<span class="muted">—</span>'}</td><td>${u.activo !== false ? 'Activo' : '<span class="muted">Inactivo</span>'}</td>
       <td class="act"><button class="icon-btn" data-edu="${u.id}" aria-label="Editar">${ic('edit')}</button><button class="icon-btn" data-delu="${u.id}" aria-label="Eliminar">${ic('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No hay usuarios en esta empresa.</div>'}`;
   },
   bind(root, co) {
     root.querySelector('[data-newu]').onclick = () => userForm(co);
     $$('[data-edu]', root).forEach(b => b.onclick = () => userForm(co, D.users.find(u => u.id === b.dataset.edu)));
-    $$('[data-delu]', root).forEach(b => b.onclick = async () => { const u = D.users.find(x => x.id === b.dataset.delu); if (!await confirmBox(`¿Eliminar al usuario <b>${esc(u.usuario)}</b>? Los informes firmados conservan su firma.`, { ok: 'Eliminar', danger: true })) return; D.users = D.users.filter(x => x.id !== u.id); await saveKV('users'); render(); });
+    $$('[data-delu]', root).forEach(b => b.onclick = async () => { const u = D.users.find(x => x.id === b.dataset.delu); if (!await confirmBox(`¿Eliminar al usuario <b>${esc(u.usuario)}</b>? Ya no podrá ingresar. Los informes firmados conservan su firma.`, { ok: 'Eliminar', danger: true })) return;
+      const ops = [['del', 'login/' + u.usuario.toUpperCase()]]; if (u.authUid) ops.push(['del', 'cuentas/' + u.authUid]); commitOps(ops).catch(avisarError);
+      D.users = D.users.filter(x => x.id !== u.id); await saveKV('users'); render(); });
   }
 };
+const listaCargos = () => (D.settings.cargos && D.settings.cargos.length ? D.settings.cargos : CARGOS);
+const opcionesCargo = sel => { const l = listaCargos(); const all = sel && !l.includes(sel) ? [sel, ...l] : l; return all.map(c => `<option ${c === sel ? 'selected' : ''}>${esc(c)}</option>`).join(''); };
 function userForm(co, u) {
-  const ed = !!u; const w = u ? clone(u) : { usuario: '', nombre: '', cargo: CARGOS[0], pass: '', pin: '', aprueba: false, firma: null, activo: true };
-  const cargos = CARGOS.includes(w.cargo) ? CARGOS : [w.cargo, ...CARGOS];
+  const ed = !!u; const w = u ? clone(u) : { usuario: '', nombre: '', cargo: listaCargos()[0], aprueba: false, firma: null, activo: true };
   modal({ title: ed ? 'Editar usuario' : 'Nuevo usuario', body: `<form class="form" data-f>
     <label class="f"><span class="lb">Usuario <span class="req">*</span></span><input class="in mono" name="usuario" value="${esc(w.usuario)}" autocapitalize="characters" required></label>
     <label class="f"><span class="lb">Nombre completo <span class="req">*</span></span><input class="in" name="nombre" value="${esc(w.nombre)}" required></label>
-    <label class="f">Cargo<select class="in" name="cargo">${cargos.map(c => `<option ${c === w.cargo ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
-    <label class="f">Contraseña<input class="in mono" name="pass" value="${esc(w.pass)}" autocomplete="off"></label>
+    <div class="f">Cargo<select class="in" name="cargo" data-cargos>${opcionesCargo(w.cargo)}</select><div class="row" style="gap:6px"><button type="button" class="btn sm" data-cargo-new>${ic('plus')}Nuevo cargo</button><button type="button" class="btn sm danger" data-cargo-del>${ic('trash')}Eliminar cargo</button></div></div>
+    <label class="f">${ed ? 'Nueva contraseña <span class="hint">(vacío = mantener)</span>' : '<span class="lb">Contraseña <span class="req">*</span></span>'}<input class="in mono" name="pass" type="password" autocomplete="new-password" placeholder="Mínimo 4 caracteres"></label>
     <label class="check full"><input type="checkbox" name="aprueba" ${w.aprueba ? 'checked' : ''}> Puede aprobar informes con PIN</label>
-    <label class="f">PIN de aprobación<input class="in mono" name="pin" value="${esc(w.pin)}" inputmode="numeric" autocomplete="off" maxlength="8"><span class="hint">4 a 8 dígitos</span></label>
+    <label class="f">${w.tienePin ? 'Nuevo PIN <span class="hint">(vacío = mantener)</span>' : 'PIN de aprobación'}<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"><span class="hint">${w.tienePin ? 'PIN registrado ✓ · ' : ''}4 a 8 dígitos</span></label>
     <label class="check"><input type="checkbox" name="activo" ${w.activo !== false ? 'checked' : ''}> Usuario activo</label>
     <div class="f full"><span style="font-size:13px;font-weight:600;color:var(--muted)">Firma registrada <span class="hint">(opcional, se puede reutilizar al firmar)</span></span>
       <div class="sigimg" data-fprev>${w.firma ? `<img src="${w.firma.data}" alt="Firma">` : '<span class="pend">Sin firma registrada</span>'}</div>
@@ -1452,92 +1492,434 @@ function userForm(co, u) {
     foot: `<button class="btn" data-x2>Cancelar</button><button class="btn primary" data-ok>Guardar</button>`,
     onMount(el, close) {
       const f = el.querySelector('[data-f]'); el.querySelector('[data-x2]').onclick = close;
+      const sc = el.querySelector('[data-cargos]');
+      el.querySelector('[data-cargo-new]').onclick = async () => { const n = ((await promptBox('Nombre del nuevo cargo:', { ok: 'Agregar', title: 'Nuevo cargo' })) || '').trim(); if (!n) return;
+        if (listaCargos().some(c => norm(c) === norm(n))) { sc.innerHTML = opcionesCargo(listaCargos().find(c => norm(c) === norm(n))); return toast('Ese cargo ya existe'); }
+        D.settings.cargos = [...listaCargos(), n]; await saveKV('settings'); sc.innerHTML = opcionesCargo(n); toast('Cargo agregado', 'ok'); };
+      el.querySelector('[data-cargo-del]').onclick = async () => { const c = sc.value; const uso = D.users.filter(x => x.cargo === c).length;
+        if (!await confirmBox(`¿Eliminar el cargo <b>${esc(c)}</b> de la lista?${uso ? `<br><br>${uso} usuario(s) lo tienen asignado y lo conservarán hasta que les cambie el cargo.` : ''}`, { ok: 'Eliminar', danger: true, title: 'Eliminar cargo' })) return;
+        D.settings.cargos = listaCargos().filter(x => x !== c); await saveKV('settings'); sc.innerHTML = opcionesCargo(listaCargos()[0]); toast('Cargo eliminado'); };
       const prev = () => el.querySelector('[data-fprev]').innerHTML = w.firma ? `<img src="${w.firma.data}" alt="Firma">` : '<span class="pend">Sin firma registrada</span>';
       el.querySelector('[data-draw]').onclick = async () => { el.style.display = 'none'; const s = await askSignature('Firma registrada', esc(f.nombre.value || '')); el.style.display = ''; if (s) { w.firma = s; prev(); } };
       el.querySelector('[data-clrf]').onclick = () => { w.firma = null; prev(); };
       el.querySelector('[data-ok]').onclick = async () => {
         const d = Object.fromEntries(new FormData(f)); d.usuario = d.usuario.trim().toUpperCase(); d.aprueba = !!f.aprueba.checked; d.activo = !!f.activo.checked; d.pin = d.pin.trim();
         if (!d.usuario || !d.nombre.trim()) return toast('Usuario y nombre son obligatorios', 'bad');
+        if (!/^[A-Z0-9._-]{2,30}$/.test(d.usuario)) return toast('El usuario solo admite letras, números, punto, guion o guion bajo', 'bad');
         if (D.users.some(x => x.usuario.toUpperCase() === d.usuario && x.id !== (u && u.id))) return toast('Ese nombre de usuario ya existe', 'bad');
-        if (d.aprueba && !/^\d{4,8}$/.test(d.pin)) return toast('El aprobador necesita un PIN de 4 a 8 dígitos', 'bad');
+        if (!ed && d.pass.length < 4) return toast('La contraseña debe tener al menos 4 caracteres', 'bad');
+        if (ed && d.pass && d.pass.length < 4) return toast('La contraseña debe tener al menos 4 caracteres', 'bad');
         if (d.pin && !/^\d{4,8}$/.test(d.pin)) return toast('El PIN debe tener de 4 a 8 dígitos', 'bad');
-        const rec = { ...w, ...d, firma: w.firma };
-        if (ed) Object.assign(u, rec); else D.users.push({ id: uid(), cid: co.id, rol: 'usuario', ...rec });
-        await saveKV('users'); close(); render(); toast('Usuario guardado', 'ok');
+        if (d.aprueba && !d.pin && !w.tienePin) return toast('El aprobador necesita un PIN de 4 a 8 dígitos', 'bad');
+        if (!NUBE.online && (d.pass || d.pin || !ed)) return toast('Crear usuarios o cambiar contraseñas y PIN requiere internet', 'bad');
+        const btn = el.querySelector('[data-ok]'); btn.disabled = true; btn.textContent = 'Guardando…';
+        try {
+          const rec = { ...w, usuario: d.usuario, nombre: d.nombre.trim(), cargo: d.cargo, aprueba: d.aprueba, activo: d.activo, firma: w.firma };
+          if (!ed) Object.assign(rec, { id: uid(), cid: co.id, rol: 'usuario' });
+          if (ed && u.usuario.toUpperCase() !== d.usuario && rec.authEmail) await commitOps([['del', 'login/' + u.usuario.toUpperCase()], ['set', 'login/' + d.usuario, { email: rec.authEmail }]]);
+          if (d.pass) Object.assign(rec, await cambiarClave(rec, d.pass));
+          else if (ed && rec.authUid && (u.activo !== false) !== d.activo) await commitOps([['merge', 'cuentas/' + rec.authUid, { activo: d.activo }]]);
+          if (d.pin) Object.assign(rec, await cambiarPin(rec, d.pin));
+          if (!rec.aprueba) Object.assign(rec, { tienePin: false, pinEmail: '' });
+          delete rec.pass; delete rec.pin;
+          if (ed) reemplazar(u, rec); else D.users.push(rec);
+          await saveKV('users'); close(); render(); toast('Usuario guardado', 'ok');
+        } catch (e) { console.error(e); btn.disabled = false; btn.textContent = 'Guardar'; toast(errTxt(e), 'bad'); }
       };
     } });
 }
 
-/* ================= CONFIGURACIÓN GLOBAL Y RESPALDO ================= */
+/* ================= CONFIGURACIÓN GLOBAL Y RESPALDO (nube) ================= */
 async function configModal() {
-  const adm = me(); let est = '';
-  try { if (navigator.storage && navigator.storage.estimate) { const e = await navigator.storage.estimate(); est = `${(e.usage / 1048576).toFixed(1)} MB usados de ${(e.quota / 1048576).toFixed(0)} MB disponibles`; } } catch (e) {}
-  let persisted = false; try { persisted = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false; } catch (e) {}
+  const adm = me();
   modal({ title: 'Configuración y respaldo', body: `<div style="display:grid;gap:18px">
-    <section><h3 style="margin-bottom:8px">Acceso</h3><label class="check"><input type="checkbox" data-creds ${D.settings.requireCreds ? 'checked' : ''}> Exigir usuario y contraseña al ingresar</label><p class="hint" style="margin-top:4px">Desactivado = modo pruebas con botón “Iniciar”.</p>
-      <label class="f" style="margin-top:10px">Contraseña del administrador (${esc(adm.usuario)})<input class="in mono" data-apass value="${esc(adm.pass)}"></label></section>
-    <section><h3 style="margin-bottom:8px">Almacenamiento</h3><p class="small">${IDBX ? 'Base de datos local del navegador (IndexedDB)' : '<b style="color:var(--bad)">Memoria temporal: este navegador no permite guardar datos.</b>'}<br>${esc(est)}<br>Protección contra borrado automático: <b>${persisted ? 'activa' : 'no concedida por el navegador'}</b></p>
-      <p class="note" style="margin-top:8px">La información se guarda en <b>este dispositivo y navegador</b>. Descargue un respaldo con frecuencia y úselo para pasar datos a otro equipo.</p>
-      <div class="row" style="margin-top:10px"><button class="btn" data-bk>${ic('down')}Descargar respaldo completo</button><button class="btn" data-rs>${ic('up')}Restaurar respaldo</button><input type="file" accept=".json,application/json" hidden data-inrs></div>
-      <div class="row" style="margin-top:10px"><button class="btn danger" data-delall>${ic('trash')}Eliminar todos los informes</button></div></section></div>`,
+    <section><h3 style="margin-bottom:8px">Mi contraseña (${esc(adm.usuario)})</h3><div class="row"><input class="in mono" type="password" data-np placeholder="Nueva contraseña (mínimo 4 caracteres)" autocomplete="new-password" style="flex:1;min-width:200px"><button class="btn" data-cp>Cambiar</button></div>
+      <p class="hint" style="margin-top:4px">Al cambiarla se cierra la sesión y debe ingresar con la nueva.</p></section>
+    <section><h3 style="margin-bottom:8px">PIN genérico de emergencia</h3>${pinGenerico() ? `<p class="small">${ic('lock')} Definido el ${fmtDT(pinGenerico().fecha)} por ${esc(pinGenerico().por)}. <b>No se puede cambiar.</b></p>` : `<p class="hint" style="margin-bottom:8px">Se define una sola vez y no se puede cambiar. Sirve para ingresar como administrador si olvida su clave y para aprobar un informe si el aprobador olvidó su PIN (queda registrado).</p>
+      <div class="row"><input class="in mono" type="password" inputmode="numeric" maxlength="8" data-pg1 placeholder="PIN (6 a 8 dígitos)" autocomplete="new-password" style="flex:1;min-width:140px"><input class="in mono" type="password" inputmode="numeric" maxlength="8" data-pg2 placeholder="Repetir PIN" autocomplete="new-password" style="flex:1;min-width:140px"><button class="btn" data-pg>Definir</button></div>`}</section>
+    <section><h3 style="margin-bottom:8px">Datos en la nube</h3><p class="small">Proyecto Firebase <b class="mono">${esc(FIREBASE_CONFIG.projectId)}</b> · ${NUBE.online ? '<span style="color:var(--ok)">conectado</span>' : '<span style="color:var(--bad)">sin señal: los cambios se suben al reconectar</span>'}<br>${R.size} informe(s) · ${D.users.length} usuario(s) · ${D.equipos.length} equipo(s)</p>
+      <p class="note" style="margin-top:8px">La información se comparte en todos los dispositivos. Descargue un respaldo periódico como copia de seguridad (ISO 9001:2015 §7.5.3).</p>
+      <div class="row" style="margin-top:10px"><button class="btn" data-bk>${ic('down')}Descargar respaldo completo</button><button class="btn danger" data-delall>${ic('trash')}Eliminar todos los informes</button></div></section></div>`,
     foot: `<button class="btn primary" data-x2>Listo</button>`,
     onMount(el, close) {
       el.querySelector('[data-x2]').onclick = close;
-      el.querySelector('[data-creds]').onchange = async e => { if (e.target.checked && !adm.pass) { e.target.checked = false; return toast('Defina primero la contraseña del administrador', 'bad'); } D.settings.requireCreds = e.target.checked; await saveKV('settings'); toast(e.target.checked ? 'Se exigirán credenciales' : 'Modo pruebas activado'); };
-      el.querySelector('[data-apass]').onchange = async e => { adm.pass = e.target.value; await saveKV('users'); toast('Contraseña actualizada'); };
+      el.querySelector('[data-cp]').onclick = async () => { const np = el.querySelector('[data-np]').value; if (np.length < 4) return toast('La contraseña debe tener al menos 4 caracteres', 'bad');
+        try { toast('Cambiando contraseña…'); Object.assign(adm, await cambiarClave(adm, np)); await syncCol('users', D.users, sinClaves); close(); toast('Contraseña cambiada. Ingrese con la nueva.', 'ok'); await salir(); } catch (e) { toast(errTxt(e), 'bad'); } };
+      const pg = el.querySelector('[data-pg]'); if (pg) pg.onclick = async () => { const p1 = el.querySelector('[data-pg1]').value, p2 = el.querySelector('[data-pg2]').value;
+        if (!/^\d{6,8}$/.test(p1)) return toast('El PIN genérico debe tener de 6 a 8 dígitos', 'bad'); if (p1 !== p2) return toast('Los PIN no coinciden', 'bad');
+        if (!await confirmBox('El PIN genérico de emergencia <b>no se podrá cambiar ni ver después</b>. Anótelo y guárdelo en un lugar seguro. ¿Definirlo?', { ok: 'Definir PIN genérico', title: 'PIN genérico de emergencia' })) return;
+        try { await definirPinGenerico(adm, p1); close(); toast('PIN genérico definido', 'ok'); } catch (e) { toast(errTxt(e), 'bad'); } };
       el.querySelector('[data-bk]').onclick = backupDown;
-      const inr = el.querySelector('[data-inrs]'); el.querySelector('[data-rs]').onclick = () => inr.click();
-      inr.onchange = async () => { const f = inr.files[0]; inr.value = ''; if (!f) return; close(); await backupRestore(f); };
       el.querySelector('[data-delall]').onclick = async () => { const n = R.size; if (!n) return toast('No hay informes registrados'); close();
-        const t = await promptBox(`Se eliminarán los <b>${n}</b> informes de este dispositivo con sus fotos y firmas, y la numeración volverá a empezar. Descargue antes un respaldo si los necesita.<br><br>Escriba <b>ELIMINAR</b> para confirmar:`, { ok: 'Eliminar informes', danger: true, title: 'Eliminar todos los informes' });
-        if ((t || '').trim().toUpperCase() !== 'ELIMINAR') return toast('No se eliminó nada'); await eliminarInformes(); toast('Informes eliminados', 'ok'); goHome(); };
+        const t = await promptBox(`Se eliminarán los <b>${n}</b> informes de la nube, en <b>todos los dispositivos</b>, con sus fotos y firmas, y la numeración volverá a empezar. Descargue antes un respaldo si los necesita.<br><br>Escriba <b>ELIMINAR</b> para confirmar:`, { ok: 'Eliminar informes', danger: true, title: 'Eliminar todos los informes' });
+        if ((t || '').trim().toUpperCase() !== 'ELIMINAR') return toast('No se eliminó nada'); try { await eliminarInformes(); toast('Informes eliminados', 'ok'); goHome(); } catch (e) { toast(errTxt(e), 'bad'); } };
     } });
 }
 async function backupDown() {
   toast('Preparando respaldo…');
-  const data = { app: 'SGIMTTO', version: APP_VERSION, fecha: ahora(), kv: { companies: D.companies, users: D.users, equipos: D.equipos, settings: D.settings }, reports: await DB.all('reports'), photos: await DB.all('photos') };
+  const data = { app: 'SGIMTTO', version: APP_VERSION, fecha: ahora(), kv: { companies: D.companies, users: D.users.map(sinClaves), equipos: D.equipos, settings: D.settings, counters: D.counters }, reports: await DB.all('reports'), photos: await DB.all('photos') };
   download(new Blob([JSON.stringify(data)], { type: 'application/json' }), `SGIMTTO_respaldo_${hoyISO()}.json`);
 }
-async function backupRestore(f) {
-  let data; try { data = JSON.parse(await readAsText(f)); } catch (e) { return toast('Archivo de respaldo no válido', 'bad'); }
-  if (!data || data.app !== 'SGIMTTO' || !data.kv) return toast('El archivo no es un respaldo de SGIMTTO', 'bad');
-  if (!await confirmBox(`Respaldo del ${fmtDT(data.fecha)} con ${data.kv.companies.length} empresa(s) y ${data.reports.length} informe(s).<br><br><b>Se reemplazará toda la información actual de este dispositivo.</b> ¿Continuar?`, { ok: 'Restaurar', danger: true, title: 'Restaurar respaldo' })) return;
-  for (const s of ['kv', 'reports', 'photos']) await DB.clear(s);
-  for (const k of ['companies', 'users', 'equipos', 'settings']) { D[k] = data.kv[k] || (k === 'settings' ? {} : []); await saveKV(k); }
-  R.clear(); PH.clear(); for (const r of data.reports || []) { await DB.put('reports', r); R.set(r.id, r); } for (const p of data.photos || []) await DB.put('photos', p);
-  toast('Respaldo restaurado', 'ok'); const u = me(); if (!u) { S.uid = null; go({ view: 'login' }); } else goHome();
+async function eliminarInformes() { await DB.clear('reports'); await DB.clear('photos'); R.clear(); PH.clear(); await commitOps(D.companies.map(c => ['set', 'counters/' + c.id, { next: 1 }])); }
+
+/* ================= NUBE · Firebase (v2.0) =================
+   Los datos viven en Firestore y se sincronizan en vivo entre dispositivos.
+   - Usuarios: Firebase Authentication (una cuenta por usuario; la clave nunca se guarda en el navegador).
+   - PIN de aprobación: cuenta de Authentication propia, se valida sin exponer el PIN.
+   - Sin señal: Firestore guarda en el dispositivo y sube al reconectar.
+   ============================================================ */
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyChbGKvMs4mLvmYgPBgkWvThGGCedwN2pw',
+  authDomain: 'sgimtto-4dab1.firebaseapp.com',
+  projectId: 'sgimtto-4dab1',
+  storageBucket: 'sgimtto-4dab1.firebasestorage.app',
+  messagingSenderId: '1085385884489',
+  appId: '1:1085385884489:web:1146636a5cedf75bd91098'
+};
+let FB = null, APP = null, AUTH = null, FS = null, SEC_AUTH = null;
+const NUBE = { unsub: [], last: {}, pendKV: {}, iniciando: false, renderPend: false, online: navigator.onLine };
+D.counters = {};
+const KV_COL = { companies: 'companies', users: 'users', equipos: 'equipos' };
+const padPass = p => 'Sg#' + String(p) + '#Mt';                 // Firebase exige 6+ caracteres
+const slugU = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '_');
+const emailCuenta = (usuario, n) => `u-${slugU(usuario)}-${n}@${FIREBASE_CONFIG.authDomain}`;
+const emailPin = (id, n) => `p-${slugU(id)}-${n}@${FIREBASE_CONFIG.authDomain}`;
+const limpio = o => JSON.parse(JSON.stringify(o === undefined ? null : o));
+function stable(v) { if (Array.isArray(v)) return '[' + v.map(stable).join(',') + ']'; if (v && typeof v === 'object') return '{' + Object.keys(v).sort().filter(k => v[k] !== undefined).map(k => JSON.stringify(k) + ':' + stable(v[k])).join(',') + '}'; return JSON.stringify(v === undefined ? null : v); }
+const dref = path => FB.doc(FS, ...path.split('/'));
+const sinClaves = u => { const c = { ...u }; delete c.pass; delete c.pin; return c; };
+function errTxt(e) {
+  const c = (e && e.code) || '';
+  if (/invalid-credential|wrong-password|user-not-found|invalid-email|invalid-login/.test(c)) return 'Usuario o contraseña incorrectos.';
+  if (/too-many-requests/.test(c)) return 'Demasiados intentos. Espere unos minutos e intente de nuevo.';
+  if (/network-request-failed|unavailable/.test(c)) return 'Sin conexión a internet. Intente cuando tenga señal.';
+  if (/permission-denied/.test(c)) return 'Sin permiso para esta acción (revise las reglas de Firestore).';
+  return (e && e.message) || String(e);
 }
 
-async function eliminarInformes() { await DB.clear('reports'); await DB.clear('photos'); R.clear(); PH.clear(); D.companies.forEach(c => c.seq = 0); await saveKV('companies'); }
-/* M01 v1.2.0: puesta en marcha con credenciales. Se ejecuta una sola vez por dispositivo:
-   activa usuario/contraseña, crea TEC02, elimina los informes de prueba (con opción de respaldo) y reinicia la numeración. */
-async function arranque120() {
-  if (D.settings.arranque120) return;
-  if (!D.users.some(u => u.usuario === 'TEC02')) { const t1 = D.users.find(u => u.usuario === 'TEC01'); const cid = t1 ? t1.cid : (D.companies[0] || {}).id;
-    if (cid) { D.users.push({ id: uid(), cid, usuario: 'TEC02', nombre: 'Técnico 02', cargo: 'Técnico de Mantenimiento', rol: 'usuario', pass: '1234', pin: '', aprueba: false, firma: null, activo: true }); await saveKV('users'); } }
-  if (R.size) await new Promise(res => modal({ fijo: true, title: 'SGIMTTO v1.2.0 · inicio con credenciales', body: `<p>Esta versión inicia la operación con <b>usuario y contraseña</b> y elimina los <b>${R.size}</b> informe(s) de prueba de este dispositivo. La numeración vuelve a empezar.</p><p class="note" style="margin-top:12px">Si quiere conservar una copia de los informes de prueba, descargue el respaldo antes de continuar.</p>`,
-    foot: `<button class="btn" data-bk2>${ic('down')}Descargar respaldo</button><button class="btn danger" data-go>Eliminar informes de prueba y continuar</button>`,
-    onMount(el, close) { el.querySelector('[data-x]').style.display = 'none'; el.querySelector('[data-bk2]').onclick = backupDown; el.querySelector('[data-go]').onclick = async () => { await eliminarInformes(); close(); res(); }; } }));
-  else { D.companies.forEach(c => c.seq = 0); await saveKV('companies'); }
-  D.settings.requireCreds = true; D.settings.arranque120 = true; await saveKV('settings');
-  S.uid = null; LS.del('sgimtto_session'); S.view = 'login';
+async function nubeIniciar() {
+  const ok = await Promise.race([window.__fbReady.then(() => true), new Promise(r => setTimeout(() => r(false), 25000))]);
+  if (!ok || !window.FBX) throw new Error('No se pudo cargar Firebase');
+  FB = window.FBX;
+  APP = FB.initializeApp(FIREBASE_CONFIG);
+  AUTH = FB.getAuth(APP);
+  try { FS = FB.initializeFirestore(APP, { localCache: FB.persistentLocalCache({ tabManager: FB.persistentMultipleTabManager() }) }); }
+  catch (e) { console.warn('Sin caché persistente', e); FS = FB.initializeFirestore(APP, { localCache: FB.memoryLocalCache() }); }
+  const sec = FB.initializeApp(FIREBASE_CONFIG, 'sgimtto-secundaria');
+  SEC_AUTH = FB.initializeAuth(sec, { persistence: FB.inMemoryPersistence });
+  window.addEventListener('online', () => { NUBE.online = true; actualizarRed(); asignarNumeros(); });
+  window.addEventListener('offline', () => { NUBE.online = false; actualizarRed(); });
 }
+function actualizarRed() { const el = $('#red'); if (el) el.outerHTML = redHTML(); }
+function redHTML() { return NUBE.online ? '' : `<span id="red" class="chip-role" style="background:#b8322a" title="Los cambios se guardan en este dispositivo y se suben al recuperar la señal">Sin señal</span>`; }
+
+/* ---------- escritura ---------- */
+function commitOps(ops) {
+  // lotes de hasta 400 operaciones o ~8 MB; no se espera la confirmación del servidor (funciona sin señal)
+  const proms = []; let b = null, n = 0, size = 0;
+  const flush = () => { if (b && n) proms.push(b.commit()); b = FB.writeBatch(FS); n = 0; size = 0; };
+  flush();
+  for (const [op, path, data] of ops) {
+    const s = data ? JSON.stringify(data).length : 50;
+    if (n >= 400 || size + s > 8e6) flush();
+    if (op === 'set') b.set(dref(path), data); else if (op === 'merge') b.set(dref(path), data, { merge: true }); else b.delete(dref(path));
+    n++; size += s;
+  }
+  flush();
+  return Promise.all(proms);
+}
+function avisarError(e) { console.error(e); toast('No se pudo guardar en la nube: ' + errTxt(e), 'bad'); }
+async function syncCol(col, arr, map = x => x) {
+  const last = NUBE.last[col] || (NUBE.last[col] = new Map());
+  const ids = new Set(); const ops = [];
+  for (const o of arr) {
+    const data = limpio(map(o)); const js = stable(data); ids.add(o.id);
+    if (js.length > 1000000) { toast(`El registro ${o.nombre || o.id} es demasiado grande para la nube (reduzca el logo o las imágenes).`, 'bad'); continue; }
+    if (last.get(o.id) !== js) { ops.push(['set', col + '/' + o.id, data]); last.set(o.id, js); }
+  }
+  for (const id of [...last.keys()]) if (!ids.has(id)) { ops.push(['del', col + '/' + id]); last.delete(id); }
+  if (ops.length) return commitOps(ops);
+}
+function marcarEdicion(k) { NUBE.pendKV[k] = Date.now(); }
+
+/* Reemplaza el almacenamiento local: el resto del sistema sigue usando DB.* y saveKV */
+const NUBE_DB = {
+  async put(store, obj) {
+    if (store === 'kv') {
+      delete NUBE.pendKV[obj.k];
+      if (KV_COL[obj.k]) syncCol(KV_COL[obj.k], obj.v, obj.k === 'users' ? sinClaves : x => x).catch(avisarError);
+      else if (obj.k === 'settings') commitOps([['set', 'config/settings', limpio(obj.v)]]).catch(avisarError);
+      return;
+    }
+    if (store === 'reports') { const d = limpio(obj); NUBE.last.reports = NUBE.last.reports || new Map(); NUBE.last.reports.set(obj.id, stable(d)); FB.setDoc(dref('reports/' + obj.id), d).catch(avisarError); return; }
+    if (store === 'photos') { FB.setDoc(dref('photos/' + obj.id), limpio(obj)).catch(avisarError); return; }
+  },
+  async get(store, key) {
+    if (store === 'photos') { try { const s = await FB.getDoc(dref('photos/' + key)); return s.exists() ? s.data() : undefined; } catch (e) { console.warn(e); return undefined; } }
+    if (store === 'reports') return R.get(key);
+  },
+  async all(store) {
+    if (store === 'reports') return [...R.values()].map(clone);
+    if (store === 'photos') { const s = await FB.getDocs(FB.collection(FS, 'photos')); return s.docs.map(d => d.data()); }
+    return [];
+  },
+  async del(store, key) { if (store === 'reports' || store === 'photos') { if (NUBE.last.reports) NUBE.last.reports.delete(key); FB.deleteDoc(dref(store + '/' + key)).catch(avisarError); } },
+  async clear(store) {
+    if (store === 'reports') { const ops = [...R.keys()].map(id => ['del', 'reports/' + id]); await commitOps(ops); }
+    if (store === 'photos') { const s = await FB.getDocs(FB.collection(FS, 'photos')); await commitOps(s.docs.map(d => ['del', 'photos/' + d.id])); }
+  }
+};
+
+/* ---------- lectura en vivo ---------- */
+function reemplazar(obj, data) { for (const k of Object.keys(obj)) if (!(k in data)) delete obj[k]; Object.assign(obj, data); }
+const ORDEN = {
+  companies: (a, b) => String(a.creado || '').localeCompare(String(b.creado || '')),
+  users: (a, b) => (a.rol === 'admin' ? 0 : 1) - (b.rol === 'admin' ? 0 : 1) || String(a.usuario).localeCompare(String(b.usuario)),
+  equipos: (a, b) => String(a.codigo).localeCompare(String(b.codigo), 'es', { numeric: true })
+};
+function aplicarKV(k, docs) {
+  const col = KV_COL[k]; const last = NUBE.last[col] || (NUBE.last[col] = new Map());
+  if (NUBE.pendKV[k] && Date.now() - NUBE.pendKV[k] < 4000) return false;   // el usuario está editando aquí
+  const antes = stable(D[k].map(sinClaves));
+  const byId = new Map(D[k].map(o => [o.id, o])); const nuevo = [];
+  for (const d of docs) { last.set(d.id, stable(d)); const o = byId.get(d.id); if (o) { reemplazar(o, d); nuevo.push(o); } else nuevo.push(d); }
+  nuevo.sort(ORDEN[k]); D[k].length = 0; D[k].push(...nuevo);
+  return antes !== stable(D[k].map(sinClaves));
+}
+function aplicarReports(docs) {
+  let cambio = false; const ids = new Set(); const last = NUBE.last.reports || (NUBE.last.reports = new Map());
+  for (const d of docs) {
+    ids.add(d.id); if (pendingRuns.has(d.id)) continue;          // cambios locales aún no enviados: mandan los de aquí
+    const js = stable(d); last.set(d.id, js); const loc = R.get(d.id);
+    if (loc && stable(loc) === js) continue;
+    if (loc) reemplazar(loc, d); else R.set(d.id, d); cambio = true;
+  }
+  for (const id of [...R.keys()]) if (!ids.has(id) && !pendingRuns.has(id)) { R.delete(id); cambio = true; }
+  return cambio;
+}
+function programarRender() {
+  NUBE.renderPend = true;
+  if (NUBE.renderTimer) return;
+  NUBE.renderTimer = setInterval(() => {
+    if (!NUBE.renderPend) return;
+    const a = document.activeElement; const editando = a && a.closest && a.closest('#app') && /INPUT|TEXTAREA|SELECT/.test(a.tagName);
+    const firmando = document.querySelector('.mback') || (pendingRuns.size > 0);
+    if (editando || firmando) return;
+    NUBE.renderPend = false; if (S.uid) { const y = window.scrollY; render(); window.scrollTo(0, y); }
+  }, 700);
+}
+function escuchar() {
+  detenerEscucha();
+  return new Promise(res => {
+    const falta = new Set(['companies', 'users', 'equipos', 'reports', 'counters', 'settings']);
+    const listo = k => { if (falta.delete(k) && !falta.size) res(); };
+    const err = k => e => { console.error(k, e); toast('Error de sincronización: ' + errTxt(e), 'bad'); listo(k); };
+    for (const k of Object.keys(KV_COL)) NUBE.unsub.push(FB.onSnapshot(FB.collection(FS, KV_COL[k]), s => { const c = aplicarKV(k, s.docs.map(d => d.data())); if (!falta.has(k) && c) programarRender(); listo(k); }, err(k)));
+    NUBE.unsub.push(FB.onSnapshot(FB.collection(FS, 'reports'), s => { const c = aplicarReports(s.docs.map(d => d.data())); if (!falta.has('reports') && c) programarRender(); listo('reports'); }, err('reports')));
+    NUBE.unsub.push(FB.onSnapshot(FB.collection(FS, 'counters'), s => { D.counters = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); listo('counters'); }, err('counters')));
+    NUBE.unsub.push(FB.onSnapshot(dref('config/settings'), s => { D.settings = s.exists() ? s.data() : {}; listo('settings'); }, err('settings')));
+  });
+}
+function detenerEscucha() { NUBE.unsub.forEach(f => { try { f(); } catch (e) {} }); NUBE.unsub = []; }
+
+/* ---------- numeración única (transacción en la nube) ---------- */
+async function asignarNumero(r) {
+  if (!r || r.numero || !NUBE.online) return;
+  const co = D.companies.find(c => c.id === r.cid); if (!co) return;
+  try {
+    const n = await FB.runTransaction(FS, async tx => {
+      const cref = dref('counters/' + r.cid); const rref = dref('reports/' + r.id);
+      const cs = await tx.get(cref); const rs = await tx.get(rref);
+      if (rs.exists() && rs.data().numero) return null;
+      const next = cs.exists() ? (cs.data().next || 1) : 1;
+      tx.set(cref, { next: next + 1 }, { merge: true });
+      if (rs.exists()) tx.update(rref, { numero: numInforme(co, next) });
+      return next;
+    });
+    if (n) { r.numero = numInforme(co, n); if (NUBE.last.reports) NUBE.last.reports.delete(r.id); saveReport(r, true); programarRender(); }
+  } catch (e) { console.warn('Numeración pendiente', e); }
+}
+async function asignarNumeros() { for (const r of [...R.values()]) if (!r.numero && puedeEditar(r)) await asignarNumero(r); }
+const numTxt = r => r.numero || 'S/N';
+
+/* ---------- cuentas, contraseñas y PIN ---------- */
+async function crearCuentaSec(emailFn, pass, n0) {
+  for (let n = n0; n < n0 + 25; n++) {
+    try { const c = await FB.createUserWithEmailAndPassword(SEC_AUTH, emailFn(n), padPass(pass)); const authUid = c.user.uid; await FB.signOut(SEC_AUTH); return { authUid, email: emailFn(n), n }; }
+    catch (e) { if (!/email-already-in-use/.test(e.code || '')) throw e; }
+  }
+  throw new Error('No se pudo crear la cuenta');
+}
+async function cambiarClave(u, pass) {
+  const c = await crearCuentaSec(n => emailCuenta(u.usuario, n), pass, (u.authN || 0) + 1);
+  const ops = [['set', 'cuentas/' + c.authUid, { uid: u.id, rol: u.rol || 'usuario', activo: u.activo !== false }], ['set', 'login/' + u.usuario.toUpperCase(), { email: c.email }]];
+  if (u.rol === 'admin') ops.push(['set', 'login/__ADMIN', { email: c.email }]);
+  if (u.authUid && u.authUid !== c.authUid) ops.push(['del', 'cuentas/' + u.authUid]);
+  await commitOps(ops);
+  return { authUid: c.authUid, authEmail: c.email, authN: c.n };
+}
+async function cambiarPin(u, pin) { const c = await crearCuentaSec(n => emailPin(u.id, n), pin, (u.pinN || 0) + 1); return { pinEmail: c.email, pinN: c.n, tienePin: true }; }
+async function verificarEmail(email, pin) {
+  if (!email) return false;
+  try { await FB.signInWithEmailAndPassword(SEC_AUTH, email, padPass(pin)); await FB.signOut(SEC_AUTH); return true; }
+  catch (e) { if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(e.code || '')) return false; throw e; }
+}
+const verificarPin = (u, pin) => verificarEmail(u.pinEmail, pin);
+const pinGenerico = () => (D.settings && D.settings.pinGenerico) || null;
+/* PIN genérico de emergencia: se define una sola vez; sirve para ingresar como administrador y para aprobar si el aprobador olvidó su PIN */
+async function definirPinGenerico(adm, pin) {
+  if (pinGenerico()) throw new Error('El PIN genérico ya está definido y no se puede cambiar.');
+  const c = await crearCuentaSec(n => `e-admin-${n}@${FIREBASE_CONFIG.authDomain}`, pin, 1);
+  await commitOps([['set', 'cuentas/' + c.authUid, { uid: adm.id, rol: 'admin', activo: true, emergencia: true }], ['set', 'login/__EMERGENCIA', { email: c.email }]]);
+  D.settings.pinGenerico = { email: c.email, fecha: ahora(), por: adm.usuario };
+  await commitOps([['set', 'config/settings', limpio(D.settings)]]);
+}
+const esCredMala = e => /invalid-credential|wrong-password|user-not-found|invalid-login/.test((e && e.code) || '');
+async function entrarAdmin(pass) {
+  let email = null;
+  for (const k of ['__ADMIN', 'ADMIN']) { if (email) break; const s = await FB.getDoc(dref('login/' + k)); if (s.exists()) email = s.data().email; }
+  try { if (!email) { const e = new Error('cred'); e.code = 'auth/invalid-credential'; throw e; } await FB.signInWithEmailAndPassword(AUTH, email, padPass(pass)); }
+  catch (e) { if (!esCredMala(e)) throw e; const s = await FB.getDoc(dref('login/__EMERGENCIA')); if (!s.exists()) throw e; NUBE.porEmergencia = true; await FB.signInWithEmailAndPassword(AUTH, s.data().email, padPass(pass)); }
+}
+async function entrar(usuario, pass) {
+  const s = await FB.getDoc(dref('login/' + usuario.trim().toUpperCase()));
+  if (!s.exists()) { const e = new Error('cred'); e.code = 'auth/invalid-credential'; throw e; }
+  await FB.signInWithEmailAndPassword(AUTH, s.data().email, padPass(pass));
+}
+async function salir() { flushSaves(); detenerEscucha(); await FB.signOut(AUTH); }
+
+/* ---------- arranque con sesión ---------- */
+function pantalla(msg) { $('#app').innerHTML = `<div style="display:grid;place-items:center;min-height:100vh;padding:24px;text-align:center"><div style="display:grid;gap:14px;justify-items:center;max-width:420px"><div class="big mono" style="font-weight:700;font-size:40px;color:var(--brand-2)">SGI<span style="color:var(--accent)">MTTO</span></div><p class="muted">${msg}</p></div></div>`; }
+async function alCambiarSesion(user) {
+  if (NUBE.iniciando) return;
+  detenerEscucha(); R.clear(); PH.clear(); D.companies = []; D.users = []; D.equipos = []; D.settings = {}; D.counters = {}; NUBE.last = {};
+  if (!user) {
+    S.uid = null; let ini = true;
+    try { ini = (await FB.getDoc(dref('config/inicial'))).exists(); } catch (e) { console.warn(e); }
+    if (!ini) return pantallaInicial();
+    S.view = 'login'; return render();
+  }
+  pantalla('Cargando datos…');
+  let c = null;
+  try { const s = await FB.getDoc(dref('cuentas/' + user.uid)); c = s.exists() ? s.data() : null; } catch (e) { console.warn(e); }
+  if (!c || c.activo === false) { await FB.signOut(AUTH); toast('Este usuario no tiene acceso. Consulte al administrador.', 'bad'); return; }
+  S.uid = c.uid;
+  await escuchar();
+  let ch = false; for (const co of D.companies) { if (migrarDiseno(co)) ch = true; if (migrarTipos(co)) ch = true; } if (ch) saveKV('companies');
+  if (!me()) { toast('Su usuario no está registrado en SGIMTTO.', 'bad'); await salir(); return; }
+  const ses = LS.get('sgimtto_session');
+  if (ses && ses.uid === S.uid) Object.assign(S, ses, { uid: S.uid }); else { S.view = 'admin'; S.cid = null; }
+  render(); if (ses && ses.uid !== S.uid) goHome();
+  if (c.emergencia || NUBE.porEmergencia) { NUBE.porEmergencia = false; toast('Ingresó con el PIN genérico de emergencia. Cambie su contraseña en ⚙ Configuración.', 'bad'); } else toast('Bienvenido, ' + me().nombre);
+  asignarNumeros();
+}
+
+/* ================= CARGA INICIAL A LA NUBE (una sola vez) ================= */
+const LOCAL_DB = { ...DB };            // acceso a los datos guardados en este navegador (versiones 1.x)
+Object.assign(DB, NUBE_DB);           // desde v2.0 todo se guarda en la nube
+
+async function leerLocal() {
+  try {
+    if (indexedDB.databases) { const dbs = await indexedDB.databases(); if (!dbs.some(d => d.name === 'sgimtto_db')) return null; }
+    IDBX = await idbOpen(); if (!IDBX) return null;
+    const kv = {}; for (const k of ['companies', 'users', 'equipos', 'settings']) { const r = await LOCAL_DB.get('kv', k); if (r) kv[k] = r.v; }
+    if (!kv.companies || !kv.companies.length) return null;
+    return { origen: 'este navegador', kv, reports: await LOCAL_DB.all('reports'), photos: await LOCAL_DB.all('photos') };
+  } catch (e) { console.warn(e); return null; }
+}
+function datosEjemplo() {
+  const co = newCompany({ nombre: 'ENLINCOM', sitio: 'Guangopolo 3 – Quito', contacto: '' });
+  co.logo = { data: SEED_LOGO, w: 520, h: 347 };
+  Object.assign(co.design, { encabezado: 'TANERGY / ENLINCOM.', subtitulo: 'MANTENIMIENTO PREVENTIVO GRUPOS ELECTRÓGENOS POWER BY CUMMINS.', ubicacion: 'QUITO-GUANGOPOLO', codigoDoc: 'ENL-INF', primario: '#1b3a57', secundario: '#e8871e' });
+  const U = (usuario, nombre, cargo, pass, pin, rol = 'usuario') => ({ id: uid(), cid: rol === 'admin' ? null : co.id, usuario, nombre, cargo, rol, pass, pin, aprueba: !!pin, firma: null, activo: true });
+  const users = [U('ADMIN', 'Administrador SGIMTTO', 'Admin SGIMTTO', 'admin2025', '', 'admin'), U('MCALVACHE', 'M. Calvache', 'Jefe de Proyecto', '1234', '1234'), U('VPAGUAY', 'Victor Hugo Paguay', 'Supervisor de Proyecto', '228101', '228101'),
+    U('TEC01', 'Técnico 01', 'Técnico de Mantenimiento', '1234', ''), U('TEC02', 'Técnico 02', 'Técnico de Mantenimiento', '1234', ''), U('TLIDER', 'Técnico Líder', 'Jefe de Proyecto', '1234', '1234')];
+  const eq = [['GE03', 1], ['GE06', 1], ['GE07', 1], ['GE09', 1], ['GE10', 1], ['GE14', 1], ['GE02', 2], ['GE04', 2], ['GE05', 2], ['GE08', 2], ['GE12', 2], ['GE15', 2]];
+  const equipos = eq.map(([codigo, bahia]) => ({ id: uid(), cid: co.id, codigo, bahia: String(bahia), marca: 'Diesel Generator Set', modelo: 'LSC1410S3', motor: 'Cummins', modelo2: 'KTA50-G3', potencia: '1025 kVA', tension: '480/230 V', sitio: 'Guangopolo 3' }));
+  return { origen: 'datos de ejemplo', kv: { companies: [co], users, equipos, settings: {} }, reports: [], photos: [] };
+}
+function resumenDatos(d) { return `${d.kv.companies.length} empresa(s) · ${(d.kv.users || []).length} usuario(s) · ${(d.kv.equipos || []).length} equipo(s) · ${(d.reports || []).length} informe(s) · ${(d.photos || []).length} foto(s)`; }
+
+async function pantallaInicial() {
+  const local = await leerLocal(); let elegido = local || null;
+  const op = (v, t, d, on) => `<label class="profile" style="cursor:pointer"><input type="radio" name="src" value="${v}" ${on ? 'checked' : ''} style="width:20px;height:20px"><span><b>${t}</b><br><span class="small muted">${d}</span></span></label>`;
+  $('#app').innerHTML = `<main class="wrap" style="max-width:760px">
+    <div class="pagehead"><div><p class="eyebrow">SGIMTTO v${APP_VERSION} · Puesta en marcha</p><h1>Configuración inicial de la nube</h1></div></div>
+    <section class="card sec"><header><h2>1. ¿Qué datos subir?</h2></header><div class="bd" style="display:grid;gap:10px">
+      ${local ? op('local', 'Datos de este navegador (recomendado)', esc(resumenDatos(local)), true) : '<p class="note">En este navegador no hay datos de versiones anteriores de SGIMTTO. Si los tiene en otra computadora, abra esta página allí.</p>'}
+      ${op('archivo', 'Archivo de respaldo (.json)', 'Un respaldo descargado con ⚙ → Descargar respaldo completo', !local)}
+      ${op('ejemplo', 'Empezar con los datos de ejemplo', 'ENLINCOM, 12 equipos de Guangopolo 3 y los usuarios de prueba', false)}
+      <input type="file" accept=".json,application/json" data-file hidden></div></section>
+    <section class="card sec"><header><h2>2. Usuarios que se crearán</h2></header><div class="bd" data-users></div></section>
+    <section class="card sec"><header><h2>3. Subir</h2></header><div class="bd" style="display:grid;gap:12px">
+      <p class="small muted">Se crea una cuenta por usuario con su contraseña actual. Las contraseñas y los PIN quedan protegidos en Firebase y dejan de guardarse en el navegador. Requiere internet.</p>
+      <label class="f">Contraseña del administrador de esos datos<input class="in mono" type="password" data-apw autocomplete="off" placeholder="La que usa hoy para ingresar como administrador"></label>
+      <button class="btn accent block" style="min-height:52px" data-go>${ic('up')}Subir a la nube</button>
+      <pre class="note mono" data-log style="white-space:pre-wrap;max-height:260px;overflow:auto;display:none;margin:0"></pre></div></section></main>`;
+  const usersBox = $('[data-users]'), fileIn = $('[data-file]'), log = $('[data-log]');
+  const pinta = () => {
+    if (!elegido) { usersBox.innerHTML = '<p class="muted small">Elija el archivo de respaldo.</p>'; return; }
+    usersBox.innerHTML = `<p class="small" style="margin-bottom:10px">Origen: <b>${esc(elegido.origen)}</b> — ${esc(resumenDatos(elegido))}</p><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Contraseña</th><th>PIN</th></tr></thead><tbody>${(elegido.kv.users || []).map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b>${u.rol === 'admin' ? ' <span class="chip aprobado">Admin</span>' : ''}</td><td>${esc(u.nombre)}</td><td>${u.pass ? 'Se conserva la actual' : '<span style="color:var(--warn)">Sin clave: se asigna 1234</span>'}</td><td>${u.aprueba && u.pin ? 'Se conserva' : '—'}</td></tr>`).join('')}</tbody></table></div>`;
+  };
+  pinta();
+  $$('[name=src]').forEach(r => r.onchange = () => { if (r.value === 'local') elegido = local; if (r.value === 'ejemplo') elegido = datosEjemplo(); if (r.value === 'archivo') { elegido = null; fileIn.click(); } pinta(); });
+  fileIn.onchange = async () => { const f = fileIn.files[0]; if (!f) return; try { const d = JSON.parse(await readAsText(f)); if (d.app !== 'SGIMTTO' || !d.kv) throw new Error(); elegido = { origen: 'archivo ' + f.name, kv: d.kv, reports: d.reports || [], photos: d.photos || [] }; } catch (e) { toast('El archivo no es un respaldo de SGIMTTO', 'bad'); } pinta(); };
+  $('[data-go]').onclick = async () => {
+    if (!elegido) return toast('Elija qué datos subir', 'bad');
+    const adm = (elegido.kv.users || []).find(u => u.rol === 'admin'); if (!adm) return toast('Los datos no tienen un usuario administrador', 'bad');
+    const apw = $('[data-apw]').value; if (!apw) return toast('Escriba la contraseña del administrador', 'bad');
+    if (adm.pass && apw !== adm.pass) return toast('La contraseña del administrador no coincide con la de esos datos', 'bad');
+    if (!adm.pass) { if (apw.length < 4) return toast('Mínimo 4 caracteres', 'bad'); adm.pass = apw; }
+    if (!await confirmBox(`Se subirán ${esc(resumenDatos(elegido))} a la nube del proyecto <b>${FIREBASE_CONFIG.projectId}</b>. Esta carga se hace una sola vez. ¿Continuar?`, { ok: 'Subir a la nube', title: 'Configuración inicial' })) return;
+    const btn = $('[data-go]'); btn.disabled = true; log.style.display = 'block';
+    const p = t => { log.textContent += t + '\n'; log.scrollTop = log.scrollHeight; };
+    try { await subirDatos(elegido, p); p('✔ Carga completa. Ingresando…'); NUBE.iniciando = false; await alCambiarSesion(AUTH.currentUser); }
+    catch (e) { console.error(e); NUBE.iniciando = false; p('✖ ' + errTxt(e)); btn.disabled = false; toast('No se completó la carga: ' + errTxt(e), 'bad'); }
+  };
+}
+
+async function subirDatos(src, p) {
+  NUBE.iniciando = true;
+  const kv = clone(src.kv); const users = kv.users || [];
+  const admin = users.find(u => u.rol === 'admin');
+  p(`Creando la cuenta del administrador ${admin.usuario}…`);
+  let cred = null, n = 1;
+  for (; n < 25 && !cred; n++) {
+    try { cred = await FB.createUserWithEmailAndPassword(AUTH, emailCuenta(admin.usuario, n), padPass(admin.pass || 'admin2025')); }
+    catch (e) { if (!/email-already-in-use/.test(e.code || '')) throw e; try { cred = await FB.signInWithEmailAndPassword(AUTH, emailCuenta(admin.usuario, n), padPass(admin.pass || 'admin2025')); } catch (e2) { /* otra clave: probar el siguiente */ } }
+  }
+  if (!cred) throw new Error('No se pudo crear la cuenta del administrador');
+  n--;
+  Object.assign(admin, { authUid: cred.user.uid, authEmail: emailCuenta(admin.usuario, n), authN: n });
+  await commitOps([['set', 'config/inicial', { fecha: ahora(), por: admin.usuario, version: APP_VERSION, origen: src.origen }],
+    ['set', 'cuentas/' + cred.user.uid, { uid: admin.id, rol: 'admin', activo: admin.activo !== false }],
+    ['set', 'login/' + admin.usuario.toUpperCase(), { email: admin.authEmail }], ['set', 'login/__ADMIN', { email: admin.authEmail }]]);
+  for (const u of users) {
+    if (u === admin) continue;
+    p(`Usuario ${u.usuario}…`);
+    Object.assign(u, await cambiarClave(u, u.pass || '1234'));
+    if (u.aprueba && u.pin) Object.assign(u, await cambiarPin(u, u.pin)); else Object.assign(u, { tienePin: false, pinEmail: '' });
+  }
+  users.forEach(u => { delete u.pass; delete u.pin; });
+  if (admin.aprueba) admin.tienePin = false;
+  p('Empresas, equipos y usuarios…');
+  for (const co of kv.companies) { migrarDiseno(co); migrarTipos(co); }
+  const counters = kv.companies.map(co => ['set', 'counters/' + co.id, { next: (co.seq || 0) + 1 }]);
+  kv.companies.forEach(co => delete co.seq);
+  await commitOps([...kv.companies.map(o => ['set', 'companies/' + o.id, limpio(o)]), ...(kv.equipos || []).map(o => ['set', 'equipos/' + o.id, limpio(o)]),
+    ...users.map(o => ['set', 'users/' + o.id, limpio(o)]), ['set', 'config/settings', limpio({ ...(kv.settings || {}), requireCreds: true, nube: true })], ...counters]);
+  const reps = src.reports || [];
+  if (reps.length) { p(`Informes (${reps.length})…`); await commitOps(reps.map(r => ['set', 'reports/' + r.id, limpio(r)])); }
+  const fotos = src.photos || [];
+  for (let i = 0; i < fotos.length; i++) { if (i % 5 === 0) p(`Fotos ${i + 1}/${fotos.length}…`); await FB.setDoc(dref('photos/' + fotos[i].id), limpio(fotos[i])); }
+}
+
 /* ================= ARRANQUE ================= */
 async function boot() {
-  IDBX = await idbOpen();
-  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
-  await seedIfEmpty();
-  if (D.companies.map(c => [migrarDiseno(c), migrarTipos(c)].some(Boolean)).some(Boolean)) await saveKV('companies');
-  for (const r of await DB.all('reports')) {
-    // M08.1 v1.3.0: informes en progreso creados antes de los tipos quedan asociados al formato vigente (250 h); los firmados conservan su registro
-    if (!r.datos.tipoId && r.estado === 'borrador') { const co = D.companies.find(c => c.id === r.cid); const t = co && tipoDe(co); if (t) { r.datos.tipoId = t.id; r.datos.tipoMtto = t.nombre; await DB.put('reports', r); } }
-    R.set(r.id, r);
-  }
-  const ses = LS.get('sgimtto_session'); if (ses && ses.uid) Object.assign(S, ses);
-  if (D.settings.requireCreds && !(ses && ses.uid)) S.view = 'login';
-  await arranque120();
-  if (!IDBX) toast('Este navegador no permite guardar datos (modo privado). La información se perderá al cerrar.', 'bad');
-  render();
+  pantalla('Conectando con la nube…');
+  try { await nubeIniciar(); }
+  catch (e) { console.error(e); pantalla('No se pudo cargar SGIMTTO. Revise su conexión a internet y vuelva a cargar la página.'); return; }
+  FB.onAuthStateChanged(AUTH, u => { alCambiarSesion(u).catch(e => { console.error(e); toast(errTxt(e), 'bad'); }); });
 }
 boot();
 
