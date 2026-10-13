@@ -322,6 +322,10 @@ svg.lk{width:12px;height:12px;vertical-align:-1px}
 .apoyos{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .check.apo{border:1px solid var(--line);border-radius:99px;padding:6px 12px;background:var(--surface);font-size:14px}
 .check.apo input{width:18px;height:18px}
+/* M08.1 v2.2.0: campos compuestos (horómetro + No aplica, Elaborado por fijo) */
+div.f.fx{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+div.f.fx .req{color:var(--bad)}
+div.f.fx .lb{display:block}
 
 </style>
 </head>
@@ -350,7 +354,7 @@ const SEED_LOGO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBA
    SGIMTTO · Sistema de Gestión de Informes de Mantenimiento
    Desarrollado por Ing. Victor Hugo Paguay
    ============================================================ */
-const APP_VERSION = '2.1.1';
+const APP_VERSION = '2.2.0';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -716,10 +720,10 @@ async function buildPDF(r, co, opts = {}) {
     doc.setFont(F, 'bold'); doc.setFontSize(12.5); doc.setTextColor(...P); const tl = doc.splitTextToSize(dz.titulo || 'INFORME TÉCNICO DE MANTENIMIENTO', CW); doc.text(tl, W / 2, y, { align: 'center' }); y += tl.length * 5.4;
     if (dz.subtitulo) { doc.setFont(F, 'normal'); doc.setFontSize(8.8); doc.setTextColor(90); const sl = doc.splitTextToSize(dz.subtitulo, CW); doc.text(sl, W / 2, y, { align: 'center' }); y += sl.length * 4; }
     y += 2; const K = { fontStyle: 'bold', fillColor: TINT, cellWidth: 31 }; const L0 = r.datos.lider || {};
-    table({ body: [['Informe N°', numTxt(r), 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Encargado de turno', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
+    table({ body: [['Informe N°', numTxt(r), 'Código del documento', r.codigoDoc || dz.codigoDoc || '—'], ['Fecha del servicio', fmtFecha(r.datos.fecha), 'Elaborado por', (r.datos.lider || {}).nombre || '—'], ['Orden de trabajo', r.datos.ot || '—', 'Tipo de mantenimiento', r.datos.tipoMtto || '—'],
       ['Equipo', [eq.codigo, eq.bahia ? 'Bahía ' + eq.bahia : ''].filter(Boolean).join(' · ') || '—', 'Ubicación', r.datos.ubicacion || dz.ubicacion || '—'],
       ['Marca / Modelo', [eq.marca, eq.modelo].filter(Boolean).join(' ') || '—', 'Motor', [eq.motor, eq.modelo2].filter(Boolean).join(' ') || '—'],
-      ['Potencia / Tensión', [eq.potencia, eq.tension].filter(Boolean).join(' · ') || '—', 'Horómetro', r.datos.horometro ? r.datos.horometro + ' h' : '—'],
+      ['Potencia / Tensión', [eq.potencia, eq.tension].filter(Boolean).join(' · ') || '—', 'Horómetro', r.datos.horometroNA ? 'No aplica' : r.datos.horometro ? r.datos.horometro + ' h' : '—'],
       ['Técnico líder (ejecutó)', (r.datos.ejecutor || {}).nombre || '—', 'Técnicos de apoyo', r.datos.apoyo || '—']], columnStyles: { 0: K, 2: K } });
   }
   heading('Antecedentes. –'); para(r.textos.antecedentes);
@@ -730,7 +734,7 @@ async function buildPDF(r, co, opts = {}) {
   if (!EX) {
   heading('Datos del grupo electrógeno.', 40);
   const dRows = [['Código', eq.codigo], ['Bahía', eq.bahia], ['Marca', eq.marca], ['Modelo', eq.modelo], ['Motor', eq.motor], ['Modelo motor', eq.modelo2], ['Potencia', eq.potencia], ['Tensión', eq.tension],
-    ['Horómetro', r.datos.horometro ? r.datos.horometro + ' h' : ''], ['Orden de trabajo', r.datos.ot], ['Tipo de mantenimiento', r.datos.tipoMtto], ['Fecha del servicio', fmtFecha(r.datos.fecha)]].map(([a, b]) => [a, b || '—']);
+    ['Horómetro', r.datos.horometroNA ? 'No aplica' : r.datos.horometro ? r.datos.horometro + ' h' : ''], ['Orden de trabajo', r.datos.ot], ['Tipo de mantenimiento', r.datos.tipoMtto], ['Fecha del servicio', fmtFecha(r.datos.fecha)]].map(([a, b]) => [a, b || '—']);
   table({ body: dRows, columnStyles: { 0: { fontStyle: 'bold', fillColor: TINT, cellWidth: 55 } } });
   }
   heading('Controles iniciales. –', 40);
@@ -790,7 +794,7 @@ async function buildPDF(r, co, opts = {}) {
   };
   const lid = r.datos.lider || {}, ejx = r.datos.ejecutor || {}; let bx = M;
   if (!legado) { sigBlock(bx, 'Ejecutado por:', fb.ejecutado, ejx.nombre, ejx.cargo || 'Técnico líder'); bx += bw + GAPF; }
-  sigBlock(bx, 'Elaborado por:', fb.elaborado, lid.nombre, lid.cargo || 'Encargado de turno'); bx += bw + GAPF;
+  sigBlock(bx, 'Elaborado por:', fb.elaborado, lid.nombre, lid.cargo || ''); bx += bw + GAPF;
   sigBlock(bx, 'Aprobado por:', fb.aprobado, '', 'Supervisor de Mtto. / Jefe de Proyecto');
   y += 62;
   if (r.datos.apoyo) { doc.setFont(F, 'normal'); doc.setFontSize(8.5); doc.setTextColor(80); const al = doc.splitTextToSize('Técnicos de apoyo: ' + r.datos.apoyo, CW); doc.text(al, M, y); y += al.length * 4 + 2; }
@@ -984,7 +988,7 @@ TABVIEWS.informes = {
       <div class="filters"><input class="in" type="search" placeholder="Buscar por N°, OT, equipo o técnico" value="${esc(S.q)}" data-q aria-label="Buscar">
       <select class="in" data-fe aria-label="Estado"><option value="">Todos los estados</option>${['borrador', 'elaborado', 'aprobado'].map(k => `<option value="${k}" ${S.fEstado === k ? 'selected' : ''}>${estadoTxt(k)}</option>`).join('')}</select>
       <button class="btn accent" data-new>${ic('plus')}Nuevo informe</button></div>
-      ${list.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Informe</th><th>OT</th><th>Equipo</th><th class="hide-m">Fecha</th><th class="hide-m">Encargado de turno</th><th>Estado</th><th></th></tr></thead><tbody>
+      ${list.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Informe</th><th>OT</th><th>Equipo</th><th class="hide-m">Fecha</th><th class="hide-m">Elaborado por</th><th>Estado</th><th></th></tr></thead><tbody>
       ${list.map(r => `<tr class="click" data-open="${r.id}"><td class="mono"><b>${esc(numTxt(r))}</b>${r.codigoDoc ? `<br><span class="small muted">${esc(r.codigoDoc)}</span>` : ''}</td><td class="mono">${esc(r.datos.ot || '—')}</td><td><b class="mono">${esc((r.datos.equipo || {}).codigo || '—')}</b></td><td class="hide-m">${fmtCorta(r.datos.fecha)}</td><td class="hide-m">${esc((r.datos.lider || {}).nombre || '—')}</td><td><span class="chip ${r.estado}">${estadoTxt(r.estado)}</span>${r.estado === 'borrador' && !puedeEditar(r) ? `<br><span class="small muted">${ic('lock', 'lk')} Solo lectura</span>` : ''}</td>
       <td class="act"><button class="icon-btn" data-pdf="${r.id}" title="Descargar PDF" aria-label="Descargar PDF">${ic('down')}</button>${isAdmin() ? `<button class="icon-btn" data-delr="${r.id}" title="Eliminar" aria-label="Eliminar">${ic('trash')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div>`
       : `<div class="empty">${all.length ? 'No hay informes con ese filtro.' : 'Aún no hay informes. Pulse <b>Nuevo informe</b> para crear el primero.'}</div>`}`;
@@ -1026,10 +1030,12 @@ const STEPS = [
 const getPath = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
 const setPath = (o, p, v) => { const ks = p.split('.'); let a = o; ks.slice(0, -1).forEach(k => { if (a[k] == null) a[k] = {}; a = a[k]; }); a[ks[ks.length - 1]] = v; };
 const filled = v => v !== undefined && v !== null && String(v).trim() !== '';
+/* M08.1 v2.2.0: horómetro obligatorio, salvo que se marque “No aplica” */
+const horometroOk = d => !!d.horometroNA || filled(d.horometro);
 function progress(r, k) {
   const items = s => r.plantilla[s].filter(i => i.t === 'item');
   if (['ats', 'iniciales', 'trabajos', 'pruebas'].includes(k)) { const it = items(k); return [it.filter(i => filled(r.resp[i.id])).length, it.length]; }
-  if (k === 'general') { const req = [r.datos.ot, r.datos.fecha, r.datos.equipoId, r.datos.ejecutor, r.datos.lider]; return [req.filter(Boolean).length, req.length]; }
+  if (k === 'general') { const req = [filled(r.datos.ot), r.datos.fecha, r.datos.equipoId, horometroOk(r.datos), r.datos.ejecutor]; return [req.filter(Boolean).length, req.length]; }
   if (k === 'antecedentes') return [[r.textos.antecedentes, r.textos.objetivo].filter(filled).length, 2];
   if (k === 'cierre') return [[r.textos.observaciones, r.textos.recomendaciones, r.textos.conclusiones].filter(filled).length, 3];
   if (k === 'fotos') return [r.fotos.filter(f => filled(f.desc)).length, r.fotos.length];
@@ -1044,7 +1050,7 @@ function updateStepper(r) { const el = $('[data-stepper]'); if (el) { const sl =
 function bindStepper(el) { $$('[data-step]', el).forEach(b => b.onclick = () => go({ step: +b.dataset.step })); }
 function issues(r) {
   const out = []; const d = r.datos;
-  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); else if (!/^\d{3}$/.test(d.ot)) out.push('La orden de trabajo debe tener 3 dígitos.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.ejecutor) out.push('Falta el técnico líder que ejecutó el trabajo.'); if (!d.lider) out.push('Falta el encargado de turno que elabora el informe.');
+  if (!filled(d.ot)) out.push('Falta el número de orden de trabajo.'); if (!d.equipoId) out.push('No se ha seleccionado el equipo.'); if (!d.fecha) out.push('Falta la fecha del servicio.'); if (!d.ejecutor) out.push('Falta el técnico líder que ejecutó el trabajo.'); if (!horometroOk(d)) out.push('Falta el horómetro (o marque “No aplica”).');
   for (const [k, n] of [['ats', 'Análisis de riesgos'], ['iniciales', 'Controles iniciales'], ['trabajos', 'Trabajos realizados'], ['pruebas', 'Pruebas de funcionamiento']]) { const [a, b] = progress(r, k); if (a < b) out.push(`${n}: ${b - a} punto(s) sin registrar.`); }
   const atsX = r.plantilla.ats.filter(i => r.resp[i.id] === 'X').length; if (atsX) out.push(`ATS: ${atsX} condición(es) marcadas como NO cumplidas (X).`);
   if (!r.fotos.length) out.push('No hay fotografías de respaldo.'); const sd = r.fotos.filter(f => !filled(f.desc)).length; if (sd) out.push(`${sd} fotografía(s) sin descripción.`);
@@ -1077,19 +1083,19 @@ const STEP_HTML = {
     const users = D.users.filter(u => u.cid === co.id && u.activo !== false); const e = r.datos.equipo; const d = r.datos;
     const tps = co.tipos || []; const enLista = tps.some(t => t.id === d.tipoId);
     return `<section class="card sec"><header><h2>Orden de trabajo y servicio</h2></header><div class="bd form">
-      <label class="f"><span class="lb">N° de orden de trabajo <span class="req">*</span></span><input class="in mono" data-b="datos.ot" data-ot value="${esc(d.ot)}" placeholder="Ej. 153" inputmode="numeric" pattern="[0-9]*" autocomplete="off"><span class="hint">Número de 3 dígitos</span></label>
+      <label class="f"><span class="lb">N° de orden de trabajo <span class="req">*</span></span><input class="in mono" data-b="datos.ot" data-ot value="${esc(d.ot)}" placeholder="Ej. 1" inputmode="numeric" pattern="[0-9]*" autocomplete="off"><span class="hint">Solo números, sin ceros a la izquierda (ej. 1, 25, 153)</span></label>
       <label class="f"><span class="lb">Fecha del servicio <span class="req">*</span></span><input class="in" type="date" data-b="datos.fecha" value="${esc(d.fecha)}"></label>
       <label class="f">Tipo de mantenimiento <span class="hint">(UNE-EN 13306)</span><select class="in" data-tipo>${enLista ? '' : `<option value="" selected>${esc(d.tipoMtto || '—')}</option>`}${tps.map(t => `<option value="${t.id}" ${t.id === d.tipoId ? 'selected' : ''}>${esc(t.nombre)}</option>`).join('')}</select><span class="hint">Cada tipo trae sus propios puntos: ATS, controles, trabajos y pruebas.</span></label>
       <label class="f">Ubicación / sitio<input class="in" data-b="datos.ubicacion" value="${esc(d.ubicacion)}"></label></div></section>
       <section class="card sec"><header><h2>Datos del equipo</h2></header><div class="bd form">
       <label class="f"><span class="lb">Equipo <span class="req">*</span></span><select class="in" data-eq><option value="">— Seleccione el equipo —</option>${bah.map(b => `<optgroup label="Bahía ${esc(b)}">${eqs.filter(x => (x.bahia || '—') === b).map(x => `<option value="${x.id}" ${x.id === d.equipoId ? 'selected' : ''}>${esc(x.codigo)} · ${esc(x.motor)} ${esc(x.modelo2)} · ${esc(x.potencia)}</option>`).join('')}</optgroup>`).join('')}</select>
       ${eqs.length ? '' : '<span class="hint" style="color:var(--bad)">Esta empresa no tiene equipos registrados. El administrador debe cargarlos en la pestaña Equipos.</span>'}</label>
-      <label class="f">Horómetro (h)<input class="in mono" inputmode="decimal" data-b="datos.horometro" value="${esc(d.horometro)}" placeholder="Ej. 399"></label>
+      <div class="f fx"><span class="lb">Horómetro (h) <span class="req">*</span></span><input class="in mono" inputmode="decimal" data-b="datos.horometro" data-horo value="${d.horometroNA ? '' : esc(d.horometro)}" placeholder="${d.horometroNA ? 'No aplica' : 'Ej. 399'}" ${d.horometroNA ? 'disabled' : ''}><label class="check" style="margin-top:6px"><input type="checkbox" data-horona ${d.horometroNA ? 'checked' : ''}> No aplica (equipo sin horómetro o sin lectura)</label></div>
       ${e ? `<div class="full eqcard">${[['Código', e.codigo], ['Bahía', e.bahia], ['Marca', e.marca], ['Modelo', e.modelo], ['Motor', e.motor], ['Modelo motor', e.modelo2], ['Potencia', e.potencia], ['Tensión', e.tension]].map(([a, b]) => `<div><span>${a}</span><b>${esc(b || '—')}</b></div>`).join('')}</div>` : ''}
       </div></section>
       <section class="card sec"><header><h2>Personal</h2></header><div class="bd form">
       <label class="f"><span class="lb">Técnico líder · ejecutó el trabajo <span class="req">*</span></span><select class="in" data-ejecutor><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.ejecutor && d.ejecutor.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select><span class="hint">Firma como ejecutor del trabajo.</span></label>
-      <label class="f"><span class="lb">Encargado de turno · elabora el informe <span class="req">*</span></span><select class="in" data-lider><option value="">— Seleccione —</option>${users.map(u => `<option value="${u.id}" ${d.lider && d.lider.uid === u.id ? 'selected' : ''}>${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select><span class="hint">Firma como elaborador del informe.</span></label>
+      <div class="f fx"><span class="lb">Elaborado por</span><div class="in" data-elab style="display:flex;align-items:center;background:var(--surface-2)">${d.lider ? `<b>${esc(d.lider.nombre)}</b>&nbsp;<span class="muted">· ${esc(d.lider.cargo || '')}</span>` : '<span class="muted">Se asigna a quien firme la elaboración</span>'}</div><span class="hint">Usuario que elabora el informe (sesión iniciada). No se selecciona.</span></div>
       <div class="f full"><span>Técnicos de apoyo <span class="hint">(seleccione uno o varios; no firman y pueden continuar el informe)</span></span>
         <div class="apoyos">${users.filter(u => !d.ejecutor || u.id !== d.ejecutor.uid).map(u => `<label class="check apo"><input type="checkbox" data-apoyoc value="${u.id}" ${apoyosDe(r).some(a => a.uid === u.id) ? 'checked' : ''}> ${esc(u.nombre)}</label>`).join('') || '<span class="hint">No hay otros usuarios.</span>'}</div></div>
       </div></section>`;
@@ -1117,16 +1123,24 @@ const STEP_HTML = {
   firmas(r) {
     const is = issues(r); const f = r.firmas; const adm = isAdmin(); const ed = r.estado === 'borrador' && puedeEditar(r);
     const sig = (s, pendTxt) => `<div class="sigimg">${s ? `<img src="${s.img.data}" alt="Firma">` : `<span class="pend">${pendTxt}</span>`}</div>`;
+    /* M09 v2.2.0: Elaborado = usuario de la sesión (firma manual o "Insertar mi firma", sin PIN).
+       Ejecutado = técnico líder (firma manual en el momento o "Insertar firma con PIN"). */
+    const yo = me(); const yoFirma = !!yo && yo.rol !== 'admin' && yo.cid === r.cid;
     const caja = (k, titulo, persona, falta) => { const s = f[k]; const p = s || persona || {};
+      const uEj = k === 'ejecutado' && persona ? D.users.find(x => x.id === persona.uid) : null;
+      const puede = ed && !s && (k === 'ejecutado' || yoFirma);
+      const ins = k === 'elaborado' ? (yoFirma && yo.firma ? `<button type="button" class="btn" data-insertar="elaborado">${ic('pen')}Insertar mi firma</button>` : '')
+        : (uEj && uEj.firma && uEj.tienePin ? `<button type="button" class="btn" data-insertar="ejecutado">${ic('lock')}Insertar firma con PIN</button>` : '');
+      const nota = k === 'elaborado' && !s && ed && !yoFirma ? '<p class="small muted">La firma de elaboración la registra el usuario que elabora, desde su propia sesión.</p>' : '';
       return `<section class="card sigbox"><p class="eyebrow">${titulo}</p>
-        ${s ? sig(s) : ed ? `<div class="padwrap inl"><canvas data-pad-k="${k}" aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(null, 'Pendiente de firma')}
-        <div><b>${esc(p.nombre || falta)}</b><br><span class="small muted">${esc(p.cargo || '')}${s ? ' · ' + fmtDT(s.fecha) : ''}</span></div>
-        ${s && ed ? `<button type="button" class="btn sm danger" data-quitar="${k}">Quitar esta firma</button>` : !s && ed ? `<div class="row"><button type="button" class="btn" data-clr-k="${k}">${ic('refresh')}Borrar trazo</button><button type="button" class="btn accent" style="flex:1" data-firmar="${k}">${ic('pen')}Firmar</button></div>` : ''}</section>`; };
+        ${s ? sig(s) : puede ? `<div class="padwrap inl"><canvas data-pad-k="${k}" aria-label="Recuadro de firma"></canvas><div class="base"></div><div class="lbl">Firme aquí con el dedo</div></div>` : sig(null, 'Pendiente de firma')}
+        <div><b>${esc(p.nombre || falta)}</b><br><span class="small muted">${esc(p.cargo || '')}${s ? ' · ' + fmtDT(s.fecha) : ''}</span></div>${nota}
+        ${s && ed ? `<button type="button" class="btn sm danger" data-quitar="${k}">Quitar esta firma</button>` : puede ? `<div class="row"><button type="button" class="btn" data-clr-k="${k}">${ic('refresh')}Borrar trazo</button><button type="button" class="btn accent" style="flex:1" data-firmar="${k}">${ic('pen')}Firmar</button></div>${ins ? `<div class="row">${ins}</div>` : ''}` : ''}</section>`; };
     return `<section class="card sec"><header><h2>Revisión antes de firmar</h2></header><div class="bd chk-sum">${is.length ? is.map(t => `<div class="bad">${ic('warn')}${esc(t)}</div>`).join('') : `<div class="ok">${ic('check')}El informe está completo.</div>`}</div></section>
       <section class="card sec"><header><h2>Vista previa del PDF</h2><div class="row"><div class="seg txt" data-fmtsel role="group" aria-label="Formato del informe">${FORMATOS.map(x => `<button type="button" data-f="${x.v}" class="v-st ${(r.formato || 'completo') === x.v ? 'on' : ''}" title="${x.d}">${x.t}</button>`).join('')}</div><button type="button" class="btn sm" data-regen>${ic('refresh')}Actualizar</button><button type="button" class="btn sm primary" data-dlpdf>${ic('down')}Exportar PDF</button></div></header><div class="bd"><div class="pdfview" data-pv><div class="ld">Generando vista previa…</div></div></div></section>
-      <div class="sigs s3">${caja('ejecutado', 'Ejecutado por · técnico líder', r.datos.ejecutor, 'Sin técnico líder')}${caja('elaborado', 'Elaborado por · encargado de turno', r.datos.lider, 'Sin encargado de turno')}
+      <div class="sigs s3">${caja('ejecutado', 'Ejecutado por · técnico líder', r.datos.ejecutor, 'Sin técnico líder')}${caja('elaborado', 'Elaborado por', f.elaborado ? null : (yoFirma && ed ? { nombre: yo.nombre, cargo: yo.cargo } : r.datos.lider), 'Usuario que elabora')}
         <section class="card sigbox"><p class="eyebrow">Aprobado por · supervisor / jefe de proyecto</p>${sig(f.aprobado, r.estado === 'borrador' ? 'Requiere las firmas de ejecución y elaboración' : 'Pendiente de aprobación')}
-          ${f.aprobado ? `<div><b>${esc(f.aprobado.nombre)}</b><br><span class="small muted">${esc(f.aprobado.cargo)} · ${fmtDT(f.aprobado.fecha)}${f.aprobado.emergencia ? ' · con PIN de emergencia' : ''}</span></div>` : '<p class="small muted">El aprobador firma con su PIN personal (supervisor, jefe de proyecto o encargado de turno).</p>'}
+          ${f.aprobado ? `<div><b>${esc(f.aprobado.nombre)}</b><br><span class="small muted">${esc(f.aprobado.cargo)} · ${fmtDT(f.aprobado.fecha)}${f.aprobado.emergencia ? ' · con PIN de emergencia' : ''}</span></div>` : '<p class="small muted">El aprobador firma con su PIN personal. Debe ser una persona distinta de quien ejecutó y elaboró el informe.</p>'}
           ${r.estado === 'elaborado' ? `<button type="button" class="btn primary" data-approve>${ic('lock')}Aprobar con PIN</button>` : ''}
           ${r.estado === 'aprobado' && adm ? `<button type="button" class="btn sm danger" data-unapprove>Anular aprobación (admin)</button>` : ''}</section></div>
       ${apoyosDe(r).length ? `<p class="small muted" style="margin-top:10px">Técnicos de apoyo: ${esc(apoyosDe(r).map(a => a.nombre).join(', '))}</p>` : ''}
@@ -1156,7 +1170,7 @@ VIEWS.informe = {
     const main = root.querySelector('.wz');
     main.addEventListener('input', e => {
       const t = e.target;
-      if (t.hasAttribute('data-ot')) { const c = t.value.replace(/\D/g, '').slice(0, 3); if (c !== t.value) t.value = c; }
+      if (t.hasAttribute('data-ot')) { const c = t.value.replace(/\D/g, '').slice(0, 10); if (c !== t.value) t.value = c; }
       if (t.dataset.b) { setPath(r, t.dataset.b, t.value); saveReport(r); updateStepper(r); }
       else if (t.dataset.ri) { r.resp[t.dataset.ri] = t.value.trim(); saveReport(r); updateStepper(r); }
       else if (t.dataset.phdesc) { const f = r.fotos.find(x => x.id === t.dataset.phdesc); if (f) { f.desc = t.value; saveReport(r); updateStepper(r); } }
@@ -1178,7 +1192,7 @@ VIEWS.informe = {
       await saveReport(r, true); render(); toast('Puntos de “' + t.nombre + '” cargados');
     };
     const eqSel = root.querySelector('[data-eq]'); if (eqSel) eqSel.onchange = () => { const e = D.equipos.find(x => x.id === eqSel.value); r.datos.equipoId = e ? e.id : ''; r.datos.equipo = e ? clone(e) : null; saveReport(r, true); render(); };
-    const lid = root.querySelector('[data-lider]'); if (lid) lid.onchange = () => { const u = D.users.find(x => x.id === lid.value); r.datos.lider = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null; saveReport(r); updateStepper(r); };
+    const hna = root.querySelector('[data-horona]'); if (hna) hna.onchange = () => { r.datos.horometroNA = hna.checked; if (hna.checked) r.datos.horometro = ''; saveReport(r, true); render(); };
     const eje = root.querySelector('[data-ejecutor]'); if (eje) eje.onchange = () => { const u = D.users.find(x => x.id === eje.value); r.datos.ejecutor = u ? { uid: u.id, nombre: u.nombre, cargo: u.cargo } : null;
       r.datos.apoyos = apoyosDe(r).filter(a => !u || a.uid !== u.id); delete r.datos.apoyoUid; r.datos.apoyo = r.datos.apoyos.map(a => a.nombre).join(', '); saveReport(r, true); render(); };
     $$('[data-apoyoc]', root).forEach(c => c.onchange = () => { r.datos.apoyos = $$('[data-apoyoc]', root).filter(x => x.checked).map(x => { const u = D.users.find(y => y.id === x.value); return { uid: u.id, nombre: u.nombre, cargo: u.cargo }; });
@@ -1221,30 +1235,62 @@ function bindFirmas(root, r, co) {
   const pads = {}; $$('[data-pad-k]', root).forEach(c => pads[c.dataset.padK] = sigPad(c));
   $$('[data-clr-k]', root).forEach(b => b.onclick = () => pads[b.dataset.clrK].clear());
   $$('[data-quitar]', root).forEach(b => b.onclick = async () => { delete r.firmas[b.dataset.quitar]; await saveReport(r, true); render(); });
-  const firmar = async k => {
-    const P = k === 'ejecutado' ? r.datos.ejecutor : r.datos.lider;
-    if (!P) { toast(k === 'ejecutado' ? 'Seleccione el técnico líder en “Datos generales”.' : 'Seleccione el encargado de turno en “Datos generales”.', 'bad'); return go({ step: 0 }); }
-    const crit = []; if (!filled(r.datos.ot)) crit.push('número de OT'); if (!r.datos.equipoId) crit.push('equipo');
+  const firmar = async (k, modo) => {
+    const yo = me();
+    let P = k === 'ejecutado' ? r.datos.ejecutor : (yo ? { uid: yo.id, nombre: yo.nombre, cargo: yo.cargo } : null);
+    if (!P) { toast('Seleccione el técnico líder en “Datos generales”.', 'bad'); return go({ step: 0 }); }
+    if (k === 'elaborado' && (yo.rol === 'admin' || yo.cid !== r.cid)) return toast('La elaboración la firma el usuario que elabora, desde su sesión.', 'bad');
+    const crit = []; if (!filled(r.datos.ot)) crit.push('número de OT'); if (!r.datos.equipoId) crit.push('equipo'); if (!horometroOk(r.datos)) crit.push('horómetro (o “No aplica”)');
     if (crit.length) { toast('Antes de firmar complete: ' + crit.join(', '), 'bad'); return go({ step: 0 }); }
-    const u = D.users.find(x => x.id === P.uid); const pad = pads[k];
-    let img = pad && !pad.isEmpty() ? pad.toData() : null;
-    if (!img && u && u.firma && await confirmBox(`No dibujó la firma en el recuadro. ¿Usar la firma registrada de <b>${esc(P.nombre)}</b>?<div class="sigimg" style="margin-top:10px"><img src="${u.firma.data}" alt=""></div>`, { ok: 'Usar firma registrada', title: 'Firma registrada' })) img = u.firma;
-    if (!img) { toast('Dibuje la firma con el dedo en el recuadro y pulse “Firmar”.', 'bad'); const c = root.querySelector(`[data-pad-k="${k}"]`); c && c.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+    if (k === 'elaborado' && r.datos.lider && r.datos.lider.uid && r.datos.lider.uid !== yo.id && !await confirmBox(`El informe figura como elaborado por <b>${esc(r.datos.lider.nombre)}</b>. Si firma, <b>usted</b> quedará como elaborador. ¿Continuar?`, { ok: 'Firmar como elaborador', title: 'Cambiar elaborador' })) return;
+    const u = D.users.find(x => x.id === P.uid); let img = null, metodo = 'manual';
+    if (modo === 'registrada') {
+      if (!u || !u.firma) return toast('Este usuario no tiene firma registrada.', 'bad');
+      if (k === 'ejecutado') { if (!u.tienePin) return toast('El técnico líder no tiene PIN asignado. Firme en el recuadro.', 'bad'); if (!await pinFirma(u)) return; metodo = 'registrada-pin'; }
+      else metodo = 'registrada';
+      img = u.firma;
+    } else {
+      const pad = pads[k]; img = pad && !pad.isEmpty() ? pad.toData() : null;
+      if (!img) { toast('Dibuje la firma con el dedo en el recuadro y pulse “Firmar”.', 'bad'); const c = root.querySelector(`[data-pad-k="${k}"]`); c && c.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+    }
     const otra = k === 'ejecutado' ? 'elaborado' : 'ejecutado'; const is = issues(r);
     if (r.firmas[otra] && is.length && !await confirmBox(`<b>Hay puntos pendientes:</b><ul style="margin:8px 0 8px 18px;padding:0">${is.map(t => `<li>${esc(t)}</li>`).join('')}</ul>¿Desea firmar el informe de todas formas?`, { ok: 'Firmar de todas formas', title: 'Informe incompleto' })) return;
-    r.firmas[k] = { uid: P.uid, nombre: P.nombre, cargo: P.cargo, img, fecha: ahora(), por: S.uid };
+    r.firmas[k] = { uid: P.uid, nombre: P.nombre, cargo: P.cargo, img, fecha: ahora(), por: S.uid, metodo };
+    if (k === 'elaborado') r.datos.lider = { uid: P.uid, nombre: P.nombre, cargo: P.cargo };
     if (r.firmas.ejecutado && r.firmas.elaborado) r.estado = 'elaborado';
     await saveReport(r, true); render();
-    toast(r.estado === 'elaborado' ? 'Firmas de ejecución y elaboración registradas. Queda pendiente de aprobación.' : `Firma registrada. Falta la firma de ${otra === 'elaborado' ? 'elaboración (encargado de turno)' : 'ejecución (técnico líder)'}.`, 'ok');
+    toast(r.estado === 'elaborado' ? 'Firmas de ejecución y elaboración registradas. Queda pendiente de aprobación.' : `Firma registrada. Falta la firma de ${otra === 'elaborado' ? 'elaboración' : 'ejecución (técnico líder)'}.`, 'ok');
   };
-  $$('[data-firmar]', root).forEach(b => b.onclick = () => firmar(b.dataset.firmar));
+  $$('[data-insertar]', root).forEach(b => b.onclick = () => firmar(b.dataset.insertar, 'registrada'));
+  $$('[data-firmar]', root).forEach(b => b.onclick = () => firmar(b.dataset.firmar, 'manual'));
   const un = root.querySelector('[data-unsign]'); if (un) un.onclick = async () => { if (!await confirmBox('Se eliminarán las firmas de ejecución y elaboración y el informe volverá a “En progreso” para editarlo. ¿Continuar?', { ok: 'Quitar firmas', danger: true })) return; delete r.firmas.elaborado; delete r.firmas.ejecutado; r.estado = 'borrador'; await saveReport(r, true); render(); };
   const ua = root.querySelector('[data-unapprove]'); if (ua) ua.onclick = async () => { if (!await confirmBox('Se anulará la aprobación. El informe quedará pendiente de aprobación. ¿Continuar?', { ok: 'Anular', danger: true })) return; delete r.firmas.aprobado; r.estado = 'elaborado'; await saveReport(r, true); render(); };
   const ap = root.querySelector('[data-approve]'); if (ap) ap.onclick = () => approveModal(r);
 }
+/* M09 v2.2.0: el técnico líder inserta su firma registrada validando su PIN */
+function pinFirma(u) {
+  return new Promise(res => { let ok = false;
+    modal({ title: 'Insertar firma con PIN', body: `<form class="form" style="grid-template-columns:1fr" data-f><p class="small"><b>${esc(u.nombre)}</b> · ${esc(u.cargo)}</p>
+      <div class="sigimg"><img src="${u.firma.data}" alt="Firma registrada"></div>
+      <label class="f">PIN personal del técnico líder<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" required></label>
+      <p class="small" data-err style="color:var(--bad)"></p></form>`,
+      foot: `<button class="btn" data-x2>Cancelar</button><button class="btn primary" data-ok>${ic('lock')}Validar PIN e insertar</button>`,
+      onMount(el, close) {
+        const f = el.querySelector('[data-f]'), er = el.querySelector('[data-err]'), okb = el.querySelector('[data-ok]'); setTimeout(() => f.pin.focus(), 50);
+        el.querySelector('[data-x2]').onclick = close;
+        const go2 = async () => { if (!f.pin.value) return; okb.disabled = true; er.textContent = 'Validando PIN…';
+          try { ok = await verificarPin(u, f.pin.value); } catch (e) { okb.disabled = false; er.textContent = errTxt(e); return; }
+          okb.disabled = false; if (!ok) { er.textContent = 'PIN incorrecto.'; f.pin.select(); return; } close(); };
+        okb.onclick = go2; f.onsubmit = e => { e.preventDefault(); go2(); };
+        const obs = new MutationObserver(() => { if (!document.body.contains(el)) { obs.disconnect(); res(ok); } }); obs.observe($('#modal-root'), { childList: true });
+      } });
+  });
+}
 function approveModal(r) {
-  const aps = D.users.filter(u => u.cid === r.cid && u.aprueba && u.tienePin && u.activo !== false);
-  if (!aps.length) return toast('No hay usuarios aprobadores con PIN en esta empresa. Configúrelos en la pestaña Usuarios.', 'bad');
+  /* M09 v2.2.0: el aprobador no puede ser quien ejecutó o elaboró el informe (no ser juez y parte) */
+  const fueron = [(r.firmas.ejecutado || {}).uid, (r.firmas.elaborado || {}).uid, (r.datos.ejecutor || {}).uid, (r.datos.lider || {}).uid].filter(Boolean);
+  const aps = D.users.filter(u => u.cid === r.cid && u.aprueba && u.tienePin && u.activo !== false && !fueron.includes(u.id));
+  if (!aps.length) return toast(D.users.some(u => u.cid === r.cid && u.aprueba && u.tienePin && u.activo !== false) ? 'No hay un aprobador distinto de quien ejecutó y elaboró este informe.' : 'No hay usuarios aprobadores con PIN en esta empresa. Configúrelos en la pestaña Usuarios.', 'bad');
   modal({ title: 'Aprobar informe ' + numTxt(r), body: `<form class="form" style="grid-template-columns:1fr" data-f>
     <label class="f">Aprobador<select class="in" name="u">${aps.map(u => `<option value="${u.id}">${esc(u.nombre)} · ${esc(u.cargo)}</option>`).join('')}</select></label>
     <label class="f">PIN personal<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" required></label>
@@ -1461,9 +1507,9 @@ TABVIEWS.usuarios = {
   html(co) {
     const us = D.users.filter(u => u.cid === co.id);
     return `<div class="filters"><button class="btn accent" data-newu>${ic('plus')}Nuevo usuario</button></div>
-      <p class="note" style="margin-bottom:14px">El <b>encargado de turno</b> elegido en el informe lo firma en el panel táctil. El <b>aprobador</b> (supervisor de mantenimiento, jefe de proyecto o encargado de turno) firma con su <b>PIN</b>. Las contraseñas y los PIN se guardan protegidos en la nube: no se pueden ver, solo reemplazar.</p>
-      ${us.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Cargo</th><th>Aprueba</th><th class="hide-m">Firma</th><th>Estado</th><th></th></tr></thead><tbody>
-      ${us.map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b></td><td>${esc(u.nombre)}</td><td>${esc(u.cargo)}</td><td>${u.aprueba ? (u.tienePin ? `<span class="chip aprobado">Con PIN</span>` : `<span class="chip elaborado">Falta PIN</span>`) : '<span class="muted">—</span>'}</td><td class="hide-m">${u.firma ? 'Registrada' : '<span class="muted">—</span>'}</td><td>${u.activo !== false ? 'Activo' : '<span class="muted">Inactivo</span>'}</td>
+      <p class="note" style="margin-bottom:14px">Quien <b>elabora</b> el informe firma desde su sesión (a mano o insertando su firma registrada). El <b>técnico líder</b> firma a mano o inserta su firma registrada con su <b>PIN</b>. El <b>aprobador</b> firma siempre con su <b>PIN</b> y no puede ser quien ejecutó o elaboró el informe. Las contraseñas y los PIN se guardan protegidos en la nube: no se pueden ver, solo reemplazar.</p>
+      ${us.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Usuario</th><th>Nombre</th><th>Cargo</th><th>PIN de firma</th><th class="hide-m">Aprueba</th><th class="hide-m">Firma</th><th>Estado</th><th></th></tr></thead><tbody>
+      ${us.map(u => `<tr><td class="mono"><b>${esc(u.usuario)}</b></td><td>${esc(u.nombre)}</td><td>${esc(u.cargo)}</td><td>${u.tienePin ? `<span class="chip aprobado">Con PIN</span>` : u.aprueba ? `<span class="chip elaborado">Falta PIN</span>` : '<span class="muted">Sin PIN</span>'}</td><td class="hide-m">${u.aprueba ? 'Sí' : '<span class="muted">—</span>'}</td><td class="hide-m">${u.firma ? 'Registrada' : '<span class="muted">—</span>'}</td><td>${u.activo !== false ? 'Activo' : '<span class="muted">Inactivo</span>'}</td>
       <td class="act"><button class="icon-btn" data-edu="${u.id}" aria-label="Editar">${ic('edit')}</button><button class="icon-btn" data-delu="${u.id}" aria-label="Eliminar">${ic('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">No hay usuarios en esta empresa.</div>'}`;
   },
   bind(root, co) {
@@ -1484,7 +1530,7 @@ function userForm(co, u) {
     <div class="f">Cargo<select class="in" name="cargo" data-cargos>${opcionesCargo(w.cargo)}</select><div class="row" style="gap:6px"><button type="button" class="btn sm" data-cargo-new>${ic('plus')}Nuevo cargo</button><button type="button" class="btn sm danger" data-cargo-del>${ic('trash')}Eliminar cargo</button></div></div>
     <label class="f">${ed ? 'Nueva contraseña <span class="hint">(vacío = mantener)</span>' : '<span class="lb">Contraseña <span class="req">*</span></span>'}<input class="in mono" name="pass" type="password" autocomplete="new-password" placeholder="Mínimo 4 caracteres"></label>
     <label class="check full"><input type="checkbox" name="aprueba" ${w.aprueba ? 'checked' : ''}> Puede aprobar informes con PIN</label>
-    <label class="f">${w.tienePin ? 'Nuevo PIN <span class="hint">(vacío = mantener)</span>' : 'PIN de aprobación'}<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"><span class="hint">${w.tienePin ? 'PIN registrado ✓ · ' : ''}4 a 8 dígitos</span></label>
+    <label class="f">${w.tienePin ? 'Nuevo PIN de firma <span class="hint">(vacío = mantener)</span>' : 'PIN de firma <span class="hint">(obligatorio si aprueba)</span>'}<input class="in mono" name="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"><span class="hint">${w.tienePin ? 'PIN registrado ✓ · ' : ''}4 a 8 dígitos · sirve para aprobar y para insertar la firma registrada</span></label>
     <label class="check"><input type="checkbox" name="activo" ${w.activo !== false ? 'checked' : ''}> Usuario activo</label>
     <div class="f full"><span style="font-size:13px;font-weight:600;color:var(--muted)">Firma registrada <span class="hint">(opcional, se puede reutilizar al firmar)</span></span>
       <div class="sigimg" data-fprev>${w.firma ? `<img src="${w.firma.data}" alt="Firma">` : '<span class="pend">Sin firma registrada</span>'}</div>
@@ -1520,7 +1566,6 @@ function userForm(co, u) {
           if (d.pass) Object.assign(rec, await cambiarClave(rec, d.pass));
           else if (ed && rec.authUid && (u.activo !== false) !== d.activo) await commitOps([['merge', 'cuentas/' + rec.authUid, { activo: d.activo }]]);
           if (d.pin) Object.assign(rec, await cambiarPin(rec, d.pin));
-          if (!rec.aprueba) Object.assign(rec, { tienePin: false, pinEmail: '' });
           delete rec.pass; delete rec.pin;
           if (ed) reemplazar(u, rec); else D.users.push(rec);
           await saveKV('users'); close(); render(); toast('Usuario guardado', 'ok');
